@@ -6,12 +6,33 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/less" href="style/style.less">
 </head>
-<body ng-app="">
+<body ng-app="main">
     <!-- Libs -->
     <script type="text/javascript" src="libs/angular/angular.min.js"></script>
     <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="libs/less/dist/less.min.js"></script>
 
     <header ng-include="'includes/header.html'"></header>
+
+    <main ng-controller="workplaces">
+        <div id="wrapper">
+            <section id="left">
+                <ul>
+                    <li ng-repeat="locale in workplaces.locales" class="{{ locale.class }}">{{ locale.name }}</li>
+                </ul>
+            </section>
+            <section id="right">
+                <ul>
+                    <li ng-repeat="person in people.persons">
+                        
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- Dynamics -->
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script type="text/javascript" src="js/vaktsys.js"></script>
 </body>
 </html>
