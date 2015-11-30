@@ -11,7 +11,14 @@ Object.getPrototypeOf(moment()).norsk = function(frmt) {
         .replace(/September/g, 'september')
         .replace(/October/g, 'oktober')
         .replace(/November/g, 'november')
-        .replace(/December/g, 'desember');
+        .replace(/December/g, 'desember')
+        .replace(/Monday/g, 'mandag')
+        .replace(/Tuesday/g, 'tirsdag')
+        .replace(/Wednesday/g, 'onsdag')
+        .replace(/Thursday/g, 'torsdag')
+        .replace(/Friday/g, 'fredag')
+        .replace(/Saturday/g, 'lørdag')
+        .replace(/Sunday/g, 'søndag');
 }
 
 if (!String.prototype.format) {
@@ -23,5 +30,10 @@ if (!String.prototype.format) {
                 : match
             ;
         });
+    };
+}
+if (!String.prototype.capitalize) {
+    String.prototype.capitalize = function() {
+        return this.substring(0, 1).toUpperCase() + this.substring(1);
     };
 }

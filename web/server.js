@@ -51,35 +51,42 @@ app.get('/api/shifts/:date', function(req, res) {
     console.log("GET %s", req.path);
 
     var fixDate = function(date) {
+        var validDate = function(date) {
+            return moment(date).isValid();
+        }
+
         if (date === '-')
             return '-';
         if (/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date))
-            return date;
+            return validDate(date) ? date : 'ERR::Invalid date: date does not exist';
         else if (!(/^[0-9]{4}-[0-9]+-[0-9]+$/.test(date)))
-            return false;
+            return 'ERR::Syntax error: use format YYYY-MM-DD';
         else {
             var y = date.split('-')[0];
             var m = date.split('-')[1];
             var d = date.split('-')[2];
 
             if (y.length != 4)
-                return false;
+                return 'ERR::Syntax error: use format YYYY-MM-DD';
             if (m.length === 1)
                 m = '0' + m;
             if (d.length === 1)
                 d = '0' + d;
 
-            return '{0}-{1}-{2}'.format(y, m, d);
+            var formatted = '{0}-{1}-{2}'.format(y, m, d);
+
+            return validDate(formatted) ? formatted : 'ERR::Invalid date: date does not exist';
         }
     };
 
     var date = fixDate(req.params.date);
-    if (!date) {
-        res.send('Syntax error');
+    if (date.substring(0, 5) == 'ERR::') {
+        res.send(date.split('::')[1]);
         return;
     }
 
-    var query = 'SELECT bars.name AS bar, start, stop, bar_shifts.description, users.name, shifts.role ' +
+    var query = 'SELECT bars.name AS bar, start, stop, bar_shifts.description, ' +
+                'users.id AS user_id, users.name, users.image, shifts.role ' +
                 'FROM bars, shifts, bar_shifts, users ' +
                 'WHERE shifts.bar_shift_id = bar_shifts.id ' +
                 'AND shifts.user_id = users.id ' +
@@ -95,7 +102,9 @@ app.get('/api/shifts/:date', function(req, res) {
                     ret[curRes.bar] = [];
 
                 ret[curRes.bar].push({
+                    user_id: Number(curRes.user_id),
                     name: curRes.name,
+                    image: curRes.image,
                     role: curRes.role,
                     start: curRes.start,
                     stop: curRes.stop,
