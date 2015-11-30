@@ -4,7 +4,8 @@
     <title>SGNett 2.0 : Vaktsys</title>
 
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/less" href="style/style.less">
+    <link rel="stylesheet" type="text/less" href="style/global.less">
+    <link rel="stylesheet" type="text/less" href="style/index.less">
 </head>
 <body ng-app="main">
     <!-- Libs -->
@@ -14,21 +15,8 @@
 
     <header ng-include="'includes/header.html'"></header>
 
-    <main ng-controller="workplaces">
-        <div id="wrapper">
-            <section id="left">
-                <ul>
-                    <li ng-repeat="locale in workplaces.locales" class="{{ locale.class }}">{{ locale.name }}</li>
-                </ul>
-            </section>
-            <section id="right">
-                <ul>
-                    <li ng-repeat="person in people.persons">
-                        
-                    </li>
-                </ul>
-            </section>
-        </div>
+    <main ng-controller="frontpage">
+        <h1>Velkommen til SGNett 2.0!</h1>
     </main>
 
     <!-- Dynamics -->

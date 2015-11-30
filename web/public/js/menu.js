@@ -11,8 +11,10 @@ $(document).ready(function() {
 
             // Get the id of the sub menu (will always be id of strip button minus "btn-")
             var id = $(this).attr("id").split("-")[1];
+            var left = $(this).offset().left;
 
             // Show the relevant submenu
+            $("#" + id, menu).css('left', left);
             $("#" + id, menu).show();
         }
     );
