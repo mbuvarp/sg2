@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
-    <title>SGNett 2.0</title>
-
     <meta charset="UTF-8">
+
+    <base href="/">
+
+    <title ng-bind="title">SGNett 2.0</title>
+    
     <link rel="stylesheet" type="text/less" href="style/global.less">
-    <link rel="stylesheet" type="text/less" href="style/index.less">
+    <link rel="stylesheet" type="text/less" href="style/views/404.less">
+    <link rel="stylesheet" type="text/less" href="style/views/front/front.less">
+    <link rel="stylesheet" type="text/less" href="style/views/vaktsys/vaktsys.less">
 </head>
-<body ng-app="index">
+<body ng-controller="appController">
     <!-- Libs -->
     <script type="text/javascript" src="libs/angular/angular.min.js"></script>
+    <script type="text/javascript" src="libs/angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="libs/moment/moment.min.js"></script>
     <script type="text/javascript" src="/libs/underscore/underscore-min.js"></script>
@@ -17,15 +23,22 @@
 
     <header ng-include="'/includes/header.html'"></header>
 
-    <main ng-controller="frontpage">
-        <h1>Velkommen til SGNett 2.0!</h1>
+    <div login-dialog ng-if="!isLoginPage"></div>
+    
+    <main ng-view>
     </main>
+
+    <footer ng-include="'/includes/footer.html'"></footer>
 
     <!-- Globals -->
     <script type="text/javascript" src="/js/global.js"></script>
     <script type="text/javascript" src="/js/menu.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
 
     <!-- Page-specific -->
-    <script type="text/javascript" src="/js/subpages/index.js"></script>
+    <script type="text/javascript" src="/js/views/front.js"></script>
+    <script type="text/javascript" src="/js/views/login.js"></script>
+    <script type="text/javascript" src="/js/views/vaktsys.js"></script>
+
 </body>
 </html>
