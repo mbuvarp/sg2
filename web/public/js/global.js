@@ -37,3 +37,14 @@ if (!String.prototype.capitalize) {
         return this.substring(0, 1).toUpperCase() + this.substring(1);
     };
 }
+
+function parseToken(token) {
+    var split = token.split('.')[1];
+    b64 = b64.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(b64));
+}
+function tokenExpire(token) {
+    var split = token.split('.')[1];
+    var json = JSON.parse(atob(b64));
+    return new Date(json.exp * 1000).toString();
+}

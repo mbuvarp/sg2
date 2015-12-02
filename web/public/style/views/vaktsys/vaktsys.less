@@ -8,87 +8,6 @@ div#view-vaktsys {
         border: 1px solid #ccc;
         border-radius: 3px;
     }
-    div#shift-admin {
-        width: 100%;
-        box-sizing: border-box;
-        margin-bottom: -12px;
-        padding: 8px 12px;
-
-        h2 {
-            margin: 0 0 12px 0;
-            font-weight: normal;
-            font-size: 16pt;
-        }
-        div.container {
-
-            div#add-shifts,div#remove-shifts {
-                width: 100%;
-                cursor: pointer;
-
-                span {
-                    font-weight: bold;
-                }
-            }
-            div#add-shifts:hover,div#remove-shifts:hover {
-                text-shadow: 0px 0px 3px #9966CC;
-            }
-            div#add-container {
-                display: none;
-
-                form {
-                    #add-names {
-                        width: 30%;
-                        background-color: #eaeaea;
-                        border-radius: 6px;
-
-                        #add-names-top {
-                            width: 100%;
-
-                            input[type=text] {
-                                float: left;
-                                width: calc(100% - 16px);
-                                height: 32px;
-                                border-radius: 6px;
-                                padding: 2px 6px;
-                                vertical-align: top;
-                                border: none;
-                                background-color: inherit;
-                                font-size: 14pt;
-                                line-height: 32px;
-                                box-sizing: border-box;
-                                outline: 0;
-                            }
-                            input[type=button] {
-                                float: right;
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 6px;
-                                vertical-align: top;
-                                border: none;
-                                background-color: inherit;
-                                box-sizing: border-box;
-                                cursor: pointer;
-                                outline: 0; 
-                            }
-                            input[type=button]:hover {
-                                background-color: #cfcfcf; 
-                            }
-                        }
-                        #add-names-bottom {
-                            width: 100%;
-
-                            ul {
-                                min-height: 160px;
-                            }
-                        }
-                    }
-                }
-            }
-            div#remove-container {
-                display: none;
-            }
-        }
-    }
 
     div#shift-display {
         width: 100%;
@@ -142,130 +61,178 @@ div#view-vaktsys {
             padding: 12px;
             overflow-y: scroll;
 
-            div.loading-shifts {
-                width: 100%;
-                height: calc(100% - 31px);
-                position: relative;
-
-                div {
-                    width: 100%;
-                    height: 48px;
-                    text-align: center;
-                    font-size: 48px;
-                    line-height: 48px;
-                    font-family: "Montserrat Hairline";
-                    font-weight: normal;
-                    position: absolute;
-                    top: 50%;
-                    margin-top: -24px;
-                }
-            }
-
-            ul.shift-list {
-                width: 100%;
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-
-                li.shift {
-                    width: 100%;
-                    margin-top: 12px;
-                    padding: 6px 12px;
+            div#shift-list
+            {
+                div.loading {
                     box-sizing: border-box;
+                    width: 100%;
+                    text-align: center;
 
-                    h3 {
-                        width: 100%;
-                        margin: -12px 0 12px 0;
-                        padding: 0;
-                        text-align: center;
+                    i {
+                        margin-top: 25%;
+                        font-size: 48pt;
+                        color: @mediumpurple;
                     }
-                    ul.people-list {
+                }
+
+                ul.shift-list {
+                    width: 100%;
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+
+                    li.shift {
                         width: 100%;
-                        margin: 0;
-                        padding: 0;
-                        list-style-type: none;
+                        margin-top: 12px;
+                        padding: 6px 12px;
+                        box-sizing: border-box;
 
-                        li.person {
+                        h3 {
                             width: 100%;
-                            height: 82px;
-                            border: 1px solid #ccc;
-                            border-width: 0px 1px 1px 1px;
+                            margin: -12px 0 12px 0;
+                            padding: 0;
+                            text-align: center;
+                        }
+                        ul.person-list {
+                            width: 100%;
+                            margin: 0;
+                            padding: 0;
+                            list-style-type: none;
 
-                            div.user-image {
-                                width: 70px;
-                                height: 70px;
-                                float: left;
-                                margin: 6px 0 0 6px;
-                                border-radius: 6px;
-                                background-size: cover;
+                            li.person {
+                                width: 100%;
+                                height: 82px;
+                                border: 1px solid #ccc;
+                                border-width: 0px 1px 1px 1px;
 
-                                img {
-                                    width: 100%;
-                                    height: auto;
-                                }
-                            }
-                            div.user-info {
-                                float: left;
-                                margin: 6px 0 0 12px;
+                                
 
-                                ul {
+                                table {
                                     margin: 0;
                                     padding: 0;
-                                    list-style-type: none;
+                                    width: 100%;
+                                    height: 100%;
+                                    border-spacing: 0;
+                                    border-collapse: separate;
 
-                                    li {
-                                        font-size: 14pt;
+                                    tr {
+                                        margin: 0;
+                                        padding: 0;
 
-                                        span.name {
-                                            font-weight: bold;
-                                        }
-                                        span.role {
-                                            margin-left: 6px;
-                                            font-weight: normal;
-                                            color: #bdbdbd;
-                                        }
-                                        span.role:before {
-                                            content: "[";
-                                            color: #888;
-                                        }
-                                        span.role:after {
-                                            content: "]";
-                                            color: #888;
-                                        }
-                                    }
-                                    li.time {
-                                        color: #444;
-                                        font-size: 10pt;
+                                        td {
+                                            margin: 0;
+                                            padding: 0;
+                                            font-size: 14pt;
 
-                                        span.bold {
-                                            font-weight: bold;
+                                            span.name {
+                                                font-weight: bold;
+                                            }
+                                            span.role {
+                                                margin-left: 6px;
+                                                font-weight: normal;
+                                                color: #bdbdbd;
+                                            }
+                                            span.role:before {
+                                                content: "[";
+                                                color: #888;
+                                            }
+                                            span.role:after {
+                                                content: "]";
+                                                color: #888;
+                                            }
+                                        }
+                                        td.user-image {
+                                            width: 82px;
+
+                                            div {
+                                                margin: 0 6px;
+                                                width: 70px;
+                                                height: 70px;
+                                                float: left;
+                                                border-radius: 6px;
+                                                background-size: cover;
+
+                                                img {
+                                                    width: 100%;
+                                                    height: auto;
+                                                }
+                                            }
+                                        }
+                                        td.user-info {
+                                            padding-left: 3px;
+                                        }
+                                        td.user-info.name-role {
+                                            padding-top: 3px;
+                                        }
+                                        td.time {
+                                            color: #444;
+                                            font-size: 10pt;
+
+                                            span.bold {
+                                                font-weight: bold;
+                                            }
+                                        }
+                                        td.manage {
+                                            text-align: right;
+                                            width: 48px;
+                                            font-size: 26px;
+                                            text-align: center;
+                                            cursor: pointer;
+                                        }
+                                        td.manage.edit {
+                                            padding-top: 8px;
+                                        }
+                                        td.manage.remove {
+                                            padding-bottom: 8px;
+                                        }
+                                        td.manage.edit:hover {
+                                            color: green;
+                                        }
+                                        td.manage.remove:hover {
+                                            color: red;
                                         }
                                     }
                                 }
                             }
-                        }
-                        li.person:first-child {
-                            border-top-width: 1px;
-                            border-radius: 10px 10px 0px 0px;
-                        }
-                        li.person:last-child {
-                            border-radius: 0px 0px 10px 10px;
+                            li.person:first-child {
+                                border-top-width: 1px;
+                                border-radius: 10px 10px 0px 0px;
+                            }
+                            li.person:last-child {
+                                border-radius: 0px 0px 10px 10px;
+                            }
+
+                            li.add-person {
+                                cursor: pointer;
+
+                                h3 {
+                                    margin: 0;
+                                    line-height: 82px;
+                                    font-family: "Montserrat Light";
+                                    font-weight: normal;
+                                    color: #333;
+                                }
+                            }
+                            li.add-person:hover {
+                                background-color: palegreen;
+                                color: #777;
+                            }
                         }
                     }
+                    li.no-shifts {
+                        width: 100%;
+                        height: 48px;
+                        box-sizing: border-box;
+                        margin-top: 12px;
+                        padding: 6px 12px;
+                        border: 1px solid #ccc;
+                        border-radius: 10px;
+                        background-color: #FFE8E8;
+                        text-align: center;
+                        line-height: 32px;
+                    }
                 }
-                li.no-shifts {
-                    width: 100%;
-                    height: 48px;
-                    box-sizing: border-box;
-                    margin-top: 12px;
-                    padding: 6px 12px;
-                    border: 1px solid #ccc;
-                    border-radius: 10px;
-                    background-color: #FFE8E8;
-                    text-align: center;
-                    line-height: 32px;
-                }
-            }   
+            }  
         }
 
         ::-webkit-scrollbar {

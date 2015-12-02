@@ -1,29 +1,4 @@
 <div id="view-vaktsys">
-    <div class="wrapper" id="shift-admin">
-        <h2>Administrator</h2>
-        <div class="container">
-            <div id="add-shifts"><span>+</span> Legg til vakter</div>
-            <div id="remove-shifts"><span>-</span> Fjern vakter</div>
-            <div id="add-container">
-                <form action="/vaktsys/" method="POST">
-                    <div id="add-names">
-                        <div id="add-names-top">
-                            <input id="add-name" type="text" placeholder="Legg til">
-                            <input type="button" type="button" id="btn-add" value="+">
-                        </div>
-                        <div id="add-names-bottom">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div id="remove-container">
-                
-            </div>
-        </div>
-    </div>
-
     <div class="wrapper" id="shift-display"
          ng-init="retrieveBars(); retrieveShifts();">
         <section id="left">
@@ -37,39 +12,8 @@
         </section>
 
         <section id="right">
-            <div id="date-slider" ng-include="'/views/vaktsys/dateslider.html'"></div>
-
-
-            <div class="loading-shifts" ng-show="loadingShifts">
-                <div>Laster</div>
-            </div>
-            <ul class="shift-list" ng-show="!loadingShifts">
-                <li class="shift" ng-repeat="shift in shifts[bars.curBar]">
-                    <h3 ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
-                    <ul class="people-list">
-                        <li class="person" ng-repeat="person in shift.people">
-                            <div class="user-image" style="background-image: url('{{ person.image ? person.image : '' }}');"></div>
-                            <div class="user-info">
-                                <ul>
-                                    <li>
-                                        <span class="name" ng-bind="person.name"></span>
-                                        <span class="role" ng-bind="person.role"></span>
-                                    </li>
-                                    <li class="time">
-                                        <span class="bold">Starter: </span><span ng-bind="person.start | date:'HH:mm'"></span>
-                                    </li>
-                                    <li class="time">
-                                        <span class="bold">Slutter: </span><span ng-bind="person.stop | date:'HH:mm'"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="no-shifts" ng-show="!shifts[bars.curBar].length"
-                    ng-bind="'Ingen vakter i ' + bars.curBar + ' denne dagen!'">
-                </li>
-            </ul>
+            <dateslider></dateslider>
+            <shiftlist></shiftlist>
         </section>
     </div>
 </div>

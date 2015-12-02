@@ -1,32 +1,18 @@
 // Imports
 var express = require('express');
-var app = express();
+var bodyParser = require('body-parser');
 var api = require('./api');
 
-if (!String.prototype.format) {
-    String.prototype.format = function() {
-        var args = arguments;
-        return this.replace(/{(\d+)}/g, function(match, number) { 
-            return typeof args[number] != 'undefined'
-                ? args[number]
-                : match
-            ;
-        });
-    };
-}
+var app = express();
+app.use(bodyParser.json());         // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
+api.run(app);
 
 // Define constants
 const PORT = 8080;
-
-// API routing
-app.get('/api/bars', function(req, res) {
-    console.log("GET %s", req.path);
-    api.getBars(req, res);
-});
-app.get('/api/shifts/:date', function(req, res) {
-    console.log("GET %s", req.path);
-    api.getShifts(req, res);
-});
 
 // Options
 app.use('/', express.static(__dirname + '/public'));
@@ -61,4 +47,9 @@ var server = app.listen(PORT, function() {
     var port = server.address().port;
 
     console.log('Server listening on http://%s:%s', host, port);
+});
+
+process.on('SIGINT', function() {
+    console.log('\r  \nbye')
+    process.exit();
 });

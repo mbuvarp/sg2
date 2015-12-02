@@ -3,34 +3,28 @@
 // Dynamics and shit (mostly event listeners)
 $(document).ready(function() {
     $(document).on('click', 'main #shift-display #left li', function() {
-        $('main #shift-display #left li').removeClass('selected');
+        $('main #view-vaktsys #shift-display #left li').removeClass('selected');
         $(this).addClass('selected');
-    });
-    $(document).on('click', 'main #shift-admin #add-shifts', function() {
-        $('main #shift-admin #add-shifts,#remove-shifts').fadeOut(200, function() {
-            $('main #shift-admin #add-container').show();
-        });
-    });
-    $(document).on('click', 'main #shift-admin #remove-shifts', function() {
-        $('main #shift-admin #add-shifts,#remove-shifts').fadeOut(200);
     });
     // This listener makes sure the max-height property of the shift-list
     // is always equal to the height og the tabs on the left
     $(document).on('DOMSubtreeModified', 'main #shift-display #left ul', function() {
         var hgt = $(this).height();
-        $('main #shift-display #right').css(
+        $('main #view-vaktsys #shift-display #right').css(
             {
                 'max-height': hgt,
                 'min-height': hgt,
                 'height': hgt
-            });
+            }
+        );
     });
 });
 
+// App
+app
 
-// Controller
-app.controller('vaktsysController', ['$scope', '$http',
-    function($scope, $http) {
+.controller('vaktsysController', ['$scope', '$http', 'USER_ROLES', 'auth',
+    function($scope, $http, USER_ROLES, auth) {
 
         $scope.loadingShifts = false;
         $scope.bars = {
@@ -90,10 +84,7 @@ app.controller('vaktsysController', ['$scope', '$http',
             // Set to loading
             $scope.loadingShifts = true;
 
-            $http({
-                method: 'GET',
-                url: '/api/shifts/' + date,
-            })
+            $http.get('/api/shifts/' + date)
             .then(
                 // Success
                 function(res) {
@@ -108,13 +99,14 @@ app.controller('vaktsysController', ['$scope', '$http',
                 },
                 // Error
                 function(res) {
-                    console.log(res);
+
                 }
             );
         };
-        $scope.datesliderChange = function(date) {
-            console.log(date);
-        };
+
+        $scope.hasManagingRights = function() {
+            return auth.isAuthorized(['admin', 'moderator']);
+        }
 
         // Helper functions
         // Function to set open to true in @scope.bars
@@ -180,4 +172,23 @@ app.controller('vaktsysController', ['$scope', '$http',
             return ret;
         };
     }]
+)
+
+.directive('dateslider',
+    function() {
+        return {
+            retrict: 'E',
+            replace: true,
+            templateUrl: '/views/vaktsys/dateslider.html',
+        };
+    }
+)
+.directive('shiftlist',
+    function() {
+        return {
+            retrict: 'E',
+            replace: true,
+            templateUrl: '/views/vaktsys/shiftlist.html',
+        };
+    }
 );
