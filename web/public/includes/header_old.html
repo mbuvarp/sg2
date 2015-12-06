@@ -1,0 +1,101 @@
+<div id="inner">
+    <div id="logo"><a ui-sref="front">SGNett 2.0</a></div>
+
+    <div id="search">
+        <input type="text" placeholder="Søk">
+    </div>
+
+    <div id="menu">
+        <ul id="strip">
+            <div class="icon-gradient">
+                <li id="btn-content"><img src="style/icons/content.png" alt="Content" title="Content"></li>
+            </div>
+            <div class="icon-gradient">
+                <li id="btn-members"><img src="style/icons/members.png" alt="Members" title="Members"></li>
+            </div>
+            <div class="icon-gradient">
+                <li id="btn-bank"><img src="style/icons/bank.png" alt="Bank" title="Bank"></li>
+            </div>
+            <div class="icon-gradient">
+                <li id="btn-information"><img src="style/icons/information.png" alt="Information" title="Information"></li>
+            </div>
+            <div class="icon-gradient">
+                <li id="btn-admin"><img src="style/icons/admin.png" alt="Administrator" title="Administrator"></li>
+            </div>
+        </ul>
+        <div class="dropdown" id="content">
+            <ul>
+                <a ui-sref="vaktsys"><li>Vaktsys</li></a>
+                <a ui-sref="referater"><li>Møtereferater</li></a>
+                <a ui-sref="sitater"><li>Sitater</li></a>
+                <a ui-sref="konkurranser"><li>Konkurranser</li></a>
+            </ul>
+        </div>
+        <div class="dropdown" id="members">
+            <ul>
+                <a ui-sref="gjenger/styret"><li>Styret</li></a>
+                <a ui-sref="gjenger/okonomi"><li>Økonomi</li></a>
+                <a ui-sref="gjenger/arrangement"><li>Arrangement</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/barsjefene"><li>Barsjefene</li></a>
+                <a ui-sref="gjenger/bartenderne"><li>Bartenderne</li></a>
+                <a ui-sref="gjenger/spritbarsjefene"><li>Spritbarsjefene</li></a>
+                <a ui-sref="gjenger/daglighallen"><li>Daglighallen</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/kakeansvarlige"><li>Kaféansvarlige</li></a>
+                <a ui-sref="gjenger/baristaene"><li>Baristaene</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/hovmesterne"><li>Hovmesterne</li></a>
+                <a ui-sref="gjenger/barservitorerne"><li>Barservitørerne</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/souschefene"><li>Souschefene</li></a>
+                <a ui-sref="gjenger/kokkene"><li>Kokkene</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/hangarounds"><li>Aktive hangarounds</li></a>
+                <a ui-sref="gjenger/panger"><li>Aktive panger</li></a>
+                <li class="space"></li>
+                <a ui-sref="gjenger/savnet"><li>Savnet</li></a>
+            </ul>
+        </div>
+        <div class="dropdown" id="bank">
+            <ul>
+                <a ui-sref="forbruk"><li>Forbruk</li></a>
+                <a ui-sref="innskudd"><li>Innskudd</li></a>
+                <a ui-sref="overforing"><li>Overføring</li></a>
+                <a ui-sref="prisliste"><li>Prisliste</li></a>
+                <a ui-sref="wanted"><li>Wanted</li></a>
+            </ul>
+        </div>
+        <div class="dropdown" id="information">
+            <ul>
+                <a ui-sref="info/arrangement"><li>Arrangement</li></a>
+                <a ui-sref="info/baksida"><li>Baksida</li></a>
+                <a ui-sref="info/barsjefene"><li>Barsjefene</li></a>
+                <a ui-sref="info/bindingstider"><li>Bindingstider</li></a>
+                <a ui-sref="info/daglighallen"><li>Daglighallen</li></a>
+                <a ui-sref="info/epostadresser"><li>Epostadresser</li></a>
+                <a ui-sref="info/hovmestere"><li>Hovmestere</li></a>
+                <a ui-sref="info/hybelregler"><li>Hybelregler</li></a>
+                <a ui-sref="info/jungelord"><li>Jungelord</li></a>
+                <a ui-sref="info/kakeansvarlige"><li>Kaféansvarlige</li></a>
+                <a ui-sref="info/lingoliste"><li>Lingoliste</li></a>
+                <a ui-sref="info/nettriks"><li>NettTriks</li></a>
+                <a ui-sref="info/nyttigesider"><li>Nyttige Sider</li></a>
+                <a ui-sref="info/okogruppa"><li>Økogruppa</li></a>
+                <a ui-sref="info/pafyllil"><li>Påfyll IL</li></a>
+                <a ui-sref="info/profil"><li>Profil</li></a>
+                <a ui-sref="info/souschefer"><li>Souschefer</li></a>
+                <a ui-sref="info/spritgjengen"><li>Spritgjengen</li></a>
+                <a ui-sref="info/strossaguiden"><li>StrossaGuiden</li></a>
+                <a ui-sref="info/styret"><li>Styret</li></a>
+            </ul>
+        </div>
+        <div class="dropdown" id="admin">
+            <ul>
+                <a ui-sref="minbruker"><li>Min bruker</li></a>
+                <li class="space"></li>
+                <a href="#" ng-click="logout()"><li>Logg ut</li></a>
+            </ul>
+        </div>
+    </div>
+</div>

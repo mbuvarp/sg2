@@ -1,0 +1,20 @@
+<form name="loginForm" action="views/login/sink.html" target="sink" method="post"
+            ng-controller="loginController"
+            ng-submit="login(credentials)"
+            novalidate form-autofill-fix>
+
+    <table>
+        <tr>
+            <td><label for="username" class="text-label">Email</label></td>
+            <td><input type="text" id="username" ng-model="credentials.username"></td>
+        </tr>
+        <tr>
+            <td><label for="username" class="text-label">Passord</label></td>
+            <td><input type="password" id="password" ng-model="credentials.password"></td>
+        </tr>
+        <tr>
+            <td><label><input type="checkbox" checked>Husk meg</label></td>
+            <td><input type="submit" value="Logg inn"></td>
+        </tr>
+    </table>
+</form>

@@ -105,17 +105,18 @@ app
     function(session, $rootScope, AUTH_EVENTS, $q) {
         return {
             request: function(req) {
+                // Is there a token here? In that case, provide it!
                 var jwtToken = session.getToken();
-                req.headers.Authorization = 'Bearer ' + jwtToken;
+                if (jwtToken)
+                    req.headers.Authorization = 'Bearer ' + jwtToken;
 
                 return $q.resolve(req);
             },
             response: function(res) {
                 // Got a new jwtToken for me?
                 var header = res.headers('Authorization');
-                if (header && header.indexOf('Bearer ') != -1) {
+                if (header && header.indexOf('Bearer ') != -1)
                     session.saveToken(header.split(' ')[1]);
-                }
 
                 return $q.resolve(res);
             },
@@ -201,20 +202,30 @@ app
 //     }
 // )
 
-.directive('loginDialog', ['AUTH_EVENTS',
+.directive('logindialog', ['AUTH_EVENTS',
     function (AUTH_EVENTS) {
         return {
-            restrict: 'A',
-            template: '<div ng-if="visible" ng-include="\'login-form.html\'">',
-            link: function (scope) {
+            restrict: 'E',
+            replace: true,
+            templateUrl: '/views/login/login.html',
+            link: function ($scope) {
                 var showDialog = function () {
-                    scope.visible = true;
+                    $scope.visible = true;
                 };
 
-                scope.visible = false;
-                scope.$on(AUTH_EVENTS.notAuthenticated, showDialog);
-                scope.$on(AUTH_EVENTS.sessionTimeout, showDialog)
+                $scope.visible = false;
+                // $scope.$on(AUTH_EVENTS.notAuthenticated, showDialog);
+                // $scope.$on(AUTH_EVENTS.sessionTimeout, showDialog)
             }
+        };
+    }]
+)
+.directive('loginform', [
+    function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: '/views/login/loginform.html'
         };
     }]
 )

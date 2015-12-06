@@ -28,7 +28,7 @@
 
     <header ng-include="'/includes/header.html'" ng-if="isAuthenticated()"></header>
 
-    <div login-dialog ng-if="!isLoginPage"></div>
+    <logindialog ng-if="!isLoginPage &amp;&amp; visible"></logindialog>
 
     <main ui-view>
     </main>
@@ -36,9 +36,9 @@
     <footer ng-include="'/includes/footer.html'"></footer>
 
     <!-- Globals -->
-    <script type="text/javascript" src="/js/global.js"></script>
-    <script type="text/javascript" src="/js/menu.js"></script>
     <script type="text/javascript" src="/app.js"></script>
+    <script type="text/javascript" src="/js/global.js"></script>
+    <script type="text/javascript" src="/js/header.js"></script>
 
     <!-- Page-specific -->
     <script type="text/javascript" src="/js/views/front.js"></script>

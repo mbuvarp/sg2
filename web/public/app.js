@@ -35,6 +35,26 @@ var app = angular.module('app', ['ui.router'])
             }
         })
 
+        .state('logout', {
+            url: '/logout',
+            templateUrl: 'views/login/login.html',
+            controller: 'logoutController',
+            data: {
+                title: 'Logg ut',
+                authorizedRoles: [USER_ROLES.all]
+            }
+        })
+
+        .state('minbruker', {
+            url: '/minbruker',
+            templateUrl: 'views/login/minbruker.html',
+            controller: 'minbrukerController',
+            data: {
+                title: 'Min bruker',
+                authorizedRoles: [USER_ROLES.all]
+            }
+        })
+
         .state('vaktsys', {
             url: '/vaktsys',
             templateUrl: 'views/vaktsys/vaktsys.html',
@@ -87,7 +107,7 @@ var app = angular.module('app', ['ui.router'])
             alert("LOGIN FAILED"); // TODO
         });
         $rootScope.$on('auth-not-authenticated', function (event) {
-            alert("NOT AUTHENTICATED"); // TODO
+            console.log("NOT AUTHENTICATED"); // TODO
         });
         $rootScope.$on('auth-not-authorized', function (event) {
             alert("NOT AUTHORIZED"); // TODO

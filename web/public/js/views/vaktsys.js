@@ -55,10 +55,7 @@ app
 
         // Retrieve bars
         $scope.retrieveBars = function() {
-            $http({
-                method: 'GET',
-                url: '/api/bars',
-            }).then(
+            $http.get('/api/bars').then(
                 // Success
                 function(res) {
                     $.each(res.data, function(ind, elmt) {
