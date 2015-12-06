@@ -43,7 +43,7 @@ exports.getAllBars = function() {
     return query('SELECT * FROM bars ORDER BY name ASC');
 }
 exports.getShifts = function(date) {
-    var qry = 'SELECT bars.name AS bar, start, stop, bar_shifts.description, ' +
+    var qry = 'SELECT bars.name AS bar, bar_shifts.start, bar_shifts.finish, bar_shifts.description, ' +
                 'users.id AS user_id, users.name, users.image, user_shifts.role ' +
                 'FROM bars, user_shifts, bar_shifts, users ' +
                 'WHERE user_shifts.bar_shift_id = bar_shifts.id ' +

@@ -1,3 +1,12 @@
 <div id="view-front">
-    <h1>Velkommen til SGNett 2.0!</h1>
+
+    <div id="not-logged-in" ng-if="!isAuthenticated()">
+        <h1>Velkommen til SGNett 2.0!</h1>
+        <a ui-sref="login">Intern</a>
+    </div>
+
+    <div id="logged-in" ng-if="isAuthenticated()">
+        <h1>Du er logget inn.</h1>
+    </div>
+
 </div>

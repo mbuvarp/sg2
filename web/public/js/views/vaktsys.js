@@ -152,7 +152,7 @@ app
                     image: elmt.image,
                     role: elmt.role,
                     start: elmt.start,
-                    stop: elmt.stop
+                    finish: elmt.finish
                 });
             });
 
