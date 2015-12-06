@@ -19,6 +19,8 @@ function verifyAndRefreshJwt(jwtToken) {
 }
 
 function getShifts(req, res) {
+
+    // Function to fix errors in date syntax
     var fixDate = function(date) {
         var validDate = function(date) {
             return moment(date).isValid();
@@ -98,37 +100,47 @@ function login(req, res) {
 exports.run = function(app) {
 
     // API Get
-    app.get('/api/bars', function(req, res) {
-        console.log("GET %s", req.path);
-        getBars(req, res);
-    });
-    app.get('/api/shifts/:date', function(req, res) {
-        console.log("GET %s", req.path);
-        
-        var jwtToken = req.headers.authorization;
-        if (jwtToken && jwtToken.indexOf('Bearer ') != -1)
-            jwtToken = jwtToken.split(' ')[1];
-        
-        verifyAndRefreshJwt(jwtToken)
-        .then(function(newToken) {
-            res.set('Authorization', 'Bearer ' + newToken);
-            getShifts(req, res);
-        }, function(err) {
-            console.log(err);
-            res.status(401).end();
-        });
-    });
+    app.get('/api/bars',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            getBars(req, res);
+        }
+    );
+    app.get('/api/shifts/:date',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            
+            var jwtToken = req.headers.authorization;
+            if (jwtToken && jwtToken.indexOf('Bearer ') != -1)
+                jwtToken = jwtToken.split(' ')[1];
+            
+            verifyAndRefreshJwt(jwtToken)
+            .then(
+                function(newToken) {
+                    res.set('Authorization', 'Bearer ' + newToken);
+                    getShifts(req, res);
+                }, function(err) {
+                    console.log(err);
+                    res.status(401).end();
+                }
+            );
+        }
+    );
 
     // API Post
-    app.post('/api/login', function(req, res) {
-        console.log("POST %s", req.path);
-        login(req, res)
-        .then(function(data) {
-            var jwtToken = jwt.token(data.dataValues.id, data.dataValues.role);
-            res.status(200).json({ success: true, jwtToken: jwtToken });
-        }, function(err) {
-            res.status(401).json({ success: false, jwtToken: null });
-        });
-    });
+    app.post('/api/login',
+        function(req, res) {
+            console.log("POST %s", req.path);
+            login(req, res)
+            .then(
+                function(data) {
+                    var jwtToken = jwt.token(data.id, data.role);
+                    res.status(200).json({ success: true, jwtToken: jwtToken });
+                }, function(err) {
+                    res.status(401).json({ success: false, jwtToken: null });
+                }
+            );
+        }
+    );
 
 }

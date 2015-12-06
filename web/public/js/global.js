@@ -40,8 +40,13 @@ if (!String.prototype.capitalize) {
 
 function parseToken(token) {
     var split = token.split('.')[1];
-    b64 = b64.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(b64));
+    token = split.replace('-', '+').replace('_', '/');
+    // var obj = {
+    //     head: JSON.parse(atob(split[0])),
+    //     body: JSON.parse(atob(split[1])),
+    //     foot: JSON.parse(atob(split[2]))
+    // };
+    return JSON.parse(atob(token));
 }
 function tokenExpire(token) {
     var split = token.split('.')[1];
