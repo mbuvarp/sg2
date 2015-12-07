@@ -21,7 +21,7 @@ const STATEMENT = {
     INSERT: 'INSERT',
     UPDATE: 'UPDATE'
 };
-const COMPARITOR = {
+const COMPARATOR = {
     EQUALS: '=',
 };
 function buildQuery(params) {
@@ -46,27 +46,27 @@ function buildQuery(params) {
     //         {
     //             left: 'u.id',
     //             right: 'us.user_id',
-    //             comparitor: COMPARITOR.EQUALS
+    //             comparator: COMPARATOR.EQUALS
     //         },
     //         {
     //             left: 'us.bar_shift_id',
     //             right: 'bs.id',
-    //             comparitor: COMPARITOR.EQUALS
+    //             comparator: COMPARATOR.EQUALS
     //         },
     //         {
     //             left: 'u.id',
     //             right: '1',
-    //             comparitor: COMPARITOR.EQUALS
+    //             comparator: COMPARATOR.EQUALS
     //         },
     //         {
     //             left: 'bs.bar_id',
     //             right: 'b.id',
-    //             comparitor: COMPARITOR.EQUALS
+    //             comparator: COMPARATOR.EQUALS
     //         },
     //         {
     //             left: 'DATE(bs.start)',
     //             right: 'DATE(\'2015-12-07\')',
-    //             comparitor: COMPARITOR.EQUALS
+    //             comparator: COMPARATOR.EQUALS
     //         }
     //     ]
     // };
@@ -100,7 +100,7 @@ function buildQuery(params) {
     ret += (params.where.length > 0 ? 'WHERE ' : '');
     for (var i in params.where) {
         var where = params.where[i];
-        ret += where.left + ' ' + where.comparitor + ' ' + where.right;
+        ret += where.left + ' ' + where.comparator + ' ' + where.right;
         ret += i < (params.where.length - 1) ? ' AND ' : ' ';
     }
 
@@ -153,18 +153,47 @@ function query(query) {
 }
 
 exports.getAllBars = function() {
-    return query('SELECT * FROM bars ORDER BY name ASC');
+    return query('SELECT * FROM bars ORDER BY name ASC;');
 }
 exports.getShifts = function(date, user) {
-    var qry = 'SELECT bars.name AS bar, bar_shifts.id AS bar_shift_id, user_shifts.id AS user_shift_id, bar_shifts.start, bar_shifts.finish, bar_shifts.description, ' +
-                'users.id AS user_id, users.name, users.image, user_shifts.role ' +
-                'FROM bars, user_shifts, bar_shifts, users ' +
-                'WHERE user_shifts.bar_shift_id = bar_shifts.id ' +
-                'AND user_shifts.user_id = users.id ' +
-                'AND bars.id = bar_shifts.bar_id' +
-                (date !== '-' ? ' AND DATE(bar_shifts.start)=DATE(\'' + date + '\');' : ';');
+    // var qry = 'SELECT bars.name AS bar, bar_shifts.id AS bar_shift_id, user_shifts.id AS user_shift_id, bar_shifts.start, bar_shifts.finish, bar_shifts.description, ' +
+    //             'users.id AS user_id, users.name, users.image, user_shifts.role ' +
+    //             'FROM bars, user_shifts, bar_shifts, users ' +
+    //             'WHERE user_shifts.bar_shift_id = bar_shifts.id ' +
+    //             'AND user_shifts.user_id = users.id ' +
+    //             'AND bars.id = bar_shifts.bar_id' +
+    //             (date !== '-' ? ' AND DATE(bar_shifts.start)=DATE(\'' + date + '\');' : ';');
+    
+    var params =
+    {
+        statement: STATEMENT.SELECT,
+        fields: [
+                    ['b.name', 'bar_name'],
+                    ['us.id', 'user_shift_id'],
+                    'us.role',
+                    'us.start',
+                    'us.finish',
+                    ['s.id', 'shift_id'],
+                    's.description',
+                    ['u.id', 'user_id'],
+                    ['u.name', 'user_name']
+                ],
+        from:   [
+                    ['users', 'u'],
+                    ['shifts', 's'],
+                    ['user_shifts', 'us'],
+                    ['bars', 'b']
+                ],
+        where:  [
+                    { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
+                    { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
+                    { left: 's.bar_id', right: 'b.id', comparator: COMPARATOR.EQUALS }
+                ]
+    };
+    if (date !== '-')
+        params.where.push({ left: 'DATE(s.start)', right: 'DATE(\'' + date + '\')', comparator: COMPARATOR.EQUALS });
 
-
+    var qry = buildQuery(params);
     return query(qry);
 }
 
