@@ -4,8 +4,9 @@ $(document).ready(function() {
     // Icon menu DOM-path
     var menu = 'header #inner #menu';
     // Add an event-listener to all the icon-buttons
-    $(document).on('click', 'li', menu + ' #strip',
+    $(document).on('click', menu + ' #strip li',
         function() {
+
             // Hide all submenus
             $('.strip-menu-btn', menu).removeClass('active');
             $('.dropdown', menu).hide();
@@ -18,14 +19,15 @@ $(document).ready(function() {
             var width = $('li', ul).last().offset().left - $('li', ul).first().offset().left + $('li', ul).last().outerWidth(true);
 
             // Show the relevant submenu
-            $('#' + id, menu).css('width', width);
-            $('#' + id, menu).show();
+            var sub = $('#' + id, menu);
+            sub.css('width', width);
+            sub.show();
         }
     );
     // Close submenu at click anywhere else
     $(document).mouseup(function(e) {
         // Get submenu
-        var container = $(".dropdown", menu);
+        var container = $('.dropdown', menu);
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             container.hide();
             $('li', menu + ' #strip').removeClass('active');

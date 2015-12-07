@@ -1,0 +1,34 @@
+<table>
+    <tr>
+        <td class="user-image" rowspan="4">
+            <div style="background-image: url('{{ person.image ? person.image : '' }}');"></div>
+        </td>
+        <td class="user-info name-role" colspan="2">
+            <span class="name" ng-bind="person.name"></span>
+            <span class="role" ng-bind="person.role"></span>
+        </td>
+        <td class="manage edit"  rowspan="2" ng-if="hasManagingRights()">
+            <i class="fa fa-edit"></i>
+        </td>
+    </tr>
+    <tr>
+        <td class="user-info time" colspan="2">
+            <span class="bold">Starter: </span><span ng-bind="person.start | date:'HH:mm'"></span>
+        </td>
+    </tr>
+    <tr>
+        <td class="user-info time" colspan="2">
+            <span class="bold">Slutter: </span><span ng-bind="person.finish | date:'HH:mm'"></span>
+        </td>
+        <td class="manage remove" rowspan="2" ng-if="hasManagingRights()">
+            <i class="fa fa-remove"></i>
+        </td>
+    </tr>
+    <tr>
+        <td class="user-info" colspan="2">&nbsp;</td>
+    </tr>
+    <tr ng-if="hasManagingRights()">
+        <td colspan="2" class="manage cancel">Avbryt</td>
+        <td colspan="2" class="manage save">Lagre</td>
+    </tr>
+</table>

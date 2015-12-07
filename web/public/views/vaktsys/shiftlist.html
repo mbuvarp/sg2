@@ -5,42 +5,12 @@
 
     <ul class="shift-list" ng-show="!loadingShifts">
 
-        <li class="shift" ng-repeat="shift in shifts[bars.curBar]">
-            <h3 ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
+        <li class="shift {{ shifts[bars.curBar].length === 1 ? 'wide' : '' }}" ng-repeat="shift in shifts[bars.curBar]">
+            <h3 class="shift-description" ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
 
             <ul class="person-list">
-
                 <li class="person" ng-repeat="person in shift.people">
-                    <table>
-                        <tr>
-                            <td class="user-image" rowspan="4">
-                                <div style="background-image: url('{{ person.image ? person.image : '' }}');"></div>
-                            </td>
-                            <td class="user-info name-role">
-                                <span class="name" ng-bind="person.name"></span>
-                                <span class="role" ng-bind="person.role"></span>
-                            </td>
-                            <td class="manage edit"  rowspan="2" ng-if="hasManagingRights()">
-                                <i class="fa fa-edit"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="user-info time">
-                                <span class="bold">Starter: </span><span ng-bind="person.start | date:'HH:mm'"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="user-info time">
-                                <span class="bold">Slutter: </span><span ng-bind="person.finish | date:'HH:mm'"></span>
-                            </td>
-                            <td class="manage remove" rowspan="2" ng-if="hasManagingRights()">
-                                <i class="fa fa-remove"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="user-info">&nbsp;</td>
-                        </tr>
-                    </table>
+                    <personcard></personcard>
                 </li>
                 <li class="person add-person" ng-if="hasManagingRights()">
                     <h3>Legg til person</h3>

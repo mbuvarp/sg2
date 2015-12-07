@@ -15,8 +15,7 @@ if (!String.prototype.format) {
 
 function buildQueries() {
     var ret = [];
-
-    var proto = "INSERT INTO bar_shifts (bar, start, stop, description) VALUES ({0}, TIMESTAMP '{1}', TIMESTAMP '{2}', '{3}');";
+    var proto = "INSERT INTO shifts (bar, start, stop, description) VALUES ({0}, TIMESTAMP '{1}', TIMESTAMP '{2}', '{3}');";
 
     var shiftTimes = {
         1: { // Lyche
@@ -124,7 +123,7 @@ function buildQueries() {
     };
 
     var date = moment("2015-11-28"); // Date to add from
-    while (date.year() === 2015) {
+    for (var i = 0; i < 30; ++i) {
 
         for (var bar = 1; bar <= 10; ++bar) { // Iterate through bars by id
             var tms = shiftTimes[bar][date.day()]; // All shifts for this bar at this day

@@ -29,6 +29,10 @@ var app = angular.module('app', ['ui.router'])
             url: '/login',
             templateUrl: 'views/login/login.html',
             controller: 'loginController',
+            params: {
+                '401': '0',
+                '419': '0'
+            },
             data: {
                 title: 'Logg inn',
                 authorizedRoles: [USER_ROLES.all]
@@ -108,6 +112,8 @@ var app = angular.module('app', ['ui.router'])
         });
         $rootScope.$on('auth-not-authenticated', function (event) {
             console.log("NOT AUTHENTICATED"); // TODO
+            $state.go('login', { '401': '1', '403': '0' });
+
         });
         $rootScope.$on('auth-not-authorized', function (event) {
             alert("NOT AUTHORIZED"); // TODO

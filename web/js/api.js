@@ -4,16 +4,22 @@ var moment = require('moment');
 var db = require('./db');
 var jwt = require('./jwt');
 
+const VERIFY_ALL = true;
+
 function verifyAndRefreshJwt(jwtToken) {
     var defer = q.defer();
 
-    jwt.verify(jwtToken, function(token) {
-        // Success
-        defer.resolve(token);
-    }, function(err) {
-        // Error
-        defer.reject(err);
-    });
+    if (jwtToken === undefined && VERIFY_ALL)
+        defer.resolve('meh');
+    else
+        jwt.verify(jwtToken, function(token) {
+            // Success
+            defer.resolve(token);
+        }, function(err) {
+            // Error
+            // TODO: session timeout
+            defer.reject(err);
+        });
 
     return defer.promise;
 }
@@ -68,11 +74,13 @@ function getShifts(req, res) {
 
             ret[curRes.bar].push({
                 user_id: Number(curRes.user_id),
+                bar_shift_id: Number(curRes.bar_shift_id),
+                user_shift_id: Number(curRes.user_shift_id),
                 name: curRes.name,
                 image: curRes.image,
                 role: curRes.role,
                 start: curRes.start,
-                stop: curRes.stop,
+                finish: curRes.finish,
                 description: curRes.description
             });
         }
@@ -97,6 +105,20 @@ function login(req, res) {
     return db.verifyUser(req.body.username, req.body.password);
 }
 
+// This is just for testing different stuff
+function test(req, res) {
+    db.test()
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(status || 400).send(err);
+        }
+    );
+}
+
 exports.run = function(app) {
 
     // API Get
@@ -110,20 +132,31 @@ exports.run = function(app) {
         function(req, res) {
             console.log("GET %s", req.path);
             
+            // Get jwt
             var jwtToken = req.headers.authorization;
             if (jwtToken && jwtToken.indexOf('Bearer ') != -1)
                 jwtToken = jwtToken.split(' ')[1];
             
+            // Verify token
             verifyAndRefreshJwt(jwtToken)
             .then(
                 function(newToken) {
+                    // Valid token
                     res.set('Authorization', 'Bearer ' + newToken);
                     getShifts(req, res);
                 }, function(err) {
+                    // Invalid token - send 401
                     console.log(err);
                     res.status(401).end();
                 }
             );
+        }
+    );
+
+    app.get('/api/test', 
+        function(req, res) {
+            console.log("GET %s", req.path);
+            test(req, res);
         }
     );
 

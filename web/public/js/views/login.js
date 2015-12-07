@@ -1,7 +1,9 @@
 app
 
-.controller('loginController', ['$scope', '$rootScope', 'AUTH_EVENTS', 'auth',
-    function ($scope, $rootScope, AUTH_EVENTS, auth) {
+.controller('loginController', ['$scope', '$rootScope', 'AUTH_EVENTS', 'auth', '$stateParams',
+    function ($scope, $rootScope, AUTH_EVENTS, auth, $stateParams) {
+        $scope.msg401 = $stateParams['401'] === '1';
+        $scope.msg419 = $stateParams['419'] === '1';
         $scope.credentials = {
             username: '',
             password: ''
@@ -82,7 +84,7 @@ app
                 return true;
 
             var role = session.getField('role');
-            return role && roles.indexOf(role) != -1;
+            return authService.isAuthenticated() && role && roles.indexOf(role) != -1;
         }
         authService.login = function(credentials) {
             return $http.post('/api/login', credentials)

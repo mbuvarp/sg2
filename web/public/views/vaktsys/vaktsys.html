@@ -1,12 +1,12 @@
 <div id="view-vaktsys">
-    <div class="wrapper" id="shift-display"
-         ng-init="retrieveBars(); retrieveShifts();">
+    <div class="wrapper" id="shift-display">
         <section id="left">
             <ul>
+                <li class="blank"></li>
                 <li ng-repeat="bar in bars.names"
-                    class="{{ bar.selected ? 'selected' : '' }} {{ bar.open ? 'open' : '' }}"
-                    ng-click="bars.curBar=bar.name"
-                    ng-bind="bar.name">
+                    class="{{ bar.active ? 'active' : '' }}"
+                    ng-click="bars.curBar=bar.name">
+                    <span ng-bind="bar.name" class="{{ bar.open ? 'open' : '' }}"></span>
                 </li>
             </ul>
         </section>

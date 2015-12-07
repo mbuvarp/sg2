@@ -2,84 +2,136 @@
 
 // Dynamics and shit (mostly event listeners)
 $(document).ready(function() {
-    $(document).on('click', 'main #shift-display #left li', function() {
-        $('main #view-vaktsys #shift-display #left li').removeClass('selected');
-        $(this).addClass('selected');
+    var right = 'main #view-vaktsys #shift-display #right ';
+    var left = 'main #view-vaktsys #shift-display #left ';
+
+    // Make active tab look active
+    $(document).on('click', left + 'li:not(.blank)', function() {
+        $('main #view-vaktsys #shift-display #left li').removeClass('active');
+        $(this).addClass('active');
+    });
+    // Extend li.person on edit
+    $(document).on('click', right + '#shift-list li.person td.manage.edit i', function() {
+        // Find correct li.person and check if already extended
+        var li = $($(this).closest('li.person'));
+        if (li.data('extended') === 'true')
+            return;
+
+        // Find height of manage-buttons and extend to show them
+        var height = $(right + '#shift-list li.person td.manage.cancel').height();
+        $(right + '#shift-list li.person td.manage.cancel, td.manage.save').show();
+        li.animate({
+            height: '+=' + height + 'px'
+        }, 200);
+
+        // Set data-extended to true
+        li.data('extended', 'true')
+    });
+    // Cancel/save editing li.person (only visual, backend is taken care of by angular controller)
+    $(document).on('click', right + '#shift-list li.person td.manage.cancel, td.manage.save', function() {
+        // Find correct li.person and check if already extended
+        var li = $($(this).closest('li.person'));
+        if (li.data('extended') === 'false')
+            return;
+
+        // Find height of manage-buttons and extend to show them
+        var height = $(right + '#shift-list li.person td.manage.cancel').height();
+        $(right + '#shift-list li.person td.manage.cancel, td.manage.save').show();
+        li.animate({
+            height: '-=' + height + 'px'
+        }, 200);
+
+        // Set data-extended to true
+        li.data('extended', 'false')
     });
     // This listener makes sure the max-height property of the shift-list
     // is always equal to the height og the tabs on the left
-    $(document).on('DOMSubtreeModified', 'main #shift-display #left ul', function() {
-        var hgt = $(this).height();
-        $('main #view-vaktsys #shift-display #right').css(
-            {
-                'max-height': hgt,
-                'min-height': hgt,
-                'height': hgt
-            }
-        );
-    });
+    // $(document).on('DOMSubtreeModified', left + 'ul', function() {
+    //     var hgt = $(this).height();
+    //     $(right).css(
+    //         {
+    //             'max-height': hgt,
+    //             'min-height': hgt,
+    //             'height': hgt
+    //         }
+    //     );
+    // });
 });
 
 // App
 app
 
-.controller('vaktsysController', ['$scope', '$http', 'USER_ROLES', 'auth',
-    function($scope, $http, USER_ROLES, auth) {
+.controller('vaktsysController', ['$scope', '$http', 'USER_ROLES', 'auth', 'vaktsysService', 'datesliderService',
+    function($scope, $http, USER_ROLES, auth, vaktsysService, datesliderService) {
 
-        $scope.loadingShifts = false;
-        $scope.bars = {
-            curBar: "Bodegaen",
-            names: []
-        };
-        $scope.shifts = {
-
-        };
+        $scope.loadingShifts = vaktsysService.loadingShifts;
+        $scope.bars = vaktsysService.bars;
+        $scope.shifts = vaktsysService.shifts;
 
         // Initialize dateslider
         $scope.dateslider = {
-            startDate: moment(),
-            dateDelta: 0,
-            getDate: function() {
-                return moment(this.startDate).add(this.dateDelta, 'days');
-            },
-            getDatePretty: function() {
-                return moment(this.startDate).add(this.dateDelta, 'days').norsk('dddd D. MMMM YYYY').capitalize();
-            },
-            getSimpleDate: function() {
-                return this.getDate().format('YYYY-MM-DD');
-            },
-            getSimpleStartDate: function() {
-                return this.startDate.format('YYYY-MM-DD');
-            }
+            startDate: datesliderService.startDate,
+            dateDelta: datesliderService.dateDelta,
+            getDate: datesliderService.getDate,
+            getDatePretty: datesliderService.getDatePretty,
+            getSimpleDate: datesliderService.getSimpleDate,
+            getSimpleStartDate: datesliderService.getSimpleStartDate
         }
 
         // Retrieve bars
-        $scope.retrieveBars = function() {
+        $scope.retrieveBars = vaktsysService.retrieveBars;
+        // Retrieve shifts
+        $scope.retrieveShifts = vaktsysService.retrieveShifts;
+
+        $scope.hasManagingRights = function() {
+            return auth.isAuthorized(['admin', 'moderator']);
+        }
+
+        $scope.init = function() {
+            vaktsysService.retrieveBars();
+            vaktsysService.retrieveShifts();
+        }
+
+        $scope.init();
+    }]
+)
+
+.service('vaktsysService', ['$http', 'datesliderService',
+    function($http, datesliderService) {
+        var self = this;
+
+        this.loadingShifts = false;
+        this.bars = {
+            curBar: "Bodegaen",
+            names: []
+        };
+        this.shifts = {
+
+        };
+
+        this.retrieveBars = function() {
             $http.get('/api/bars').then(
                 // Success
                 function(res) {
                     $.each(res.data, function(ind, elmt) {
-                        $scope.bars.names.push({ name: elmt.name, open: false });
-                    })
-                    $scope.bars.names[0].selected = true;
+                        self.bars.names.push({ name: elmt.name, open: false, active: ind === 0});
+                    });
                 },
                 // Error
                 function(res) {
                     console.log(res);
                 }
-            );$scope.shifts
+            );
         };
-        // Retrieve shifts
-        $scope.retrieveShifts = function(date) {
-            if (date === undefined)
-                var date = $scope.dateslider.getSimpleStartDate();
+        this.retrieveShifts = function(date) {
+            var date = date || datesliderService.getSimpleStartDate();
 
-            // Clear earlier data
+            // Clear previous data (do NOT clear self.shifts by using { } as this will remove the binding to the controller)
             setAllBarsClosed();
-            $scope.shifts = {};
+            for (var e in self.shifts) if (self.shifts.hasOwnProperty(e)) delete self.shifts[e];
 
             // Set to loading
-            $scope.loadingShifts = true;
+            self.loadingShifts = true;
 
             $http.get('/api/shifts/' + date)
             .then(
@@ -89,31 +141,27 @@ app
                         if (res.data.hasOwnProperty(key)) {
                             // Set this bar as open
                             setBarOpen(key);
-                            $scope.shifts[key] = sortByDescription(res.data[key]);
+                            self.shifts[key] = sortByDescription(res.data[key]);
                         }
                     }
-                    $scope.loadingShifts = false;
+                    self.loadingShifts = false;
                 },
                 // Error
                 function(res) {
-
+                    console.log(res);
                 }
             );
         };
 
-        $scope.hasManagingRights = function() {
-            return auth.isAuthorized(['admin', 'moderator']);
-        }
-
         // Helper functions
-        // Function to set open to true in @scope.bars
+        // Function to set open to true in this.bars
         var setAllBarsClosed = function(bar) {
-            $.each($scope.bars.names, function(ind, elmt) {
+            $.each(self.bars.names, function(ind, elmt) {
                 elmt.open = false;
             });
         };
         var setBarOpen = function(bar) {
-            $.each($scope.bars.names, function(ind, elmt) {
+            $.each(self.bars.names, function(ind, elmt) {
                 if (elmt.name === bar)
                     elmt.open = true;
             });
@@ -171,10 +219,30 @@ app
     }]
 )
 
+.service('datesliderService', [
+    function() {
+        this.startDate = moment();
+        this.dateDelta = 0;
+
+        this.getDate = function() {
+            return moment(this.startDate).add(this.dateDelta, 'days');
+        };
+        this.getDatePretty = function() {
+            return moment(this.startDate).add(this.dateDelta, 'days').norsk('dddd D. MMMM YYYY').capitalize();
+        };
+        this.getSimpleDate = function() {
+            return this.getDate().format('YYYY-MM-DD');
+        };
+        this.getSimpleStartDate = function() {
+            return this.startDate.format('YYYY-MM-DD');
+        };
+    }]
+)
+
 .directive('dateslider',
     function() {
         return {
-            retrict: 'E',
+            restrict: 'E',
             replace: true,
             templateUrl: '/views/vaktsys/dateslider.html',
         };
@@ -183,9 +251,18 @@ app
 .directive('shiftlist',
     function() {
         return {
-            retrict: 'E',
+            restrict: 'E',
             replace: true,
             templateUrl: '/views/vaktsys/shiftlist.html',
         };
     }
-);
+)
+.directive('personcard',
+    function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: '/views/vaktsys/personcard.html',
+        };
+    }
+)
