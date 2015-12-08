@@ -65,7 +65,7 @@ app
     function($scope, $http, USER_ROLES, auth, vaktsysService, datesliderService) {
 
         $scope.loadingShifts = vaktsysService.loadingShifts;
-        $scope.bars = vaktsysService.bars;
+        $scope.workplaces = vaktsysService.workplaces;
         $scope.shifts = vaktsysService.shifts;
 
         // Initialize dateslider
@@ -78,8 +78,8 @@ app
             getSimpleStartDate: datesliderService.getSimpleStartDate
         }
 
-        // Retrieve bars
-        $scope.retrieveBars = vaktsysService.retrieveBars;
+        // Retrieve workplaces
+        $scope.retrieveWorkplaces = vaktsysService.retrieveWorkplaces;
         // Retrieve shifts
         $scope.retrieveShifts = vaktsysService.retrieveShifts;
 
@@ -88,7 +88,7 @@ app
         }
 
         $scope.init = function() {
-            vaktsysService.retrieveBars();
+            vaktsysService.retrieveWorkplaces();
             vaktsysService.retrieveShifts();
         }
 
@@ -101,20 +101,20 @@ app
         var self = this;
 
         this.loadingShifts = false;
-        this.bars = {
-            curBar: "Bodegaen",
+        this.workplaces = {
+            curWorkplace: "Bodegaen",
             names: []
         };
         this.shifts = {
 
         };
 
-        this.retrieveBars = function() {
-            $http.get('/api/bars').then(
+        this.retrieveWorkplaces = function() {
+            $http.get('/api/workplaces').then(
                 // Success
                 function(res) {
                     $.each(res.data, function(ind, elmt) {
-                        self.bars.names.push({ name: elmt.name, open: false, active: ind === 0});
+                        self.workplaces.names.push({ name: elmt.name, open: false, active: ind === 0});
                     });
                 },
                 // Error
@@ -127,7 +127,7 @@ app
             var date = date || datesliderService.getSimpleStartDate();
 
             // Clear previous data (do NOT clear self.shifts by using { } as this will remove the binding to the controller)
-            setAllBarsClosed();
+            setAllWorkplacesClosed();
             for (var e in self.shifts) if (self.shifts.hasOwnProperty(e)) delete self.shifts[e];
 
             // Set to loading
@@ -139,8 +139,8 @@ app
                 function(res) {
                     for (var key in res.data) {
                         if (res.data.hasOwnProperty(key)) {
-                            // Set this bar as open
-                            setBarOpen(key);
+                            // Set this workplace as open
+                            setWorkplaceOpen(key);
                             self.shifts[key] = sortByDescription(res.data[key]);
                         }
                     }
@@ -154,15 +154,15 @@ app
         };
 
         // Helper functions
-        // Function to set open to true in this.bars
-        var setAllBarsClosed = function(bar) {
-            $.each(self.bars.names, function(ind, elmt) {
+        // Function to set open to true in this.workplaces
+        var setAllWorkplacesClosed = function(workplace) {
+            $.each(self.workplaces.names, function(ind, elmt) {
                 elmt.open = false;
             });
         };
-        var setBarOpen = function(bar) {
-            $.each(self.bars.names, function(ind, elmt) {
-                if (elmt.name === bar)
+        var setWorkplaceOpen = function(workplace) {
+            $.each(self.workplaces.names, function(ind, elmt) {
+                if (elmt.name === workplace)
                     elmt.open = true;
             });
         };
@@ -183,7 +183,7 @@ app
                 else
                     return 1;
         };
-        // Function to sort shift in one bar by description ("Tidlig", "Sent", "Bacalao", custom)
+        // Function to sort shift in one workplace by description ("Tidlig", "Sent", "Bacalao", custom)
         var sortByDescription = function(data) {
             // Firt we place all shifts in an object per their description
             var items = {};
@@ -193,7 +193,7 @@ app
 
                 items[elmt.description].push({
                     user_id: elmt.user_id,
-                    name: elmt.name,
+                    name: elmt.user_name,
                     image: elmt.image,
                     role: elmt.role,
                     start: elmt.start,

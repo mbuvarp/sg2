@@ -25,52 +25,6 @@ const COMPARATOR = {
     EQUALS: '=',
 };
 function buildQuery(params) {
-    // Example param
-    // var params = {
-    //     statement: STATEMENT.SELECT,
-    //     fields: [
-    //         ['u.id', 'user_id'],
-    //         ['bs.id', 'bar_shift_id'],
-    //         ['us.id', 'user_shift_id'],
-    //         ['u.name', 'user_name'],
-    //         ['us.role', 'user_role'],
-    //         ['b.name', 'bar_name']
-    //     ],
-    //     from: [
-    //         ['users', 'u'],
-    //         ['bar_shifts', 'bs'],
-    //         ['user_shifts', 'us'],
-    //         ['bars', 'b']
-    //     ],
-    //     where: [
-    //         {
-    //             left: 'u.id',
-    //             right: 'us.user_id',
-    //             comparator: COMPARATOR.EQUALS
-    //         },
-    //         {
-    //             left: 'us.bar_shift_id',
-    //             right: 'bs.id',
-    //             comparator: COMPARATOR.EQUALS
-    //         },
-    //         {
-    //             left: 'u.id',
-    //             right: '1',
-    //             comparator: COMPARATOR.EQUALS
-    //         },
-    //         {
-    //             left: 'bs.bar_id',
-    //             right: 'b.id',
-    //             comparator: COMPARATOR.EQUALS
-    //         },
-    //         {
-    //             left: 'DATE(bs.start)',
-    //             right: 'DATE(\'2015-12-07\')',
-    //             comparator: COMPARATOR.EQUALS
-    //         }
-    //     ]
-    // };
-
     var ret = '';
     ret += params.statement + ' ';
 
@@ -116,13 +70,13 @@ exports.test = function() {
             ['us.id', 'user_shift_id'],
             ['u.name', 'user_name'],
             ['us.role', 'user_role'],
-            ['b.name', 'bar_name']
+            ['w.name', 'workplace_name']
         ],
         from: [
             ['users', 'u'],
             ['bar_shifts', 'bs'],
             ['user_shifts', 'us'],
-            ['bars', 'b']
+            ['workplaces', 'w']
         ],
     }
     console.log(buildQuery(params));
@@ -152,42 +106,38 @@ function query(query) {
     return defer.promise;
 }
 
-exports.getAllBars = function() {
-    return query('SELECT * FROM bars ORDER BY name ASC;');
+exports.getAllWorkplaces = function() {
+    return query('SELECT * FROM workplaces ORDER BY name ASC;');
 }
 exports.getShifts = function(date, user) {
-    // var qry = 'SELECT bars.name AS bar, bar_shifts.id AS bar_shift_id, user_shifts.id AS user_shift_id, bar_shifts.start, bar_shifts.finish, bar_shifts.description, ' +
-    //             'users.id AS user_id, users.name, users.image, user_shifts.role ' +
-    //             'FROM bars, user_shifts, bar_shifts, users ' +
-    //             'WHERE user_shifts.bar_shift_id = bar_shifts.id ' +
-    //             'AND user_shifts.user_id = users.id ' +
-    //             'AND bars.id = bar_shifts.bar_id' +
-    //             (date !== '-' ? ' AND DATE(bar_shifts.start)=DATE(\'' + date + '\');' : ';');
     
     var params =
     {
         statement: STATEMENT.SELECT,
         fields: [
-                    ['b.name', 'bar_name'],
+                    ['w.name', 'workplace_name'],
                     ['us.id', 'user_shift_id'],
                     'us.role',
-                    'us.start',
-                    'us.finish',
+                    ['us.start', 'user_shift_start'],
+                    ['us.finish', 'user_shift_finish'],
                     ['s.id', 'shift_id'],
+                    ['s.start', 'shift_start'],
+                    ['s.finish', 'shift_finish'],
                     's.description',
                     ['u.id', 'user_id'],
-                    ['u.name', 'user_name']
+                    ['u.name', 'user_name'],
+                    'u.image'
                 ],
         from:   [
                     ['users', 'u'],
                     ['shifts', 's'],
                     ['user_shifts', 'us'],
-                    ['bars', 'b']
+                    ['workplaces', 'w']
                 ],
         where:  [
                     { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
                     { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
-                    { left: 's.bar_id', right: 'b.id', comparator: COMPARATOR.EQUALS }
+                    { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS }
                 ]
     };
     if (date !== '-')

@@ -69,18 +69,18 @@ function getShifts(req, res) {
         for (var r = 0; r < data.length; ++r) {
             var curRes = data[r];
 
-            if (ret[curRes.bar] == undefined)
-                ret[curRes.bar] = [];
+            if (ret[curRes.workplace_name] == undefined)
+                ret[curRes.workplace_name] = [];
 
-            ret[curRes.bar].push({
+            ret[curRes.workplace_name].push({
                 user_id: Number(curRes.user_id),
-                bar_shift_id: Number(curRes.bar_shift_id),
+                shift_id: Number(curRes.shift_id),
                 user_shift_id: Number(curRes.user_shift_id),
-                name: curRes.name,
+                user_name: curRes.user_name,
                 image: curRes.image,
                 role: curRes.role,
-                start: curRes.start,
-                finish: curRes.finish,
+                start: curRes.user_shift_start || curRes.shift_start,
+                finish: curRes.user_shift_finish || curRes.shift_finish,
                 description: curRes.description
             });
         }
@@ -91,8 +91,8 @@ function getShifts(req, res) {
         res.send(err);
     });
 }
-function getBars(req, res) {
-    db.getAllBars()
+function getWorkplaces(req, res) {
+    db.getAllWorkplaces()
     .then(function(data) {
         res.status(200).json(data);
     }, function(err, status) {
@@ -122,10 +122,10 @@ function test(req, res) {
 exports.run = function(app) {
 
     // API Get
-    app.get('/api/bars',
+    app.get('/api/workplaces',
         function(req, res) {
             console.log("GET %s", req.path);
-            getBars(req, res);
+            getWorkplaces(req, res);
         }
     );
     app.get('/api/shifts/:date',

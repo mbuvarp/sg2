@@ -1,7 +1,9 @@
 <table>
     <tr>
         <td class="user-image" rowspan="4">
-            <div style="background-image: url('{{ person.image ? person.image : '' }}');"></div>
+            <div style="background-image: url('{{person.image === 'default' ?
+                                                 '/img/users/default/default' :
+                                                 '/img/users/' + person.user_id + '/' + person.image }}');"></div>
         </td>
         <td class="user-info name-role" colspan="2">
             <span class="name" ng-bind="person.name"></span>

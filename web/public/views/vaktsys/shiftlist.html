@@ -5,7 +5,7 @@
 
     <ul class="shift-list" ng-show="!loadingShifts">
 
-        <li class="shift {{ shifts[bars.curBar].length === 1 ? 'wide' : '' }}" ng-repeat="shift in shifts[bars.curBar]">
+        <li class="shift {{ shifts[workplaces.curWorkplace].length === 1 ? 'wide' : '' }}" ng-repeat="shift in shifts[workplaces.curWorkplace]">
             <h3 class="shift-description" ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
 
             <ul class="person-list">
@@ -19,8 +19,8 @@
             </ul>
         </li>
 
-        <li class="no-shifts" ng-show="!shifts[bars.curBar].length"
-            ng-bind="'Ingen vakter i ' + bars.curBar + ' denne dagen!'">
+        <li class="no-shifts" ng-show="!shifts[workplaces.curWorkplace].length"
+            ng-bind="'Ingen vakter i ' + workplaces.curWorkplace + ' denne dagen!'">
         </li>
 
     </ul>
