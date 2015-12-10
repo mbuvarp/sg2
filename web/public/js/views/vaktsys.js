@@ -5,57 +5,51 @@ $(document).ready(function() {
     var right = 'main #view-vaktsys #shift-display #right ';
     var left = 'main #view-vaktsys #shift-display #left ';
 
-    // Make active tab look active
+    // Make active tab look active and save active bar in localStorage
     $(document).on('click', left + 'li:not(.blank)', function() {
         $('main #view-vaktsys #shift-display #left li').removeClass('active');
         $(this).addClass('active');
+
+        var bar = $(this).attr('id').split('-')[1];
+        localStorage['vaktsys_bar_active'] = bar;
     });
     // Extend li.person on edit
-    $(document).on('click', right + '#shift-list li.person td.manage.edit i', function() {
+    $(document).on('click', right + '#shift-list li.person div.manage div.edit i', function() {
         // Find correct li.person and check if already extended
         var li = $($(this).closest('li.person'));
         if (li.data('extended') === 'true')
             return;
 
         // Find height of manage-buttons and extend to show them
-        var height = $(right + '#shift-list li.person td.manage.cancel').height();
-        $(right + '#shift-list li.person td.manage.cancel, td.manage.save').show();
+        var height = $(right + '#shift-list li.person div.bottom').height();
         li.animate({
             height: '+=' + height + 'px'
         }, 200);
 
         // Set data-extended to true
-        li.data('extended', 'true')
+        li.data('extended', 'true');
+        // Hide this button
+        $(this).fadeOut(100);
     });
     // Cancel/save editing li.person (only visual, backend is taken care of by angular controller)
-    $(document).on('click', right + '#shift-list li.person td.manage.cancel, td.manage.save', function() {
+    $(document).on('click', right + '#shift-list li.person div.bottom div.cancel, div.confirm', function() {
         // Find correct li.person and check if already extended
         var li = $($(this).closest('li.person'));
         if (li.data('extended') === 'false')
             return;
 
         // Find height of manage-buttons and extend to show them
-        var height = $(right + '#shift-list li.person td.manage.cancel').height();
-        $(right + '#shift-list li.person td.manage.cancel, td.manage.save').show();
+        var height = $(right + '#shift-list li.person div.bottom').height();
         li.animate({
             height: '-=' + height + 'px'
         }, 200);
 
         // Set data-extended to true
         li.data('extended', 'false')
+        // Show edit/remove-buttons
+        $(right + '#shift-list li.person div.manage div.edit i').fadeIn(100);
+        $(right + '#shift-list li.person div.manage div.remove i').fadeIn(100)
     });
-    // This listener makes sure the max-height property of the shift-list
-    // is always equal to the height og the tabs on the left
-    // $(document).on('DOMSubtreeModified', left + 'ul', function() {
-    //     var hgt = $(this).height();
-    //     $(right).css(
-    //         {
-    //             'max-height': hgt,
-    //             'min-height': hgt,
-    //             'height': hgt
-    //         }
-    //     );
-    // });
 });
 
 // App
@@ -64,9 +58,20 @@ app
 .controller('vaktsysController', ['$scope', '$http', 'USER_ROLES', 'auth', 'vaktsysService', 'datesliderService',
     function($scope, $http, USER_ROLES, auth, vaktsysService, datesliderService) {
 
-        $scope.loadingShifts = vaktsysService.loadingShifts;
-        $scope.workplaces = vaktsysService.workplaces;
-        $scope.shifts = vaktsysService.shifts;
+        $scope.loadingShifts = false;
+        $scope.workplaces = {
+            curWorkplace: "Bodegaen",
+            names: []
+        };
+        $scope.roles = [];
+        $scope.shifts = {
+
+        };
+
+        // Management variables
+        $scope.managed = {
+
+        };
 
         // Initialize dateslider
         $scope.dateslider = {
@@ -76,96 +81,232 @@ app
             getDatePretty: datesliderService.getDatePretty,
             getSimpleDate: datesliderService.getSimpleDate,
             getSimpleStartDate: datesliderService.getSimpleStartDate
-        }
+        };
+
+        $scope.setCurrentlyManaging = function (wp, id, bool) {
+            $scope.managed[wp][id].currentlyManaging = bool;
+        };
+        $scope.resetManagingChanges = function(wp, id) {
+            // TODO Should reset managed
+            $scope.setCurrentlyManaging(wp, id, false);
+        };
+        $scope.updateShiftsFromManaged = function(wp, id) {
+            console.log($scope.shifts);
+            console.log($scope.managed);
+        };
+        $scope.saveManagingChanges = function(wp, id) {
+            // If not actually managing (someone has been hacking!!), then return
+            if (!$scope.managed[wp][id].currentlyManaging)
+                return;
+
+            var dis = $scope.managed[wp][id];
+            return vaktsysService.updateUserShift(
+                                                      dis.user_id,
+                                                      dis.user_shift_id,
+                                                      Number(dis.role_id),
+                                                      dis.start,
+                                                      dis.finish
+                                                  )
+            .then(
+                function(data) {
+                    $scope.updateShiftsFromManaged(wp, id);
+                    $scope.resetManagingChanges(wp, id);
+
+                },
+                function(err) {
+                    $scope.resetManagingChanges(wp, id);
+                }
+            );
+        };
 
         // Retrieve workplaces
-        $scope.retrieveWorkplaces = vaktsysService.retrieveWorkplaces;
+        $scope.retrieveWorkplaces = function() {
+            return vaktsysService.retrieveWorkplaces()
+            .then(
+                function(data) {
+                    $scope.workplaces = data;
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        };
+        // Retrieve roles
+        $scope.retrieveRoles = function() {
+            return vaktsysService.retrieveRoles()
+            .then(
+                function(data) {
+                    $scope.roles = data;
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
+        };
         // Retrieve shifts
-        $scope.retrieveShifts = vaktsysService.retrieveShifts;
+        $scope.retrieveShifts = function(date) {
+            // Reset shit and set to loading
+            $scope.loadingShifts = true;
+            setAllWorkplacesClosed();
+            $scope.shifts = { };
+
+            return vaktsysService.retrieveShifts(date)
+            .then(
+                function(data) {
+                    $scope.shifts = data;
+                    setWorkplacesOpen();
+                    $scope.loadingShifts = false;
+                },
+                function(err) {
+                    console.log(err);
+                }
+            )
+            .then(
+                function() {
+                    initManaged($scope.shifts);
+                }
+            );
+        };
 
         $scope.hasManagingRights = function() {
             return auth.isAuthorized(['admin', 'moderator']);
         }
 
-        $scope.init = function() {
-            vaktsysService.retrieveWorkplaces();
-            vaktsysService.retrieveShifts();
-        }
+        // Helper functions
+        // Function to set open to true in this.workplaces
+        var setAllWorkplacesClosed = function() {
+            $.each($scope.workplaces.names, function(ind, elmt) {
+                elmt.open = false;
+            });
+        };
+        var setWorkplacesOpen = function() {
+            for (var w in $scope.shifts)
+                if ($scope.shifts.hasOwnProperty(w))
+                    $.each($scope.workplaces.names, function(ind, elmt) {
+                        if (elmt.name === w)
+                            elmt.open = true;
+                    });
+        };
+        var initManaged = function(shifts) {
+            for (var w in shifts) {
+                if (shifts.hasOwnProperty(w)) {
+                    $scope.managed[w] = { };
+                    $.each(shifts[w], function(ind, elmt) {
+                        $.each(elmt.people, function(ind2, elmt2) {
+                            var dis = $scope.managed[w][elmt2.user_id] = { };
+                            dis['currentlyManaging'] = false;
+                            dis['user_id'] = elmt2.user_id;
+                            dis['shift_id'] = elmt2.shift_id;
+                            dis['user_shift_id'] = elmt2.user_shift_id;
+                            dis['name'] = elmt2.name;
+                            dis['role_id'] = elmt2.role_id;
+                            dis['start'] = elmt2.start;
+                            dis['finish'] = elmt2.finish;
+                        });
+                    });
+                }
+            }
+        };
 
+        $scope.init = function() {
+            $scope.retrieveWorkplaces();
+            $scope.retrieveRoles();
+            $scope.retrieveShifts();
+        }
         $scope.init();
     }]
 )
 
-.service('vaktsysService', ['$http', 'datesliderService',
-    function($http, datesliderService) {
-        var self = this;
-
-        this.loadingShifts = false;
-        this.workplaces = {
-            curWorkplace: "Bodegaen",
-            names: []
-        };
-        this.shifts = {
-
-        };
+.service('vaktsysService', ['$http', 'datesliderService', '$q',
+    function($http, datesliderService, $q) {
 
         this.retrieveWorkplaces = function() {
+            var defer = $q.defer();
             $http.get('/api/workplaces').then(
                 // Success
-                function(res) {
-                    $.each(res.data, function(ind, elmt) {
-                        self.workplaces.names.push({ name: elmt.name, open: false, active: ind === 0});
+                function(data) {
+                    var workplaces = {
+                        curWorkplace: "Bodegaen",
+                        names: []
+                    };
+                    $.each(data.data, function(ind, elmt) {
+                        // This shit is to ensure that the user ends up in the tab that was open when he last closed the page.
+                        var active = ind === 0;
+                        var ls = localStorage['vaktsys_bar_active'];
+                        active = (ls !== undefined && ls === elmt.name);
+                        if (active)
+                            workplaces.curWorkplace = elmt.name;
+                        workplaces.names.push({ name: elmt.name, open: false, active: active});
                     });
+                    defer.resolve(workplaces);
                 },
                 // Error
-                function(res) {
-                    console.log(res);
+                function(err) {
+                    defer.reject(err);
                 }
             );
+            return defer.promise;
         };
         this.retrieveShifts = function(date) {
+            var defer = $q.defer();
             var date = date || datesliderService.getSimpleStartDate();
-
-            // Clear previous data (do NOT clear self.shifts by using { } as this will remove the binding to the controller)
-            setAllWorkplacesClosed();
-            for (var e in self.shifts) if (self.shifts.hasOwnProperty(e)) delete self.shifts[e];
-
-            // Set to loading
-            self.loadingShifts = true;
-
             $http.get('/api/shifts/' + date)
             .then(
                 // Success
-                function(res) {
-                    for (var key in res.data) {
-                        if (res.data.hasOwnProperty(key)) {
-                            // Set this workplace as open
-                            setWorkplaceOpen(key);
-                            self.shifts[key] = sortByDescription(res.data[key]);
-                        }
-                    }
-                    self.loadingShifts = false;
+                function(data) {
+                    var shifts = { };
+                    for (var key in data.data)
+                        if (data.data.hasOwnProperty(key))
+                            shifts[key] = sortByDescription(data.data[key]);
+                    defer.resolve(shifts);
                 },
                 // Error
-                function(res) {
-                    console.log(res);
+                function(err) {
+                    defer.reject(err);
                 }
             );
+            return defer.promise;
         };
+        this.retrieveRoles = function() {
+            var defer = $q.defer();
+
+            $http.get('/api/roles/')
+            .then(
+                function(data) {
+                    defer.resolve(data.data);
+                },
+                function(err) {
+                    defer.reject(err);
+                }
+            );
+
+            return defer.promise;
+        }
+
+        this.updateUserShift = function(user_id, user_shift_id, role_id, start, finish) {
+            var defer = $q.defer();
+
+            $http.post('/api/user_shifts/',
+            {
+                user_id: user_id,
+                user_shift_id: user_shift_id,
+                role_id: role_id,
+                start: start,
+                finish: finish
+            })
+            .then(
+                function(data) {
+                    defer.resolve(data);
+                },
+                function(err) {
+                    defer.reject(err);
+                }
+            );
+
+            return defer.promise;
+        }
 
         // Helper functions
-        // Function to set open to true in this.workplaces
-        var setAllWorkplacesClosed = function(workplace) {
-            $.each(self.workplaces.names, function(ind, elmt) {
-                elmt.open = false;
-            });
-        };
-        var setWorkplaceOpen = function(workplace) {
-            $.each(self.workplaces.names, function(ind, elmt) {
-                if (elmt.name === workplace)
-                    elmt.open = true;
-            });
-        };
         // Custom sorting for shifts
         var shiftSort = function(keyA, keyB) {
             if (keyA === 'Sent')
@@ -193,8 +334,11 @@ app
 
                 items[elmt.description].push({
                     user_id: elmt.user_id,
+                    shift_id: elmt.shift_id,
+                    user_shift_id: elmt.user_shift_id,
                     name: elmt.user_name,
                     image: elmt.image,
+                    role_id: elmt.role_id,
                     role: elmt.role,
                     start: elmt.start,
                     finish: elmt.finish
@@ -266,3 +410,28 @@ app
         };
     }
 )
+
+.directive('timeInput', function() {
+    return {
+        require: 'ngModel',
+        link:
+        function(scope, element, attrs, ngModelController) {
+            ngModelController.$parsers.push(
+                function(data) {
+                    // Convert data from view format to model format
+                    var ret = moment(ngModelController.$modelValue).format('YYYY-MM-DD');
+                    ret += ' ' + data;
+                    return moment(ret).isValid() ? moment(ret).toISOString() : ngModelController.$modelValue;
+                }
+            );
+
+            ngModelController.$formatters.push(
+                function(data) {
+                    // Convert data from model format to view format
+                    data = moment(data).format('HH:mm');
+                    return data; //converted
+                }
+            );
+        }
+    }
+});

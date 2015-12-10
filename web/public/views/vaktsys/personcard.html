@@ -1,36 +1,54 @@
-<table>
-    <tr>
-        <td class="user-image" rowspan="4">
+<div class="person-card">
+    <div class="top">
+        <div class="image">
             <div style="background-image: url('{{person.image === 'default' ?
-                                                 '/img/users/default/default' :
-                                                 '/img/users/' + person.user_id + '/' + person.image }}');"></div>
-        </td>
-        <td class="user-info name-role" colspan="2">
-            <span class="name" ng-bind="person.name"></span>
-            <span class="role" ng-bind="person.role"></span>
-        </td>
-        <td class="manage edit"  rowspan="2" ng-if="hasManagingRights()">
-            <i class="fa fa-edit"></i>
-        </td>
-    </tr>
-    <tr>
-        <td class="user-info time" colspan="2">
-            <span class="bold">Starter: </span><span ng-bind="person.start | date:'HH:mm'"></span>
-        </td>
-    </tr>
-    <tr>
-        <td class="user-info time" colspan="2">
-            <span class="bold">Slutter: </span><span ng-bind="person.finish | date:'HH:mm'"></span>
-        </td>
-        <td class="manage remove" rowspan="2" ng-if="hasManagingRights()">
-            <i class="fa fa-remove"></i>
-        </td>
-    </tr>
-    <tr>
-        <td class="user-info" colspan="2">&nbsp;</td>
-    </tr>
-    <tr ng-if="hasManagingRights()">
-        <td colspan="2" class="manage cancel">Avbryt</td>
-        <td colspan="2" class="manage save">Lagre</td>
-    </tr>
-</table>
+                                              '/img/users/default/default' :
+                                              '/img/users/' + person.user_id + '/' + person.image }}');"
+                 title="{{ person.name }}"></div>
+        </div>
+        <div class="info">
+            <div class="name-role">
+                <div class="name">
+                    <span ng-bind="person.name" ng-show="!managed[workplaces.curWorkplace][person.user_id].currentlyManaging"></span>
+                    <input type="text" ng-if="hasManagingRights()" ng-show="managed[workplaces.curWorkplace][person.user_id].currentlyManaging"
+                           ng-model="managed[workplaces.curWorkplace][person.user_id].name">
+                </div>
+                <div class="role">
+                    <span ng-bind="'[' + person.role + ']'" ng-show="!managed[workplaces.curWorkplace][person.user_id].currentlyManaging"></span>
+                    <select ng-if="hasManagingRights()" ng-show="managed[workplaces.curWorkplace][person.user_id].currentlyManaging"
+                            ng-model="managed[workplaces.curWorkplace][person.user_id].role_id">
+                        <option ng-repeat="role in roles" value="{{ role.id }}" ng-bind="role.name"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="time start">
+                <span class="bold">Starter: </span>
+                <span ng-bind="person.start | date:'HH:mm'" ng-show="!managed[workplaces.curWorkplace][person.user_id].currentlyManaging"></span>
+                <input time-input type="text" ng-if="hasManagingRights()" ng-show="managed[workplaces.curWorkplace][person.user_id].currentlyManaging"
+                       ng-model="managed[workplaces.curWorkplace][person.user_id].start">
+            </div>
+            <div class="time end">
+                <span class="bold">Slutter: </span>
+                <span ng-bind="person.finish | date:'HH:mm'" ng-show="!managed[workplaces.curWorkplace][person.user_id].currentlyManaging"></span>
+                <input time-input type="text" ng-if="hasManagingRights()" ng-show="managed[workplaces.curWorkplace][person.user_id].currentlyManaging"
+                       ng-model="managed[workplaces.curWorkplace][person.user_id].finish">
+            </div>
+        </div>
+        <div class="manage" ng-if="hasManagingRights()">
+            <div class="edit">
+                <i class="fa fa-edit" ng-click="setCurrentlyManaging(workplaces.curWorkplace, person.user_id, true);"></i>
+            </div>
+            <div class="remove" ng-click="">
+                <i class="fa fa-remove"></i>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="cancel" ng-click="resetManagingChanges(workplaces.curWorkplace, person.user_id);">
+            Avbryt
+        </div>
+        <div class="confirm" ng-click="saveManagingChanges(workplaces.curWorkplace, person.user_id);">
+            Lagre
+        </div>
+    </div>
+</div>

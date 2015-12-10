@@ -117,7 +117,7 @@ exports.getShifts = function(date, user) {
         fields: [
                     ['w.name', 'workplace_name'],
                     ['us.id', 'user_shift_id'],
-                    'us.role',
+                    'us.role_id',
                     ['us.start', 'user_shift_start'],
                     ['us.finish', 'user_shift_finish'],
                     ['s.id', 'shift_id'],
@@ -126,24 +126,37 @@ exports.getShifts = function(date, user) {
                     's.description',
                     ['u.id', 'user_id'],
                     ['u.name', 'user_name'],
-                    'u.image'
+                    'u.image',
+                    ['r.id', 'role_id'],
+                    ['r.name', 'role_name']
                 ],
         from:   [
                     ['users', 'u'],
                     ['shifts', 's'],
                     ['user_shifts', 'us'],
-                    ['workplaces', 'w']
+                    ['workplaces', 'w'],
+                    ['roles', 'r']
                 ],
         where:  [
                     { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
                     { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
-                    { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS }
+                    { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS },
+                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS }
                 ]
     };
     if (date !== '-')
         params.where.push({ left: 'DATE(s.start)', right: 'DATE(\'' + date + '\')', comparator: COMPARATOR.EQUALS });
 
     var qry = buildQuery(params);
+    return query(qry);
+}
+exports.getRoles = function() {
+    return query('SELECT * FROM roles ORDER BY id ASC;');
+}
+
+exports.updateUserShift = function(user_id, user_shift_id, role_id, start, finish) {
+    var proto = 'UPDATE user_shifts SET role_id={0}, start=TIMESTAMP \'{1}\', finish=TIMESTAMP \'{2}\' WHERE id={3} AND user_id={4};';
+    var qry = proto.format(role_id, start, finish, user_shift_id, user_id);
     return query(qry);
 }
 

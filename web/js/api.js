@@ -78,7 +78,8 @@ function getShifts(req, res) {
                 user_shift_id: Number(curRes.user_shift_id),
                 user_name: curRes.user_name,
                 image: curRes.image,
-                role: curRes.role,
+                role_id: curRes.role_id,
+                role: curRes.role_name,
                 start: curRes.user_shift_start || curRes.shift_start,
                 finish: curRes.user_shift_finish || curRes.shift_finish,
                 description: curRes.description
@@ -99,6 +100,31 @@ function getWorkplaces(req, res) {
         console.log(err);
         res.status(status || 400).send(err);
     });
+}
+function getRoles(req, res) {
+    db.getRoles()
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(status || 400).send(err);
+        }
+    );
+}
+
+function updateUserShift(req, res, user_id, user_shift_id, role_id, start, finish) {
+    db.updateUserShift(user_id, user_shift_id, role_id, start, finish)
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(status || 400).send(err);
+        }
+    );
 }
 
 function login(req, res) {
@@ -152,6 +178,12 @@ exports.run = function(app) {
             );
         }
     );
+    app.get('/api/roles',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            getRoles(req, res);
+        }
+    );
 
     app.get('/api/test', 
         function(req, res) {
@@ -161,7 +193,9 @@ exports.run = function(app) {
     );
 
     // API Post
-    app.post('/api/login',
+    app
+
+    .post('/api/login',
         function(req, res) {
             console.log("POST %s", req.path);
             login(req, res)
@@ -172,6 +206,21 @@ exports.run = function(app) {
                 }, function(err) {
                     res.status(401).json({ success: false, jwtToken: null });
                 }
+            );
+        }
+    )
+
+    .post('/api/user_shifts',
+        function(req, res) {
+            console.log("POST %s", req.path);
+            updateUserShift(
+                req,
+                res,
+                req.body.user_id,
+                req.body.user_shift_id,
+                req.body.role_id,
+                req.body.start,
+                req.body.finish
             );
         }
     );

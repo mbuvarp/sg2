@@ -5,7 +5,8 @@
                 <li class="blank"></li>
                 <li ng-repeat="workplace in workplaces.names"
                     class="{{ workplace.active ? 'active' : '' }}"
-                    ng-click="workplaces.curWorkplace = workplace.name">
+                    ng-click="workplaces.curWorkplace = workplace.name"
+                    id="workplace-{{ workplace.name }}">
                     <span ng-bind="workplace.name" class="{{ workplace.open ? 'open' : '' }}"></span>
                 </li>
             </ul>
