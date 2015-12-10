@@ -1,0 +1,40 @@
+{
+  "name": "SGNett2",
+  "version": "0.0.1",
+  "description": "SGNett 2.0 for KSG",
+  "main": "web/server.js",
+  "dependencies": {
+    "body-parser": "~1.14.1",
+    "express": "~4.13.3",
+    "moment": "~2.10.6",
+    "njwt": "~0.2.3",
+    "node-uuid": "~1.4.7",
+    "pg": "~4.4.3",
+    "pg-hstore": "~2.3.2",
+    "q": "~1.4.1",
+    "sequelize": "~3.14.2",
+    "underscore": "~1.8.3"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~1.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbuvarp/sg2_vaktsys.git"
+  },
+  "keywords": [
+    "sg2",
+    "sgnett2",
+    "ksg"
+  ],
+  "author": "KSG-IT",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/mbuvarp/sg2_vaktsys/issues"
+  }
+}
