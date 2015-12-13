@@ -92,6 +92,9 @@ function getShifts(req, res) {
         res.send(err);
     });
 }
+function getUserShift(req, res) {
+
+}
 function getWorkplaces(req, res) {
     db.getAllWorkplaces()
     .then(function(data) {
@@ -103,19 +106,6 @@ function getWorkplaces(req, res) {
 }
 function getRoles(req, res) {
     db.getRoles()
-    .then(
-        function(data) {
-            res.status(200).json(data);
-        },
-        function(err) {
-            console.log(err);
-            res.status(status || 400).send(err);
-        }
-    );
-}
-
-function updateUserShift(req, res, user_id, user_shift_id, role_id, start, finish) {
-    db.updateUserShift(user_id, user_shift_id, role_id, start, finish)
     .then(
         function(data) {
             res.status(200).json(data);

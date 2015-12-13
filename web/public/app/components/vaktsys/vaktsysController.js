@@ -89,7 +89,6 @@ app
         $scope.resetManagingChanges = function(wp, id) {
             // TODO Should reset managed
             $scope.setCurrentlyManaging(wp, id, false);
-            console.log($scope.managed);
         };
         $scope.updateShiftsFromManaged = function(wp, id) {
             console.log($scope.shifts);
@@ -110,9 +109,9 @@ app
                                                   )
             .then(
                 function(data) {
+                    console.log(data);
                     $scope.updateShiftsFromManaged(wp, id);
                     $scope.resetManagingChanges(wp, id);
-
                 },
                 function(err) {
                     $scope.resetManagingChanges(wp, id);
@@ -144,7 +143,7 @@ app
                 }
             );
         };
-        // Retrieve shifts
+        // Retrieve shifts  
         $scope.retrieveShifts = function(date) {
             // Reset shit and set to loading
             $scope.loadingShifts = true;
@@ -164,6 +163,7 @@ app
             )
             .then(
                 function() {
+                    console.log($scope.shifts);
                     initManaged($scope.shifts);
                 }
             );
