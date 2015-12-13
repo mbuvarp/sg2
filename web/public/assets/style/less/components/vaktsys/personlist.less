@@ -1,0 +1,31 @@
+ul.person-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li.person {
+        height: 6em;
+        background-color: @lightestpurple;
+        border: 1px solid white;
+        border-width: 0 0 1px 1px;
+        overflow: hidden;
+
+        @import 'personcard.less';
+    }
+    li.person.add-person {
+        height: 3em;
+        cursor: pointer;
+
+        h3 {
+            width: 100%;
+            line-height: 2.5em;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: @darkpurple;
+        }
+    }
+    li.person.add-person:hover {
+        background-color: @lightpurple;
+    }
+}

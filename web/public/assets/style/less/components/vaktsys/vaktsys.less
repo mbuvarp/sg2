@@ -1,0 +1,23 @@
+div#view-vaktsys {
+    width: 100%;
+
+    div#shift-display {
+        width: 100%;
+
+        section#left {
+            float: left;
+            width: 25%;
+            background-color: @lightpurple;
+
+            @import 'workplacetabs.less';
+        }
+        section#right {
+            float: left;
+            width: 75%;
+
+            @import 'dateslider.less';
+
+            @import 'shiftlist.less';
+        }
+    }
+}

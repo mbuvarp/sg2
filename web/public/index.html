@@ -7,45 +7,61 @@
 
     <title ng-bind="title">SGNett 2.0</title>
 
-    <link rel="icon" type="image/png" href="/img/icons/logo32.png">
+    <link rel="icon" type="image/png" href="/assets/img/icons/logo32.png">
     
-    <link rel="stylesheet" type="text/css" href="/style/libs/font-awesome-4.5.0/css/font-awesome.css">
-    
-    <link rel="stylesheet" type="text/less" href="/style/global.less">
-    <link rel="stylesheet" type="text/less" href="/style/views/404.less">
-    <link rel="stylesheet" type="text/less" href="/style/views/front/front.less">
-    <link rel="stylesheet" type="text/less" href="/style/views/login/login.less">
-    <link rel="stylesheet" type="text/less" href="/style/views/vaktsys/vaktsys.less">
+    <link rel="stylesheet" type="text/css" href="/assets/style/libs/font-awesome-4.5.0/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/assets/style/css/style.css">
 
 </head>
 <body ng-controller="appController">
-    <!-- Libs -->
-    <script type="text/javascript" src="/libs/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script type="text/javascript" src="/libs/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="/libs/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/libs/moment/moment.min.js"></script>
-    <script type="text/javascript" src="/libs/underscore/underscore-min.js"></script>
-    <script type="text/javascript" src="/libs/less/dist/less.min.js"></script>
+    <!-- LIBS -->
 
-    <header ng-include="'/includes/header.html'" ng-if="isAuthenticated()"></header>
+    <script type="text/javascript" src="/assets/libs/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/underscore/underscore-min.js"></script>
+
+    <!-- END LIBS -->
+
+    <!-- ACTUAL CONTENT -->
+
+    <header ng-include="'/app/components/core/header/header.html'" ng-if="isAuthenticated()"></header>
 
     <logindialog ng-if="!isLoginPage &amp;&amp; visible"></logindialog>
 
     <main ui-view>
     </main>
 
-    <footer ng-include="'/includes/footer.html'"></footer>
+    <footer ng-include="'/app/components/core/footer/footer.html'"></footer>
+
+    <!-- END ACTUAL CONTENT -->
+
+    <!-- SCRIPTS -->
 
     <!-- Globals -->
-    <script type="text/javascript" src="/app.js"></script>
-    <script type="text/javascript" src="/js/global.js"></script>
-    <script type="text/javascript" src="/js/header.js"></script>
+    <script type="text/javascript" src="/assets/js/global.js"></script>
 
-    <!-- Page-specific -->
-    <script type="text/javascript" src="/js/views/front.js"></script>
-    <script type="text/javascript" src="/js/views/login.js"></script>
-    <script type="text/javascript" src="/js/views/vaktsys.js"></script>
+    <!-- App -->
+    <script type="text/javascript" src="/app/app.js"></script>
+    <!-- Core -->
+    <script type="text/javascript" src="/app/components/core/header/headerController.js"></script>
+    <!-- Front -->
+    <script type="text/javascript" src="/app/components/home/homeController.js"></script>
+    <!-- Login -->
+    <script type="text/javascript" src="/app/components/login/loginController.js"></script>
+    <script type="text/javascript" src="/app/components/login/directives/formautofillfix/formautofillfix.js"></script>
+    <script type="text/javascript" src="/app/components/login/directives/logindialog/logindialog.js"></script>
+    <script type="text/javascript" src="/app/components/login/directives/loginform/loginform.js"></script>
+    <!-- Vaktsys -->
+    <script type="text/javascript" src="/app/components/vaktsys/vaktsysController.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/vaktsysServices.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/directives/dateslider/dateslider.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/directives/personcard/personcard.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/directives/shiftlist/shiftlist.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/directives/timeinput/timeinput.js"></script>
+
+    <!-- END SCRIPTS -->
 
 </body>
 </html>

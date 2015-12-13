@@ -1,0 +1,30 @@
+// Variables and font-faces
+@import 'variables.less';
+
+// Core components
+@import 'components/core/header/header.less';
+@import 'components/core/footer/footer.less';
+
+// Components
+@import 'components/home/home.less';
+@import 'components/login/login.less';
+@import 'components/vaktsys/vaktsys.less';
+@import 'components/errors/404/404.less';
+
+// Body
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat Light";
+    -webkit-font-smoothing: antialiased;
+}
+
+// Global classes
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

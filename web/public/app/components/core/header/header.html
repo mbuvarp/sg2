@@ -1,0 +1,26 @@
+<div id="inner" ng-controller="headerController">
+    <div id="logo"><a ui-sref="home">SGNett 2.0</a></div>
+
+    <div id="menu">
+
+        <ul id="strip">
+            <li class="strip-menu-btn" id="btn-{{ submenu.id }}"
+                ng-repeat="submenu in menu" ng-bind="submenu.title"></li>
+        </ul>
+
+        <div class="dropdown" id="{{ submenu.id }}" ng-repeat="submenu in menu">
+            <table>
+                <thead>
+                    <tr>
+                        <th ng-repeat="group in submenu.itemGroups" ng-bind="group.title"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in menuByRow[$index]">
+                        <td ng-repeat="cell in row"><a ui-sref="{{ cell.state ? cell.state : false }}" ng-bind="cell.text"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

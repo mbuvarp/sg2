@@ -1,0 +1,20 @@
+{
+  "name": "sg2_vaktsys",
+  "homepage": "",
+  "authors": [
+    "Magnus Buvarp <magnusb.93@gmail.com>"
+  ],
+  "description": "SGNett 2.0 for KSG",
+  "main": "web/server.js",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ]
+}

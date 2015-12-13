@@ -1,0 +1,52 @@
+div#shift-list {
+    width: 100%;
+
+    div.loading {
+        width: 100%;
+        height: 18em;
+        line-height: 18em;
+        text-align: center;
+
+        i {
+            font-size: 4em;
+            color: @darkpurple;
+        }
+    }
+
+    ul.shift-list {
+        box-sizing: border-box;
+        width: 100%;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li.shift {
+            width: 50%;
+            float: left;
+
+            h3.shift-description {
+                box-sizing: border-box;
+                width: 100%;
+                height: 3em;
+                line-height: 3em;
+                margin: 0;
+                text-align: center;
+                background-color: @lightestpurple;
+                border: 1px solid white;
+                border-width: 0 0 1px 1px;
+            }
+            
+            @import 'personlist.less';
+        }
+        li.shift.wide {
+            width: 100%;
+        }
+        li.no-shifts {
+            width: 100%;
+            height: 6em;
+            line-height: 5em;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    }
+}

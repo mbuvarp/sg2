@@ -1,0 +1,37 @@
+div#date-slider {
+    box-sizing: border-box;
+    width: 100%;
+    height: 4.5em;
+    padding: 0 12px;
+    text-align: center;
+    background-color: @lightpurple;
+    border-bottom: 1px solid white;
+
+    h2 {
+        margin: 0;
+        height: 2em;
+        line-height: 2.2em;
+        font-size: 1em;
+        color: @darkpurple;
+    }
+    input[type=range]{
+        width: 100%;
+        -webkit-appearance: none;
+        outline: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+        height: 1.5em;
+        background-color: @lightestpurple;
+        border: none;
+        padding: 0 0.2em;
+    }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 1.1em;
+        width: 12px;
+        margin-top: 0.2em;
+        background-color: @darkpurple;
+        cursor: pointer;
+    }
+}
