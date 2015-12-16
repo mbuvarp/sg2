@@ -24,20 +24,16 @@
             <div class="time start">
                 <span class="bold">Starter: </span>
                 <span ng-bind="person.start | date:'HH:mm'" ng-show="!managing[person.user_shift_id].managing"></span>
-                <!--<input time-input type="text" ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing"
-                       ng-model="managing[person.user_shift_id].start">-->
-                <datetimepicker value="person.start" filter="d. MMM yyyy, HH:mm"
+                <datetimepicker value="person.start" filter="d. MMM yyyy, HH:mm" minimized="true" 
                     ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing">
                 </datetimepicker>
             </div>
             <div class="time end">
                 <span class="bold">Slutter: </span>
                 <span ng-bind="person.finish | date:'HH:mm'" ng-show="!managing[person.user_shift_id].managing"></span>
-                <!--<input time-input type="text" ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing"
-                       ng-model="managing[person.user_shift_id].finish">-->
-                <datetime-picker value="person.start" filter="d. MMM yyyy, HH:mm"
+                <datetimepicker value="person.finish" filter="d. MMM yyyy, HH:mm" minimized="true" 
                     ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing">
-                </datetime-picker>
+                </datetimepicker>
             </div>
         </div>
         <div class="manage" ng-if="hasManagingRights()">

@@ -1,6 +1,8 @@
 "use strict";
 
-app
+angular
+
+.module('app')
 
 .service('vaktsysService', ['$http', 'datesliderService', '$q',
     function($http, datesliderService, $q) {

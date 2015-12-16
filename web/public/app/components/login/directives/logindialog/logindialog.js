@@ -1,6 +1,8 @@
 "use strict";
 
-app
+angular
+
+.module('app')
 
 .directive('logindialog', ['AUTH_EVENTS',
     function (AUTH_EVENTS) {

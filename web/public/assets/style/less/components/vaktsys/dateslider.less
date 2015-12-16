@@ -4,7 +4,7 @@ div#date-slider {
     height: 4.5em;
     padding: 0 12px;
     text-align: center;
-    background-color: @lightpurple;
+    background-color: @purple2;
     border-bottom: 1px solid white;
 
     h2 {
@@ -12,7 +12,7 @@ div#date-slider {
         height: 2em;
         line-height: 2.2em;
         font-size: 1em;
-        color: @darkpurple;
+        color: @purple6;
     }
     input[type=range]{
         width: 100%;
@@ -21,7 +21,7 @@ div#date-slider {
     }
     input[type=range]::-webkit-slider-runnable-track {
         height: 1.5em;
-        background-color: @lightestpurple;
+        background-color: @purple1;
         border: none;
         padding: 0 0.2em;
     }
@@ -31,7 +31,27 @@ div#date-slider {
         height: 1.1em;
         width: 12px;
         margin-top: 0.2em;
-        background-color: @darkpurple;
+        background-color: @purple6;
+        cursor: pointer;
+    }
+    @-moz-document url-prefix() {
+        input[type=range]{
+            margin-left: -0.2em;
+        }
+    }
+    input[type=range]::-moz-range-track {
+        height: 1.5em;
+        background-color: @purple1;
+        border: none;
+        padding: 0 0.2em;
+    }
+    input[type=range]::-moz-range-thumb {
+        border: none;
+        height: 1.1em;
+        width: 12px;
+        margin-top: 0.2em;
+        background-color: @purple6;
+        border-radius: 0;
         cursor: pointer;
     }
 }

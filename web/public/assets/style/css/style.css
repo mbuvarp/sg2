@@ -326,6 +326,26 @@ div#view-vaktsys div#shift-display section#right div#date-slider input[type=rang
   background-color: #3E1255;
   cursor: pointer;
 }
+@-moz-document url-prefix() {
+  div#view-vaktsys div#shift-display section#right div#date-slider input[type=range] {
+    margin-left: -0.2em;
+  }
+}
+div#view-vaktsys div#shift-display section#right div#date-slider input[type=range]::-moz-range-track {
+  height: 1.5em;
+  background-color: #F4EDF7;
+  border: none;
+  padding: 0 0.2em;
+}
+div#view-vaktsys div#shift-display section#right div#date-slider input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 1.1em;
+  width: 12px;
+  margin-top: 0.2em;
+  background-color: #3E1255;
+  border-radius: 0;
+  cursor: pointer;
+}
 div#view-vaktsys div#shift-display section#right div#shift-list {
   width: 100%;
 }
@@ -552,32 +572,154 @@ div#view-404 p {
   font-size: 16pt;
 }
 datetimepicker {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
-  box-shadow: 0 0 16px 4px #676767;
+  display: inline-block;
 }
-datetimepicker div.dtp-main {
+datetimepicker div.dtp-small button.dtp-toggle-button {
+  box-sizing: border-box;
+  height: 1em;
+  line-height: 1em;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  color: #693585;
+  cursor: pointer;
+}
+datetimepicker div.dtp-small button.dtp-toggle-button-active {
+  background-color: #E8D0F2;
+}
+datetimepicker div.dtp-large {
+  position: absolute;
+  z-index: 100;
   box-sizing: border-box;
   width: 20em;
   padding: 1em;
   background-color: #E8D0F2;
 }
-datetimepicker div.dtp-main div.dtp-top {
-  width: 100%;
-}
-datetimepicker div.dtp-main div.dtp-top p.dtp-selected-date {
-  box-sizing: border-box;
+datetimepicker div.dtp-large div.dtp-top {
+  display: table;
+  border-spacing: 0;
   width: 100%;
   height: 1.8em;
-  line-height: 1.6em;
+  background-color: #693585;
+  color: white;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-column {
+  display: table-cell;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-column i,
+datetimepicker div.dtp-large div.dtp-top div.dtp-column span {
+  display: block;
+  width: 100%;
+  height: 1.8em;
+  line-height: 1.8em;
   margin: 0;
   padding: 0;
-  background-color: white;
-  border: 1px solid #adadad;
   text-align: center;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-center {
+  border: 1px solid #E8D0F2;
+  border-width: 0 1px;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-left,
+datetimepicker div.dtp-large div.dtp-top div.dtp-right {
+  width: 1.8em;
+  cursor: pointer;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-left {
+  background-color: #693585;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-left:hover {
+  background-color: #D93D3D;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-right {
+  background-color: #693585;
+}
+datetimepicker div.dtp-large div.dtp-top div.dtp-right:hover {
+  background-color: #6DBA20;
+}
+datetimepicker div.dtp-large div.dtp-bottom {
+  width: 100%;
+  margin-top: 0.5em;
+}
+datetimepicker div.dtp-large div.dtp-bottom table {
+  width: 100%;
+  border-spacing: 0;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th {
+  text-align: center;
+  background-color: #AD77C9;
+  color: white;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-arrow-prev,
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-arrow-next {
+  cursor: pointer;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  outline: none;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range]::-webkit-slider-runnable-track {
+  height: 1.2em;
+  background-color: #E8D0F2;
+  border: none;
+  padding: 0 0.2em;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 0.9em;
+  width: 12px;
+  margin-top: 0.2em;
+  background-color: #693585;
+  cursor: pointer;
+}
+@-moz-document url-prefix() {
+  datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range] {
+    margin-left: -0.1em;
+  }
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range]::-moz-range-track {
+  height: 1.2em;
+  background-color: #E8D0F2;
+  border: none;
+  padding: 0 0.2em;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr th.dtp-time-slider input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 0.9em;
+  width: 12px;
+  margin-top: 0.2em;
+  background-color: #693585;
+  border-radius: 0;
+  cursor: pointer;
+}
+datetimepicker div.dtp-large div.dtp-bottom table thead tr:first-child {
+  height: 1.6em;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td {
+  text-align: center;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td.dtp-regular {
+  cursor: pointer;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td.dtp-regular:hover {
+  background-color: #F4EDF7;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td:first-child {
+  background-color: #AD77C9;
+  color: white;
+  font-weight: bold;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td.dtp-highlighted {
+  border-color: 1px solid #1d0629;
+  background-color: #693585;
+  color: white;
+  cursor: default;
+}
+datetimepicker div.dtp-large div.dtp-bottom table tbody tr td.dtp-grayed {
+  color: #828282;
+  cursor: pointer;
 }
 body {
   margin: 0;

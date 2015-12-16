@@ -1,34 +1,168 @@
 datetimepicker {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%);
-    transform: translateX(-50%);
-    box-shadow: 0 0 16px 4px #676767;
+    display: inline-block;
 
-    div.dtp-main {
+    div.dtp-small {
+
+        button.dtp-toggle-button {
+            box-sizing: border-box;
+            height: 1em;
+            line-height: 1em;
+            border:  none;
+            background-color: transparent;
+            outline: none;
+            color: @purple5;
+            cursor: pointer;
+        }
+        button.dtp-toggle-button-active {
+            background-color: @purple2;
+        }
+    }
+
+    div.dtp-large {
+        position: absolute;
+        z-index: 100;
         box-sizing: border-box;
         width: 20em;
         padding: 1em;
-        background-color: @lightpurple;
+        background-color: @purple2;
 
         div.dtp-top {
+            display: table;
+            border-spacing: 0;
             width: 100%;
+            height: 1.8em;
+            background-color: @purple5;
+            color: white;
 
-            p.dtp-selected-date {
-                box-sizing: border-box;
-                width: 100%;
-                height: 1.8em;
-                line-height: 1.6em;
-                margin: 0;
-                padding: 0;
-                background-color: white;
-                border: 1px solid #adadad;
-                text-align: center;
+            div.dtp-column {
+                display:table-cell;
+
+                i, span {
+                    display: block;
+                    width: 100%;
+                    height: 1.8em;
+                    line-height: 1.8em;
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+            }
+            div.dtp-center {
+                border: 1px solid @purple2;
+                border-width: 0 1px;
+            }
+            div.dtp-left, div.dtp-right {
+                width: 1.8em;
+                cursor: pointer;
+            }
+            div.dtp-left {
+                background-color: @purple5;
+            }
+            div.dtp-left:hover {
+                background-color: @cancel-red-hover;
+            }
+            div.dtp-right {
+                background-color: @purple5;
+            }
+            div.dtp-right:hover {
+                background-color: @confirm-green-hover;
             }
         }
         div.dtp-bottom {
+            width: 100%;
+            margin-top: 0.5em;
 
+            table {
+                width: 100%;
+                border-spacing: 0;
+
+                thead {
+                    tr {
+                        th {
+                            text-align: center;
+                            background-color: @purple3;
+                            color: white;
+                        }
+                        th.dtp-arrow-prev, th.dtp-arrow-next {
+                            cursor: pointer;
+                        }
+                        th.dtp-time-slider {
+
+                            input[type=range]{
+                                width: 100%;
+                                -webkit-appearance: none;
+                                outline: none;
+                            }
+                            input[type=range]::-webkit-slider-runnable-track {
+                                height: 1.2em;
+                                background-color: @purple2;
+                                border: none;
+                                padding: 0 0.2em;
+                            }
+                            input[type=range]::-webkit-slider-thumb {
+                                -webkit-appearance: none;
+                                border: none;
+                                height: 0.9em;
+                                width: 12px;
+                                margin-top: 0.2em;
+                                background-color: @purple5;
+                                cursor: pointer;
+                            }
+                            @-moz-document url-prefix() {
+                                input[type=range]{
+                                    margin-left: -0.1em;
+                                }
+                            }
+                            input[type=range]::-moz-range-track {
+                                height: 1.2em;
+                                background-color: @purple2;
+                                border: none;
+                                padding: 0 0.2em;
+                            }
+                            input[type=range]::-moz-range-thumb {
+                                border: none;
+                                height: 0.9em;
+                                width: 12px;
+                                margin-top: 0.2em;
+                                background-color: @purple5;
+                                border-radius: 0;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    tr:first-child {
+                        height: 1.6em;
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            text-align: center;
+                        }
+                        td.dtp-regular {
+                            cursor: pointer;
+                        }
+                        td.dtp-regular:hover {
+                            background-color: @purple1;
+                        }
+                        td:first-child {
+                            background-color: @purple3;
+                            color: white;
+                            font-weight: bold;
+                        }
+                        td.dtp-highlighted {
+                            border-color: 1px solid @purple7;
+                            background-color: @purple5;
+                            color: white;
+                            cursor: default;
+                        }
+                        td.dtp-grayed {
+                            color: #828282;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
         }
     }
 }

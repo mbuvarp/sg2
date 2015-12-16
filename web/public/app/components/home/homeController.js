@@ -1,7 +1,11 @@
-app
+"use strict";
 
-.controller('homeController', ['$scope',
-    function($scope) {
-        
-    }]
-);
+angular
+
+.module('app')
+
+.controller('HomeController', ['$scope', '$log', HomeController]);
+
+function HomeController($scope, $log) {
+    
+}

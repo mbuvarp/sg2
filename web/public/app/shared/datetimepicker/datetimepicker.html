@@ -1,19 +1,49 @@
-<div class="dtp-main">
-    <div class="dtp-top">
-        <p ng-bind="selectedDateString" class="dtp-selected-date"></p>
+<div>
+    <div class="dtp-small">
+        <!---->
+        <button class="dtp-toggle-button {{ isMinimized ? '' : 'dtp-toggle-button-active' }}" ng-click="toggleMinimized();">
+            <i class="fa fa-edit"></i>
+            <span class="dtp-selected-mini" ng-bind="selectedDateStringMini"></span>
+        </button>
     </div>
-    <div class="dtp-bottom">
-        <table>
-            <thead>
-                <tr>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    
-                </tr>
-            </tbody>
-        </table>
+    <div class="dtp-large" ng-if="!isMinimized">
+        <div class="dtp-top">
+            <div class="dtp-left dtp-column" ng-click="toggleMinimized(false)"><i class="fa fa-remove dtp-cancel"></i></div>
+            <div class="dtp-center dtp-column"><span ng-bind="selectedDateString" class="dtp-selected-date"></span></div>
+            <div class="dtp-right dtp-column" ng-click="toggleMinimized(true)"><i class="fa fa-check dtp-confirm"></i></div>
+        </div>
+        <div class="dtp-bottom">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="dtp-arrow-prev" ng-click="changeTime(-15)"><i class="fa fa-arrow-left"></i></th>
+                        <th colspan="6" class="dtp-time-slider">
+                            <input type="range" ng-model="selectedTime" ng-change="changeTime(selectedTime, true)" min="0" max="1425" step="15">
+                        </th>
+                        <th class="dtp-arrow-next" ng-click="changeTime(15)"><i class="fa fa-arrow-right"></i></th>
+                    </tr>
+                    <tr>
+                        <th class="dtp-arrow-prev" ng-click="changeMonth(-1)"><i class="fa fa-arrow-left"></i></th>
+                        <th colspan="6" class="dtp-month-name" ng-bind="currentMonthName"></th>
+                        <th class="dtp-arrow-next" ng-click="changeMonth(1)"><i class="fa fa-arrow-right"></i></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>ma.</th>
+                        <th>ti.</th>
+                        <th>on.</th>
+                        <th>to.</th>
+                        <th>fr.</th>
+                        <th>lø.</th>
+                        <th>sø.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="week in currentMonthArray">
+                        <td ng-repeat="day in week" ng-bind="day.value" class="{{ day.class }}" ng-click="selectDate(day)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

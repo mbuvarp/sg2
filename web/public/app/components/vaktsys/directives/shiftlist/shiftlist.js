@@ -1,6 +1,8 @@
 "use strict";
 
-app
+angular
+
+.module('app')
 
 .directive('shiftlist',
     function() {
