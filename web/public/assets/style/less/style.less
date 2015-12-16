@@ -11,12 +11,27 @@
 @import 'components/vaktsys/vaktsys.less';
 @import 'components/errors/404/404.less';
 
-// Body
+// Shared
+@import 'shared/datetimepicker/datetimepicker.less';
+
+// Global styles
 body {
     margin: 0;
     padding: 0;
     font-family: "Montserrat Light";
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased !important;
+}
+body::-webkit-scrollbar {
+    width: 9px;
+    background-color: @lightpurple;
+    border-left: 1px solid white;
+}
+body::-webkit-scrollbar-thumb {
+    border-color: transparent;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    background-clip: content-box;
+    background-color: @mediumpurple;
 }
 
 // Global classes

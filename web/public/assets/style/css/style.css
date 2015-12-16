@@ -402,6 +402,16 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
   float: left;
   height: 100%;
   padding-left: 0.3em;
+  /*div.time.start {
+                input {
+                    border-width: 1px 1px 0 1px;
+                }
+            }
+            div.time.end {
+                input {
+                    border-width: 1px 1px 1px 1px;
+                }
+            }*/
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.name-role {
   box-sizing: border-box;
@@ -441,24 +451,18 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time {
   font-size: 0.8em;
+  /*input {
+                    box-sizing: border-box;
+                    padding: 0 2px;
+                    width: 6em;
+                    height: 1.2em;
+                    border: 1px solid #ccc;
+                    font-family: "Montserrat Light";
+                    outline: none;
+                }*/
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time span.bold {
   font-weight: bold;
-}
-div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time input {
-  box-sizing: border-box;
-  padding: 0 2px;
-  width: 6em;
-  height: 1.2em;
-  border: 1px solid #ccc;
-  font-family: "Montserrat Light";
-  outline: none;
-}
-div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time.start input {
-  border-width: 1px 1px 0 1px;
-}
-div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time.end input {
-  border-width: 1px 1px 1px 1px;
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.manage {
   float: right;
@@ -547,11 +551,51 @@ div#view-404 h1 {
 div#view-404 p {
   font-size: 16pt;
 }
+datetimepicker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  box-shadow: 0 0 16px 4px #676767;
+}
+datetimepicker div.dtp-main {
+  box-sizing: border-box;
+  width: 20em;
+  padding: 1em;
+  background-color: #E8D0F2;
+}
+datetimepicker div.dtp-main div.dtp-top {
+  width: 100%;
+}
+datetimepicker div.dtp-main div.dtp-top p.dtp-selected-date {
+  box-sizing: border-box;
+  width: 100%;
+  height: 1.8em;
+  line-height: 1.6em;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 1px solid #adadad;
+  text-align: center;
+}
 body {
   margin: 0;
   padding: 0;
   font-family: "Montserrat Light";
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased !important;
+}
+body::-webkit-scrollbar {
+  width: 9px;
+  background-color: #E8D0F2;
+  border-left: 1px solid white;
+}
+body::-webkit-scrollbar-thumb {
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0 0 0 1px;
+  background-clip: content-box;
+  background-color: #693585;
 }
 .noselect {
   -webkit-touch-callout: none;

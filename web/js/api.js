@@ -24,6 +24,7 @@ function verifyAndRefreshJwt(jwtToken) {
     return defer.promise;
 }
 
+// SELECT
 function getShifts(req, res) {
 
     // Function to fix errors in date syntax
@@ -64,36 +65,24 @@ function getShifts(req, res) {
 
     db.getShifts(date)
     .then(function(data) {
-        // Organize json response in my own way
-        var ret = {};
-        for (var r = 0; r < data.length; ++r) {
-            var curRes = data[r];
-
-            if (ret[curRes.workplace_name] == undefined)
-                ret[curRes.workplace_name] = [];
-
-            ret[curRes.workplace_name].push({
-                user_id: Number(curRes.user_id),
-                shift_id: Number(curRes.shift_id),
-                user_shift_id: Number(curRes.user_shift_id),
-                user_name: curRes.user_name,
-                image: curRes.image,
-                role_id: curRes.role_id,
-                role: curRes.role_name,
-                start: curRes.user_shift_start || curRes.shift_start,
-                finish: curRes.user_shift_finish || curRes.shift_finish,
-                description: curRes.description
-            });
-        }
-        
-        res.json(ret).end(200);
+        res.status(200).json(data);
     }, function(err, status) {
         console.log(err);
-        res.send(err);
+        res.status(400).send(err); // TODO Fix status
     });
 }
 function getUserShift(req, res) {
-
+    var id = req.params.id;
+    db.getUserShift(id)
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(400).send(err); // TODO Fix status
+        }
+    );
 }
 function getWorkplaces(req, res) {
     db.getAllWorkplaces()
@@ -101,7 +90,7 @@ function getWorkplaces(req, res) {
         res.status(200).json(data);
     }, function(err, status) {
         console.log(err);
-        res.status(status || 400).send(err);
+        res.status(400).send(err); // TODO Fix status
     });
 }
 function getRoles(req, res) {
@@ -112,11 +101,26 @@ function getRoles(req, res) {
         },
         function(err) {
             console.log(err);
-            res.status(status || 400).send(err);
+            res.status(400).send(err); // TODO Fix status
         }
     );
 }
 
+// UPDATE
+function updateUserShift(req, res, user_id, user_shift_id, role_id, start, finish) {
+    db.updateUserShift(user_id, user_shift_id, role_id, start, finish)
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(400).send(err); // TODO Fix status
+        }
+    );
+}
+
+// VERIFY
 function login(req, res) {
     return db.verifyUser(req.body.username, req.body.password);
 }
@@ -130,21 +134,23 @@ function test(req, res) {
         },
         function(err) {
             console.log(err);
-            res.status(status || 400).send(err);
+            res.status(400).send(err); // TODO Fix status
         }
     );
 }
 
 exports.run = function(app) {
 
+    app
+
     // API Get
-    app.get('/api/workplaces',
+    .get('/api/workplaces',
         function(req, res) {
             console.log("GET %s", req.path);
             getWorkplaces(req, res);
         }
-    );
-    app.get('/api/shifts/:date',
+    )
+    .get('/api/shifts/:date',
         function(req, res) {
             console.log("GET %s", req.path);
             
@@ -167,23 +173,46 @@ exports.run = function(app) {
                 }
             );
         }
-    );
-    app.get('/api/roles',
+    )
+    .get('/api/usershift/:id',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            
+            // Get jwt
+            var jwtToken = req.headers.authorization;
+            if (jwtToken && jwtToken.indexOf('Bearer ') != -1)
+                jwtToken = jwtToken.split(' ')[1];
+            
+            // Verify token
+            verifyAndRefreshJwt(jwtToken)
+            .then(
+                function(newToken) {
+                    // Valid token
+                    res.set('Authorization', 'Bearer ' + newToken);
+                    getUserShift(req, res);
+                }, function(err) {
+                    // Invalid token - send 401
+                    console.log(err);
+                    res.status(401).end();
+                }
+            );
+        }
+    )
+    .get('/api/roles',
         function(req, res) {
             console.log("GET %s", req.path);
             getRoles(req, res);
         }
-    );
+    )
 
-    app.get('/api/test', 
+    .get('/api/test', 
         function(req, res) {
             console.log("GET %s", req.path);
             test(req, res);
         }
-    );
+    )
 
     // API Post
-    app
 
     .post('/api/login',
         function(req, res) {

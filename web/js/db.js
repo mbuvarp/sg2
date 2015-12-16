@@ -150,6 +150,44 @@ exports.getShifts = function(date, user) {
     var qry = buildQuery(params);
     return query(qry);
 }
+exports.getUserShift = function(id) {
+    var params =
+    {
+        statement: STATEMENT.SELECT,
+        fields: [
+                    ['w.name', 'workplace_name'],
+                    ['us.id', 'user_shift_id'],
+                    'us.role_id',
+                    ['us.start', 'user_shift_start'],
+                    ['us.finish', 'user_shift_finish'],
+                    ['s.id', 'shift_id'],
+                    ['s.start', 'shift_start'],
+                    ['s.finish', 'shift_finish'],
+                    's.description',
+                    ['u.id', 'user_id'],
+                    ['u.name', 'user_name'],
+                    'u.image',
+                    ['r.id', 'role_id'],
+                    ['r.name', 'role_name']
+                ],
+        from:   [
+                    ['users', 'u'],
+                    ['shifts', 's'],
+                    ['user_shifts', 'us'],
+                    ['workplaces', 'w'],
+                    ['roles', 'r']
+                ],
+        where:  [
+                    { left: 'us.id', right: id, comparator: COMPARATOR.EQUALS },
+                    { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
+                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS },
+                    { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
+                    { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS }
+                ]
+    };
+    var qry = buildQuery(params);
+    return query(qry);
+}
 exports.getRoles = function() {
     return query('SELECT * FROM roles ORDER BY id ASC;');
 }

@@ -64,14 +64,10 @@ app
             names: []
         };
         $scope.roles = [];
-        $scope.shifts = {
-
-        };
-
-        // Management variables
-        $scope.managed = {
-
-        };
+        $scope.shifts = [];
+        $scope.shiftsByWorkplace = { };
+        $scope.shiftsByUserShiftId = { };
+        $scope.managing = { };
 
         // Initialize dateslider
         $scope.dateslider = {
@@ -83,38 +79,63 @@ app
             getSimpleStartDate: datesliderService.getSimpleStartDate
         };
 
-        $scope.setCurrentlyManaging = function (wp, id, bool) {
-            $scope.managed[wp][id].currentlyManaging = bool;
+        $scope.setCurrentlyManaging = function (id, bool) {
+            $scope.managing[id].managing = bool;
+            
+            var us = $scope.shiftsByUserShiftId[id];
+            $scope.managing[id]['user_id'] = us.user_id;
+            $scope.managing[id]['user_name'] = us.user_name;
+            $scope.managing[id]['user_shift_id'] = us.user_shift_id;
+            $scope.managing[id]['role_id'] = us.role_id;
+            $scope.managing[id]['start'] = us.start;
+            $scope.managing[id]['finish'] = us.finish;
         };
-        $scope.resetManagingChanges = function(wp, id) {
-            // TODO Should reset managed
-            $scope.setCurrentlyManaging(wp, id, false);
+        $scope.resetManagingChanges = function(id) {
+            // TODO Should reset managing
+            $scope.setCurrentlyManaging(id, false);
         };
-        $scope.updateShiftsFromManaged = function(wp, id) {
-            console.log($scope.shifts);
-            console.log($scope.managed);
+        $scope.updateShiftsFromManaged = function(id) {
+            var shift = $scope.shifts.find(function(elmt, index, array) { return elmt.user_shift_id === id; });
+            vaktsysService.retrieveUserShift(id)
+            .then(
+                function(data) {
+                    // TODO: LOADING GIF 1THINGY
+                    fixStartAndFinish(data[0])
+                    var newShift = data[0];
+                    for (var key in shift) {
+                        if (shift.hasOwnProperty(key) && newShift.hasOwnProperty(key)) {
+                            shift[key] = newShift[key];
+                        }
+                    }
+                    initShiftsByWorkplace();
+                },
+                function(err) {
+                    console.log(err);
+                }
+            );
         };
-        $scope.saveManagingChanges = function(wp, id) {
+        $scope.saveManagingChanges = function(id) {
             // If not actually managing (someone has been hacking!!), then return
-            if (!$scope.managed[wp][id].currentlyManaging)
+            // TODO: cannot just return
+            if (!$scope.managing[id])
                 return;
 
-            var dis = $scope.managed[wp][id];
+            console.log($scope.managing[id]);
+            var man = $scope.managing[id];
             return vaktsysService.updateUserShift(
-                                                      dis.user_id,
-                                                      dis.user_shift_id,
-                                                      Number(dis.role_id),
-                                                      dis.start,
-                                                      dis.finish
+                                                      man.user_id,
+                                                      man.user_shift_id,
+                                                      Number(man.role_id),
+                                                      man.start,
+                                                      man.finish
                                                   )
             .then(
                 function(data) {
-                    console.log(data);
-                    $scope.updateShiftsFromManaged(wp, id);
-                    $scope.resetManagingChanges(wp, id);
+                    $scope.updateShiftsFromManaged(id);
+                    $scope.resetManagingChanges(id);
                 },
                 function(err) {
-                    $scope.resetManagingChanges(wp, id);
+                    $scope.resetManagingChanges(id);
                 }
             );
         };
@@ -148,12 +169,15 @@ app
             // Reset shit and set to loading
             $scope.loadingShifts = true;
             setAllWorkplacesClosed();
-            $scope.shifts = { };
+            $scope.shifts = [];
 
             return vaktsysService.retrieveShifts(date)
             .then(
                 function(data) {
-                    $scope.shifts = data;
+                    $.each(data.data, function(ind, elmt) {
+                        fixStartAndFinish(elmt);
+                    });
+                    $scope.shifts = data.data;
                     setWorkplacesOpen();
                     $scope.loadingShifts = false;
                 },
@@ -163,8 +187,9 @@ app
             )
             .then(
                 function() {
-                    console.log($scope.shifts);
-                    initManaged($scope.shifts);
+                    initShiftsByWorkplace();
+                    initShiftsByUserShiftId();
+                    initManaging();
                 }
             );
         };
@@ -181,32 +206,119 @@ app
             });
         };
         var setWorkplacesOpen = function() {
-            for (var w in $scope.shifts)
-                if ($scope.shifts.hasOwnProperty(w))
-                    $.each($scope.workplaces.names, function(ind, elmt) {
-                        if (elmt.name === w)
-                            elmt.open = true;
-                    });
+            // Go through each element in the shifts-array and look for workplace-names, and mark them as open
+            $.each($scope.shifts, function(ind, elmt) {
+                $scope.workplaces.names.find(function(element, index, array) { return element.name === elmt.workplace_name; }).open = true;
+            });
         };
-        var initManaged = function(shifts) {
-            for (var w in shifts) {
-                if (shifts.hasOwnProperty(w)) {
-                    $scope.managed[w] = { };
-                    $.each(shifts[w], function(ind, elmt) {
-                        $.each(elmt.people, function(ind2, elmt2) {
-                            var dis = $scope.managed[w][elmt2.user_id] = { };
-                            dis['currentlyManaging'] = false;
-                            dis['user_id'] = elmt2.user_id;
-                            dis['shift_id'] = elmt2.shift_id;
-                            dis['user_shift_id'] = elmt2.user_shift_id;
-                            dis['name'] = elmt2.name;
-                            dis['role_id'] = elmt2.role_id;
-                            dis['start'] = elmt2.start;
-                            dis['finish'] = elmt2.finish;
-                        });
-                    });
+
+        var initShiftsByWorkplace = function() {
+            var data = $scope.shifts;
+
+            var o = {};
+            for (var r = 0; r < data.length; ++r) {
+                var curRes = data[r];
+
+                if (o[curRes.workplace_name] == undefined)
+                    o[curRes.workplace_name] = [];
+
+                o[curRes.workplace_name].push({
+                    user_id: Number(curRes.user_id),
+                    shift_id: Number(curRes.shift_id),
+                    user_shift_id: Number(curRes.user_shift_id),
+                    user_name: curRes.user_name,
+                    image: curRes.image,
+                    role_id: curRes.role_id,
+                    role: curRes.role_name,
+                    start: curRes.user_shift_start || curRes.shift_start,
+                    finish: curRes.user_shift_finish || curRes.shift_finish,
+                    description: curRes.description
+                });
+            }
+
+            var ret = { };
+            for (var key in o)
+                if (o.hasOwnProperty(key))
+                    ret[key] = sortByDescription(o[key]);
+
+            $scope.shiftsByWorkplace = ret;
+        };
+        var initShiftsByUserShiftId = function() {
+            $.each($scope.shifts, function(ind, elmt) {
+                $scope.shiftsByUserShiftId[elmt.user_shift_id] = elmt;
+            });
+        };
+        var initManaging = function() {
+            for (var s in $scope.shiftsByUserShiftId) {
+                if ($scope.shiftsByUserShiftId.hasOwnProperty(s)) {
+                    var us = $scope.shiftsByUserShiftId[s];
+                    $scope.managing[s] = { };
+                    $scope.managing[s]['managing'] = false;
+                    $scope.managing[s]['user_id'] = us.user_id;
+                    $scope.managing[s]['user_name'] = us.user_name;
+                    $scope.managing[s]['user_shift_id'] = us.user_shift_id;
+                    $scope.managing[s]['role_id'] = us.role_id;
+                    $scope.managing[s]['start'] = us.start;
+                    $scope.managing[s]['finish'] = us.finish;
                 }
             }
+        };
+        var fixStartAndFinish = function(shift) {
+            shift.start = shift.user_shift_start || shift.shift_start;
+            shift.finish = shift.user_shift_finish || shift.shift_finish;
+        };
+        // Custom sorting for shifts
+        var shiftSort = function(keyA, keyB) {
+            if (keyA === 'Sent')
+                if (keyB === 'Tidlig')       // Sent kommer etter tidlig
+                    return 1;
+                else                         // .. men før alt annet
+                    return -1;
+            else if (keyA === 'Tidlig')      // Tidlig er alltid først
+                return -1;
+            else if (keyA === 'Bacalao')     // Bacalao er alltid sist
+                return 1;
+            else
+                if (keyB === 'Bacalao')
+                    return -1;
+                else
+                    return 1;
+        };
+        // Function to sort shift in one workplace by description ("Tidlig", "Sent", "Bacalao", custom)
+        var sortByDescription = function(data) {
+            // First we place all shifts in an object per their description
+            var items = {};
+            $.each(data, function(ind, elmt) {
+                if (!(elmt.description in items))
+                    items[elmt.description] = [];
+
+                items[elmt.description].push({
+                    user_id: elmt.user_id,
+                    shift_id: elmt.shift_id,
+                    user_shift_id: elmt.user_shift_id,
+                    name: elmt.user_name,
+                    image: elmt.image,
+                    role_id: elmt.role_id,
+                    role: elmt.role,
+                    start: elmt.start,
+                    finish: elmt.finish
+                });
+            });
+
+            // Then we restructure that shit into an array
+            // Slow you say? Fuck that, I've been working on this for 6 hours
+            var names = Object.getOwnPropertyNames(items);
+            names.sort(shiftSort);
+
+            var ret = [];
+            $.each(names, function(ind, name) {
+                ret.push({
+                    shift: name,
+                    people: items[name]
+                });
+            });
+
+            return ret;
         };
 
         $scope.init = function() {

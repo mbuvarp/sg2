@@ -12,7 +12,7 @@ app
                     // Convert data from view format to model format
                     var ret = moment(ngModelController.$modelValue).format('YYYY-MM-DD');
                     ret += ' ' + data;
-                    return moment(ret).isValid() ? moment(ret).toISOString() : ngModelController.$modelValue;
+                    return (moment(ret).isValid() ? moment(ret).format() : ngModelController.$modelValue);
                 }
             );
 

@@ -39,17 +39,28 @@ app
             .then(
                 // Success
                 function(data) {
-                    var shifts = { };
-                    for (var key in data.data)
-                        if (data.data.hasOwnProperty(key))
-                            shifts[key] = sortByDescription(data.data[key]);
-                    defer.resolve(shifts);
+                    defer.resolve(data);
                 },
                 // Error
                 function(err) {
                     defer.reject(err);
                 }
             );
+            return defer.promise;
+        };
+        this.retrieveUserShift = function(id) {
+            var defer = $q.defer();
+
+            $http.get('/api/usershift/' + id)
+            .then(
+                function(data) {
+                    defer.resolve(data.data);
+                },
+                function(err) {
+                    defer.reject(err);
+                }
+            );
+
             return defer.promise;
         };
         this.retrieveRoles = function() {
@@ -66,7 +77,7 @@ app
             );
 
             return defer.promise;
-        }
+        };
 
         this.updateUserShift = function(user_id, user_shift_id, role_id, start, finish) {
             var defer = $q.defer();
