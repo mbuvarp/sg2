@@ -1,18 +1,24 @@
 <form name="loginForm" action="/app/components/login/sink.html" target="sink" method="post"
-            ng-submit="login(credentials)"
+            ng-submit="login.login(credentials)"
             novalidate form-autofill-fix>
 
     <table>
         <tr>
             <td><label for="username" class="text-label">Email</label></td>
-            <td><input type="text" id="username" ng-model="credentials.username"></td>
+            <td><input type="text" id="username" ng-model="login.credentials.username"></td>
         </tr>
         <tr>
             <td><label for="username" class="text-label">Passord</label></td>
-            <td><input type="password" id="password" ng-model="credentials.password"></td>
+            <td><input type="password" id="password" ng-model="login.credentials.password"></td>
         </tr>
         <tr>
-            <td><label><input type="checkbox" checked>Husk meg</label></td>
+            <td>
+                <label class="remember-label">
+                    <input type="checkbox" ng-model="login.remember" checked>
+                    <i ng-class="{ 'fa fa-check-square-o': login.remember, 'fa fa-square-o unselect': !login.remember }"></i>
+                    Husk meg
+                </label>
+            </td>
             <td><input type="submit" value="Logg inn"></td>
         </tr>
     </table>

@@ -1,0 +1,110 @@
+userlist {
+
+    div.wrapper {
+
+        div.small {
+            
+            input {
+                box-sizing: border-box;
+                padding: 0 2px;
+                width: 10em;
+                height: 1.5em;
+                font-family: "Montserrat Light";
+                border: 1px solid #ccc;
+                box-shadow: 0 0 2px 0 #aaa;
+                outline: none;
+            }
+        }
+        div.large {
+            box-sizing: border-box;
+            position: absolute;
+            width: 24em;
+            margin-top: 0.4em;
+            z-index: 100;
+            box-sizing: border-box;
+            padding: 1em;
+            background-color: @purple2;
+            box-shadow: 0 0 3px 2px #aaa;
+
+            ul.affiliations {
+                box-sizing: border-box;
+                width: 35%;
+                float: left;
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+
+                li {
+                    box-sizing: border-box;
+                    height: 1.5em;
+                    margin: 0;
+                    padding: 0 1em;
+                    line-height: 1.4em;
+                    border: 1px solid @purple1;
+                    border-width: 0 1px 1px 0;
+                    font-size: 0.8em;
+                    cursor: pointer;
+
+                    &.active {
+                        background-color: @purple1;
+                    }
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    &:hover {
+                        background-color: @purple1;
+                    }
+                }
+            }
+            div.right {
+                width: 65%;
+                float: right;
+                background-color: @purple1;
+                overflow-y: auto;
+
+                table {
+                    border-spacing: 0;
+                    white-space: nowrap;
+
+                    tr {
+                        width: 100%;
+
+                        td {
+                            padding: 0 1em;
+                            font-size: 0.8em;
+                        }
+                    }
+                }
+            }
+            // ul.users {
+            //     display: inline-block;
+            //     margin: 0;
+            //     padding: 0;
+            //     list-style-type: none;
+            //     background-color: @purple1;
+            //     white-space: nowrap;
+            //     overflow-x: hidden;
+            //     overflow-y: auto;
+
+            //     li {
+            //         box-sizing: border-box;
+            //         height: 1.5em;
+            //         margin: 0;
+            //         padding: 0 1em;
+            //         line-height: 1.4em;
+            //         border: 1px solid @purple1;
+            //         border-width: 0 1px 1px 0;
+            //         font-size: 0.8em;
+            //         cursor: pointer;
+
+            //         &:last-child {
+            //             border-bottom: none;
+            //         }
+            //         &:hover {
+            //             background-color: @purple1;
+            //         }
+            //     }
+            // }
+        }
+    }
+}

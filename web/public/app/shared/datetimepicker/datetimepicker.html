@@ -1,33 +1,33 @@
-<div>
+<div ng-controller="DatetimePickerController as dp">
     <div class="dtp-small">
         <!---->
-        <button class="dtp-toggle-button {{ isMinimized ? '' : 'dtp-toggle-button-active' }}" ng-click="toggleMinimized();">
+        <button class="dtp-toggle-button {{ dp.isMinimized ? '' : 'dtp-toggle-button-active' }}" ng-click="dp.toggleMinimized();">
             <i class="fa fa-edit"></i>
-            <span class="dtp-selected-mini" ng-bind="selectedDateStringMini"></span>
+            <span class="dtp-selected-mini" ng-bind="dp.selectedDateStringMini"></span>
         </button>
     </div>
-    <div class="dtp-large" ng-if="!isMinimized">
+    <div class="dtp-large" ng-show="!dp.isMinimized">
         <div class="dtp-top">
-            <div class="dtp-left dtp-column" ng-click="toggleMinimized(false)"><i class="fa fa-remove dtp-cancel"></i></div>
-            <div class="dtp-center dtp-column"><span ng-bind="selectedDateString" class="dtp-selected-date"></span></div>
-            <div class="dtp-right dtp-column" ng-click="toggleMinimized(true)"><i class="fa fa-check dtp-confirm"></i></div>
+            <div class="dtp-left dtp-column" ng-click="dp.toggleMinimized(false)"><i class="fa fa-remove dtp-cancel"></i></div>
+            <div class="dtp-center dtp-column"><span ng-bind="dp.selectedDateString" class="dtp-selected-date"></span></div>
+            <div class="dtp-right dtp-column" ng-click="dp.toggleMinimized(true)"><i class="fa fa-check dtp-confirm"></i></div>
         </div>
         <div class="dtp-bottom">
             <table>
                 <thead>
-                    <tr>
-                        <th class="dtp-arrow-prev" ng-click="changeTime(-15)"><i class="fa fa-arrow-left"></i></th>
+                    <tr ng-if="dp.showTime()">
+                        <th class="dtp-arrow-prev" ng-click="dp.changeTime(-15)"><i class="fa fa-arrow-left"></i></th>
                         <th colspan="6" class="dtp-time-slider">
-                            <input type="range" ng-model="selectedTime" ng-change="changeTime(selectedTime, true)" min="0" max="1425" step="15">
+                            <input type="range" ng-model="dp.selectedTime" ng-change="dp.changeTime(dp.selectedTime, true)" min="0" max="1425" step="15">
                         </th>
-                        <th class="dtp-arrow-next" ng-click="changeTime(15)"><i class="fa fa-arrow-right"></i></th>
+                        <th class="dtp-arrow-next" ng-click="dp.changeTime(15)"><i class="fa fa-arrow-right"></i></th>
                     </tr>
-                    <tr>
-                        <th class="dtp-arrow-prev" ng-click="changeMonth(-1)"><i class="fa fa-arrow-left"></i></th>
-                        <th colspan="6" class="dtp-month-name" ng-bind="currentMonthName"></th>
-                        <th class="dtp-arrow-next" ng-click="changeMonth(1)"><i class="fa fa-arrow-right"></i></th>
+                    <tr ng-if="dp.showDate()">
+                        <th class="dtp-arrow-prev" ng-click="dp.changeMonth(-1)"><i class="fa fa-arrow-left"></i></th>
+                        <th colspan="6" class="dtp-month-name" ng-bind="dp.currentMonthName"></th>
+                        <th class="dtp-arrow-next" ng-click="dp.changeMonth(1)"><i class="fa fa-arrow-right"></i></th>
                     </tr>
-                    <tr>
+                    <tr ng-if="dp.showDate()">
                         <th></th>
                         <th>ma.</th>
                         <th>ti.</th>
@@ -39,8 +39,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="week in currentMonthArray">
-                        <td ng-repeat="day in week" ng-bind="day.value" class="{{ day.class }}" ng-click="selectDate(day)"></td>
+                    <tr ng-repeat="week in dp.currentMonthArray">
+                        <td ng-repeat="day in week" ng-bind="day.value" class="{{ day.class }}" ng-click="dp.selectDate(day)"></td>
                     </tr>
                 </tbody>
             </table>

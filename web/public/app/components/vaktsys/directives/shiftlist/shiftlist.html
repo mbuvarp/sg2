@@ -1,26 +1,39 @@
-<div id="shift-list">
-    <div class="loading" ng-show="loadingShifts">
+<div id="shift-list" ng-controller="vaktsys.ShiftListController as shiftlist">
+    <div class="loading" ng-show="shiftlist.loadingShifts">
         <i class="fa fa-circle-o-notch fa-spin"></i>
     </div>
 
-    <ul class="shift-list" ng-show="!loadingShifts">
+    <ul class="shift-list" ng-show="!shiftlist.loadingShifts">
 
-        <li class="shift {{ shiftsByWorkplace[workplaces.curWorkplace].length === 1 ? 'wide' : '' }}" ng-repeat="shift in shiftsByWorkplace[workplaces.curWorkplace]">
-            <h3 class="shift-description" ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
+        <!-- <li class="shift {{ shift.length === 1 ? 'wide' : '' }}"
+            ng-repeat="shift in shiftlist.shifts | filter: { workplace_name: shiftlist.curWorkplace } | orderBy: 'type'"> -->
+
+        <!-- <li class="shift {{ shift.length === 1 ? 'wide' : '' }}"
+            ng-repeat="(workplace, types) in shiftlist.shifts | filter:shiftlist.curWorkplace"> -->
+
+        <li ng-class="{ 'shift': true, 'wide' : shiftlist.nrOfShifts() === 1 }"
+            ng-repeat="(type, people) in shiftlist.shifts | byKey:shiftlist.curWorkplace">
+            
+            <h3 class="shift-description" ng-if="type != ''" ng-bind="type" ng-click="'console.log(' + people + ');'"></h3>
 
             <ul class="person-list">
-                <li class="person" ng-repeat="person in shift.people">
-                    <personcard></personcard>
+                <li class="person" ng-repeat="(id, person) in people">
+                    <personcard uid="{{ person.user_id }}" name="{{ person.name }}" image="{{ person.image }}"
+                                role="{{ person.role }}" roleid="{{ person.role_id }}" start="{{ person.start }}"
+                                finish="{{ person.finish }}" usershiftid='{{ person.user_shift_id }}'>
+                        
+                    </personcard>
                 </li>
-                <li class="person add-person" ng-if="hasManagingRights()">
+                <li class="person add-person" ng-if="shiftlist.hasManagingRights()">
                     <h3>Legg til person</h3>
                 </li>
 
             </ul>
+
         </li>
 
-        <li class="no-shifts" ng-show="!shiftsByWorkplace[workplaces.curWorkplace].length"
-            ng-bind="'Ingen vakter i ' + workplaces.curWorkplace + ' denne dagen!'">
+        <li class="no-shifts" ng-show="!shiftlist.nrOfShifts()"
+            ng-bind="'Ingen vakter i ' + shiftlist.curWorkplace + ' denne dagen!'">
         </li>
 
     </ul>

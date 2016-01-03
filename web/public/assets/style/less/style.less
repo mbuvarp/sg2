@@ -12,10 +12,15 @@
 @import 'components/errors/404/404.less';
 
 // Shared
+@import 'shared/loginpopup/loginpopup.less';
 @import 'shared/datetimepicker/datetimepicker.less';
+@import 'shared/userlist/userlist.less';
+@import 'shared/msgbox/msgbox.less';
 
 // Global styles
+html,
 body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: "Montserrat Light";
@@ -42,4 +47,5 @@ body::-webkit-scrollbar-thumb {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: default;
 }

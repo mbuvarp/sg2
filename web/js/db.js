@@ -117,31 +117,36 @@ exports.getShifts = function(date, user) {
         fields: [
                     ['w.name', 'workplace_name'],
                     ['us.id', 'user_shift_id'],
-                    'us.role_id',
+                    ['us.role_id', 'user_shift_role_id'],
                     ['us.start', 'user_shift_start'],
                     ['us.finish', 'user_shift_finish'],
                     ['s.id', 'shift_id'],
                     ['s.start', 'shift_start'],
                     ['s.finish', 'shift_finish'],
-                    's.description',
+                    ['s.description', 'shift_description'],
+                    ['s.type_id', 'shift_type_id'],
                     ['u.id', 'user_id'],
                     ['u.name', 'user_name'],
-                    'u.image',
+                    ['u.image', 'user_image'],
                     ['r.id', 'role_id'],
-                    ['r.name', 'role_name']
+                    ['r.name', 'role_name'],
+                    ['st.id', 'shift_type_id'],
+                    ['st.name', 'shift_type_name']
                 ],
         from:   [
                     ['users', 'u'],
                     ['shifts', 's'],
                     ['user_shifts', 'us'],
                     ['workplaces', 'w'],
-                    ['roles', 'r']
+                    ['roles', 'r'],
+                    ['shift_types', 'st']
                 ],
         where:  [
                     { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
                     { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
                     { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS },
-                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS }
+                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS },
+                    { left: 's.type_id', right: 'st.id', comparator: COMPARATOR.EQUALS }
                 ]
     };
     if (date !== '-')
@@ -155,34 +160,24 @@ exports.getUserShift = function(id) {
     {
         statement: STATEMENT.SELECT,
         fields: [
-                    ['w.name', 'workplace_name'],
-                    ['us.id', 'user_shift_id'],
-                    'us.role_id',
-                    ['us.start', 'user_shift_start'],
-                    ['us.finish', 'user_shift_finish'],
-                    ['s.id', 'shift_id'],
-                    ['s.start', 'shift_start'],
-                    ['s.finish', 'shift_finish'],
-                    's.description',
-                    ['u.id', 'user_id'],
-                    ['u.name', 'user_name'],
-                    'u.image',
-                    ['r.id', 'role_id'],
-                    ['r.name', 'role_name']
+                    ['u.id', 'uid'],
+                    ['u.name', 'name'],
+                    ['u.image', 'image'],
+                    ['r.name', 'role'],
+                    ['us.role_id', 'roleid'],
+                    ['us.start', 'start'],
+                    ['us.finish', 'finish'],
+                    ['us.id', 'usershiftid'],
                 ],
         from:   [
                     ['users', 'u'],
-                    ['shifts', 's'],
                     ['user_shifts', 'us'],
-                    ['workplaces', 'w'],
                     ['roles', 'r']
                 ],
         where:  [
                     { left: 'us.id', right: id, comparator: COMPARATOR.EQUALS },
                     { left: 'us.user_id', right: 'u.id', comparator: COMPARATOR.EQUALS },
-                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS },
-                    { left: 'us.shift_id', right: 's.id', comparator: COMPARATOR.EQUALS },
-                    { left: 's.bar_id', right: 'w.id', comparator: COMPARATOR.EQUALS }
+                    { left: 'us.role_id', right: 'r.id', comparator: COMPARATOR.EQUALS }
                 ]
     };
     var qry = buildQuery(params);
@@ -190,6 +185,12 @@ exports.getUserShift = function(id) {
 }
 exports.getRoles = function() {
     return query('SELECT * FROM roles ORDER BY id ASC;');
+}
+exports.getAffiliations = function() {
+    return query('SELECT * FROM affiliations ORDER BY name ASC;');
+}
+exports.getUserAffiliations = function() {
+    return query('SELECT id AS user_id, name, image, affiliation_id FROM users ORDER BY id ASC;');
 }
 
 exports.updateUserShift = function(user_id, user_shift_id, role_id, start, finish) {

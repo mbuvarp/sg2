@@ -1,15 +1,17 @@
-"use strict";
+(function() {
 
-angular
+    "use strict";
 
-.module('app')
+    angular.module('sg2')
 
-.directive('loginform', [
-    function() {
-        return {
-            restrict: 'E',
-            replace: true,
-            templateUrl: '/app/components/login/directives/loginform/loginform.html'
-        };
-    }]
-);
+    .directive('loginform', [
+        function() {
+            return {
+                restrict: 'E',
+                replace: true,
+                templateUrl: '/app/components/login/directives/loginform/loginform.html'
+            };
+        }]
+    );
+
+}());

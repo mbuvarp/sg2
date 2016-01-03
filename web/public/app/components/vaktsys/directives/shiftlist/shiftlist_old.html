@@ -1,0 +1,28 @@
+<div id="shift-list" ng-controller="vaktsys.ShiftListController as shiftlist">
+    <div class="loading" ng-show="loadingShifts">
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+    </div>
+
+    <ul class="shift-list" ng-show="!loadingShifts">
+
+        <li class="shift {{ shiftsByWorkplace[workplaces.curWorkplace].length === 1 ? 'wide' : '' }}"
+            ng-repeat="shift in shiftsByWorkplace[workplaces.curWorkplace]">
+            <h3 class="shift-description" ng-if="shift.shift != ''" ng-bind="shift.shift"></h3>
+
+            <ul class="person-list">
+                <li class="person" ng-repeat="person in shift.people">
+                    <personcard></personcard>
+                </li>
+                <li class="person add-person" ng-if="hasManagingRights()">
+                    <h3>Legg til person</h3>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="no-shifts" ng-show="!shiftsByWorkplace[workplaces.curWorkplace].length"
+            ng-bind="'Ingen vakter i ' + workplaces.curWorkplace + ' denne dagen!'">
+        </li>
+
+    </ul>
+</div>

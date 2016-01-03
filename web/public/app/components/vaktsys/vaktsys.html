@@ -1,19 +1,11 @@
-<div id="view-vaktsys">
+<div id="view-vaktsys" ng-controller="VaktsysController as vaktsys">
     <div class="wrapper" id="shift-display">
         <section id="left">
-            <ul>
-                <li class="blank"></li>
-                <li ng-repeat="workplace in workplaces.names"
-                    class="{{ workplace.active ? 'active' : '' }}"
-                    ng-click="workplaces.curWorkplace = workplace.name"
-                    id="workplace-{{ workplace.name }}">
-                    <span ng-bind="workplace.name" class="{{ workplace.open ? 'open' : '' }}"></span>
-                </li>
-            </ul>
+            <workplacelist></workplacelist>
         </section>
 
         <section id="right">
-            <dateslider></dateslider>
+            <dateslider ng-model="vaktsys.date" ng-change="vaktsys.changeDate()"></dateslider>
             <shiftlist></shiftlist>
         </section>
     </div>

@@ -36,6 +36,8 @@ if (!Date.prototype.getWeekNumber) {
 }
 
 function norskify(input) {
+    if (!(typeof(input) === 'string'))
+        return undefined;
     return input
         .replace(/January/g, 'januar')
         .replace(/February/g, 'februar')

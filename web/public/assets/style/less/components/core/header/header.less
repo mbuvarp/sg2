@@ -1,6 +1,6 @@
 @import 'variables.less';
 
-header {
+header.internal {
     width: 100%;
     height: 7em;
     background-color: @purple6;
@@ -11,7 +11,8 @@ header {
         @purple6 100px,
         @purple5 100px,
         @purple5 200px
-    ); // Why 225deg? Because 45deg for some reason looks different
+    );
+    box-shadow: inset 0 -7px 9px rgba(0, 0, 0, 0.4);
 
     div#logo {
         .noselect;
@@ -28,71 +29,102 @@ header {
             font-size: 3.2em;
         }
     }
-    div#menu {
-        height: 2em;
+    div#menu-container {
+        text-align: center;
 
-        ul#strip {
-            height: 100%;
-            list-style-type: none;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+        div#menu {
+            display: inline-block;
+            height: 2em;
+            text-align: left;
 
-            li {
-                .noselect;
+            ul#strip {
                 height: 100%;
-                display: inline-block;
-                color: white;
-                text-transform: uppercase;
-                padding: 0 3em;
-                cursor: pointer;
-                color: @purple2;
-                line-height: 2em;
+                list-style-type: none;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    .noselect;
+                    height: 100%;
+                    display: inline-block;
+                    color: white;
+                    text-transform: uppercase;
+                    padding: 0 3em;
+                    cursor: pointer;
+                    color: @purple2;
+                    line-height: 2em;
+                }
+                li:hover, li.active {
+                    border: 1px solid @purple6;
+                    border-width: 1px 1px 0 1px;
+                    background-color: @purple2;
+                    color: @purple6;
+                }
             }
-            li:hover, li.active {
+            div.dropdown {
+                box-sizing: border-box;
+                width: 100%;
+                margin: 0 auto;
                 background-color: @purple2;
                 color: @purple6;
-            }
-        }
-        div.dropdown {
-            display: none;
-            width: 600px;
-            margin: 0 auto  ;
-            background-color: @purple2;
-            color: @purple6;
-            border: 1px solid @purple6;
-            border-width: 0 1px 1px 1px;
+                border: 1px solid @purple6;
 
-            table {
-                width: 100%;
-                padding: 12px 24px;
-                border-spacing: 0;
-                border-collapse: separate;
+                table {
+                    width: 100%;
+                    padding: 12px 24px;
+                    border-spacing: 0;
+                    border-collapse: separate;
 
-                thead {
-                    tr {
-                        th {
-                            padding: 0;
-                            text-align: left;
+                    thead {
+                        tr {
+                            th {
+                                padding: 0;
+                                text-align: left;
+                            }
                         }
                     }
-                }
-                tbody {
-                    tr {
-                        td {
-                            padding: 0;
+                    tbody {
+                        tr {
+                            td {
+                                padding: 0;
 
-                            a {
-                                text-decoration: none;
-                                color: inherit;
-                            }
-                            a:hover {
-                                color: @purple5;
+                                a {
+                                    text-decoration: none;
+                                    color: inherit;
+                                }
+                                a:hover {
+                                    color: @purple5;
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+}
+header.external {
+    width: 100%;
+    height: 22em;
+    line-height: 20em;
+    background: repeating-linear-gradient(
+        225deg, 
+        @purple6,
+        @purple6 100px,
+        @purple5 100px,
+        @purple5 200px
+    );
+    box-shadow: inset 0 -7px 9px rgba(0, 0, 0, 0.4);
+
+    h1 {
+        .noselect;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        color: @purple2;
+        font-size: 20em;
+        opacity: 0.5;
+        text-align: center;
     }
 }

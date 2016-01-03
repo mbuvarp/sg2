@@ -1,0 +1,62 @@
+div#view-home {
+    background-color: @purple1;
+
+    div#external {
+        width: 40%;
+        margin: 0 auto;
+        padding: 3em 0;
+        clear: both;
+        overflow: hidden;
+
+        section#content {
+            box-sizing: border-box;
+            width: 70%;
+            float: left;
+            padding-right: 3em;
+
+            article {
+                h2 {
+                    margin: 0;
+                    padding: 0;
+                }
+                p {
+                    font-size: 0.9em;
+                }
+            }
+        }
+        section#menu {
+            width: 30%;
+            float: right;
+
+            ul {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                text-align: right;
+
+                li {
+                    margin-top: 2em;
+                    color: @purple5;
+                    font-family: "Montserrat Bold";
+                    text-transform: uppercase;
+
+                    a {
+                        color: inherit;
+                        text-decoration: none;
+                    }
+                    a:hover {
+                        color: @purple3;
+                    }
+                }
+                li:first-child {
+                    margin-top: 0em;
+                }
+            }
+        }
+    }
+
+    div#internal {
+
+    }
+
+}

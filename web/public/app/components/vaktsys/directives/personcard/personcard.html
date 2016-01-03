@@ -1,55 +1,61 @@
-<div class="person-card">
+<div ng-class="'person-card' + (card.isManaging ? ' managing' : '')" ng-controller="vaktsys.PersonCardController as card">
     <div class="top">
         <div class="image">
-            <div style="background-image: url('{{person.image === 'default' ?
+            <div style="background-image: url('{{image === 'default' ?
                                               '/assets/img/users/default/default' :
-                                              '/assets/img/users/' + person.user_id + '/' + person.image }}');"
-                 title="{{ person.name }}"></div>
+                                              '/assets/img/users/' + uid + '/' + image }}');"
+                 title="{{ name }}"></div>
         </div>
+
         <div class="info">
             <div class="name-role">
                 <div class="name">
-                    <span ng-bind="person.name" ng-show="!managing[person.user_shift_id].managing"></span>
-                    <input type="text" ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing"
-                           ng-model="managing[person.user_shift_id].user_name">
+                    <span ng-bind="name" ng-show="!card.isManaging"></span>
+                    <!--<input type="text" ng-if="card.hasManagingRights()" ng-show="card.isManaging"
+                           ng-model="card.managing.name">-->
+                    <userlist value="uid" uname="name" minimized="true"
+                              ng-if="card.hasManagingRights()" ng-show="card.isManaging"></userlist>
                 </div>
                 <div class="role">
-                    <span ng-bind="'[' + person.role + ']'" ng-show="!managing[person.user_shift_id].managing"></span>
-                    <select ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing"
-                            ng-model="managing[person.user_shift_id].role_id">
-                        <option ng-repeat="role in roles" value="{{ role.id }}" ng-bind="role.name"></option>
+                    <span ng-bind="'[' + role + ']'" ng-show="!card.isManaging"></span>
+                    <select ng-if="card.hasManagingRights()" ng-show="card.isManaging"
+                            ng-model="card.managing.roleid">
+                        <option ng-repeat="role in card.roles" value="{{ role.id }}" ng-bind="role.name"></option>
                     </select>
                 </div>
             </div>
+
             <div class="time start">
                 <span class="bold">Starter: </span>
-                <span ng-bind="person.start | date:'HH:mm'" ng-show="!managing[person.user_shift_id].managing"></span>
-                <datetimepicker value="person.start" filter="d. MMM yyyy, HH:mm" minimized="true" 
-                    ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing">
+                <span ng-bind="start | date:'HH:mm'" ng-show="!card.isManaging"></span>
+                <datetimepicker value="start" filter="d. MMM yyyy, HH:mm" minimized="true" 
+                    ng-if="card.hasManagingRights()" ng-show="card.isManaging" type="both">
                 </datetimepicker>
             </div>
             <div class="time end">
                 <span class="bold">Slutter: </span>
-                <span ng-bind="person.finish | date:'HH:mm'" ng-show="!managing[person.user_shift_id].managing"></span>
-                <datetimepicker value="person.finish" filter="d. MMM yyyy, HH:mm" minimized="true" 
-                    ng-if="hasManagingRights()" ng-show="managing[person.user_shift_id].managing">
+                <span ng-bind="finish | date:'HH:mm'" ng-show="!card.isManaging"></span>
+                <datetimepicker value="finish" filter="d. MMM yyyy, HH:mm" minimized="true" 
+                    ng-if="card.hasManagingRights()" ng-show="card.isManaging" type="both">
                 </datetimepicker>
             </div>
         </div>
-        <div class="manage" ng-if="hasManagingRights()">
+
+        <div class="manage" ng-if="card.hasManagingRights()">
             <div class="edit">
-                <i class="fa fa-edit" ng-click="setCurrentlyManaging(person.user_shift_id, true);"></i>
+                <i ng-class="'fa fa-edit' + (card.isManaging ? ' managing' : '')" ng-click="card.setCurrentlyManaging(true);"></i>
             </div>
-            <div class="remove" ng-click="">
-                <i class="fa fa-remove"></i>
+            <div class="remove">
+                <i ng-class="'fa fa-remove' + (card.isManaging ? ' managing' : '')" ng-click=""></i>
             </div>
         </div>
     </div>
+
     <div class="bottom">
-        <div class="cancel" ng-click="resetManagingChanges(person.user_shift_id);">
+        <div class="cancel" ng-click="card.resetManagingChanges();">
             Avbryt
         </div>
-        <div class="confirm" ng-click="saveManagingChanges(person.user_shift_id);">
+        <div class="confirm" ng-click="card.saveManagingChanges();">
             Lagre
         </div>
     </div>

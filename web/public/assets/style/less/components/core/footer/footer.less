@@ -1,8 +1,44 @@
-footer {
+// Keep footer down!
+div#container {
+    min-height: 100%;
+    position: relative;
+
+    main {
+        padding-bottom: 14em;
+    }
+    footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+footer.internal {
     display: none;
     width: 100%;
     height: 82px;
     margin: 0;
     background-color: @purple6;
     background-image: linear-gradient(@purple6, @purple5);
+}
+footer.external {
+    width: 100%;
+    height: 14em;
+    line-height: 14em;
+    background: repeating-linear-gradient(
+        225deg, 
+        @purple6,
+        @purple6 100px,
+        @purple5 100px,
+        @purple5 200px
+    );
+    box-shadow: inset 0 7px 9px rgba(0, 0, 0, 0.4);
+
+    span {
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: @purple1;
+        font-size: 4em;
+    }
 }

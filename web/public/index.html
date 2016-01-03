@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="sg2">
 <head>
     <meta charset="UTF-8">
 
@@ -18,6 +18,7 @@
 
     <script type="text/javascript" src="/assets/libs/angular/angular.min.js"></script>
     <script type="text/javascript" src="/assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/libs/moment/moment.min.js"></script>
     <script type="text/javascript" src="/assets/libs/underscore/underscore-min.js"></script>
@@ -25,15 +26,19 @@
     <!-- END LIBS -->
 
     <!-- ACTUAL CONTENT -->
-
-    <header ng-include="'/app/components/core/header/header.html'" ng-if="isAuthenticated()"></header>
-
     <logindialog ng-if="!isLoginPage &amp;&amp; visible"></logindialog>
+    <msgbox></msgbox>
 
-    <main ui-view>
-    </main>
+    <div id="container">
+        <header ng-class="{ 'internal': isAuthenticated(), 'external': !isAuthenticated() }"
+        ng-include="'/app/components/core/header/header.html'"></header>
 
-    <footer ng-include="'/app/components/core/footer/footer.html'"></footer>
+        <main ui-view>
+        </main>
+
+        <footer ng-class="{ 'internal': isAuthenticated(), 'external': !isAuthenticated() }"
+        ng-include="'/app/components/core/footer/footer.html'"></footer>
+    </div>
 
     <!-- END ACTUAL CONTENT -->
 
@@ -42,28 +47,30 @@
     <!-- Globals -->
     <script type="text/javascript" src="/assets/js/global.js"></script>
 
-
     <!-- App -->
     <script type="text/javascript" src="/app/app.js"></script>
     <script type="text/javascript" src="/app/app.config.js"></script>
     <script type="text/javascript" src="/app/app.run.js"></script>
-    <script type="text/javascript" src="/app/appController.js"></script>
+    <script type="text/javascript" src="/app/app.controller.js"></script>
     <!-- Shared -->
+    <script type="text/javascript" src="/app/shared/dateslider/dateslider.js"></script>
     <script type="text/javascript" src="/app/shared/datetimepicker/datetimepicker.js"></script>
+    <script type="text/javascript" src="/app/shared/userlist/userlist.js"></script>
+    <script type="text/javascript" src="/app/shared/msgbox/msgbox.js"></script>
     <!-- Core -->
-    <script type="text/javascript" src="/app/components/core/header/headerController.js"></script>
+    <script type="text/javascript" src="/app/components/core/header/header.controller.js"></script>
     <!-- Front -->
-    <script type="text/javascript" src="/app/components/home/homeController.js"></script>
+    <script type="text/javascript" src="/app/components/home/home.controller.js"></script>
     <!-- Login -->
-    <script type="text/javascript" src="/app/components/login/loginController.js"></script>
-    <script type="text/javascript" src="/app/components/login/loginServices.js"></script>
+    <script type="text/javascript" src="/app/components/login/login.controller.js"></script>
+    <script type="text/javascript" src="/app/components/login/login.services.js"></script>
     <script type="text/javascript" src="/app/components/login/directives/formautofillfix/formautofillfix.js"></script>
     <script type="text/javascript" src="/app/components/login/directives/logindialog/logindialog.js"></script>
     <script type="text/javascript" src="/app/components/login/directives/loginform/loginform.js"></script>
     <!-- Vaktsys -->
-    <script type="text/javascript" src="/app/components/vaktsys/vaktsysController.js"></script>
-    <script type="text/javascript" src="/app/components/vaktsys/vaktsysServices.js"></script>
-    <script type="text/javascript" src="/app/components/vaktsys/directives/dateslider/dateslider.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/vaktsys.controller.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/vaktsys.services.js"></script>
+    <script type="text/javascript" src="/app/components/vaktsys/directives/workplacelist/workplacelist.js"></script>
     <script type="text/javascript" src="/app/components/vaktsys/directives/personcard/personcard.js"></script>
     <script type="text/javascript" src="/app/components/vaktsys/directives/shiftlist/shiftlist.js"></script>
     <script type="text/javascript" src="/app/components/vaktsys/directives/timeinput/timeinput.js"></script>

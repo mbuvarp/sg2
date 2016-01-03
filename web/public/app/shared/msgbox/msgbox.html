@@ -1,0 +1,19 @@
+<div class="wrapper" ng-controller="MsgBoxController as msgbox" ng-show="msgbox.visible">
+    
+    <div class="disabler"></div>
+
+    <div class="box">
+        <div class="titlebar">
+            <span class="title" ng-bind="msgbox.title"></span><i class="fa fa-close" ng-click="msgbox.hide()"></i>
+        </div>
+        
+        <div class="content">
+            <p ng-bind="msgbox.message"></p>
+        </div>
+
+        <div class="buttons">
+            <button type="button" ng-repeat="(text, fn) in msgbox.buttons" ng-bind="text" ng-click="msgbox.execute(fn)"></button>
+        </div>
+    </div>
+
+</div>

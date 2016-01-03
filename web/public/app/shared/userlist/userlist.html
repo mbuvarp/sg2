@@ -1,0 +1,24 @@
+<div class="wrapper" ng-controller="UserListController as ulc">
+
+    <div class="small">
+        <input type="text" ng-model="ulc.uname" ng-focus="ulc.toggleMinimized(false);">
+    </div>
+
+    <div class="large" ng-show="!ulc.isMinimized">
+        <ul class="affiliations" ng-init="ulc.maxHeight = 0;">
+            <li ng-class="{ 'active': ulc.selectedAffiliation === aff.id }"
+                ng-repeat="aff in ulc.affiliations" ng-bind="aff.name" ng-init="ulc.calcMaxHeight();"></li>
+        </ul>
+        <!-- <ul class="users" ng-style="{ 'max-height': ulc.maxHeight + 'px' }"> 
+            <li ng-repeat="user in ulc.users[ulc.selectedAffiliation]" ng-bind="user.name"></li>
+        </ul> -->
+        <div class="right" ng-style="{ 'max-height': ulc.maxHeight + 'px' }">
+            <table>
+                <tr ng-repeat="user in ulc.users[ulc.selectedAffiliation] | orderBy:'name'">
+                    <td ng-bind="user.name"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>

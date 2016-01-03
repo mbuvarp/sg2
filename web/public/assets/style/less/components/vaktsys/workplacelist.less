@@ -1,0 +1,45 @@
+workplacelist {
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        
+        li {
+            .noselect;
+            box-sizing: border-box;
+            height: 4.5em;
+            line-height: 4.5em;
+            padding: 0 24px 0 0;
+            text-align: right;
+            cursor: pointer;
+            border-bottom: 1px solid white;
+            
+            span {
+                display: inline-block;
+                height: 100%;
+                font-family: "Montserrat Light";
+                font-size: 1.4em;
+                color: @purple6;
+            }
+            span:not(.open):before {
+                content: "[Ingen vakter]\A";
+                font-size: 0.5em;
+                margin-right: 0.6em;
+                color: lightcoral;
+            }
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li:hover:not(.blank):not(.active) {
+            background-color: thistle;
+        }
+        li.active {
+            background-color: @purple1;
+            cursor: default;
+        }
+        li.blank {
+            cursor: auto;
+        }
+    }
+}

@@ -1,26 +1,35 @@
-<div id="inner" ng-controller="HeaderController">
-    <div id="logo"><a ui-sref="home">SGNett 2.0</a></div>
+<div id="inner" ng-controller="HeaderController as header">
+    <div ng-if="isAuthenticated();">
+        <div id="logo"><a ui-sref="home">SGNett 2.0</a></div>
 
-    <div id="menu">
+        <div id="menu-container">
+            <div id="menu">
 
-        <ul id="strip">
-            <li class="strip-menu-btn" id="btn-{{ submenu.id }}"
-                ng-repeat="submenu in menu" ng-bind="submenu.title"></li>
-        </ul>
+                <ul id="strip">
+                    <li ng-class="{ 'strip-menu-btn': true, 'active': header.activeSubmenu === submenu.id }" id="btn-{{ submenu.id }}"
+                        ng-repeat="submenu in header.menu" ng-bind="submenu.title"
+                        ng-mouseenter="header.activeSubmenu = submenu.id" ng-mouseleave="header.activeSubmenu = -1"></li>
+                </ul>
 
-        <div class="dropdown" id="{{ submenu.id }}" ng-repeat="submenu in menu">
-            <table>
-                <thead>
-                    <tr>
-                        <th ng-repeat="group in submenu.itemGroups" ng-bind="group.title"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="row in menuByRow[$index]">
-                        <td ng-repeat="cell in row"><a ui-sref="{{ cell.state ? cell.state : false }}" ng-bind="cell.text"></a></td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="dropdown" id="{{ submenu.id }}" ng-repeat="submenu in header.menu" ng-show="header.activeSubmenu === submenu.id"
+                     ng-mouseenter="header.activeSubmenu = submenu.id" ng-mouseleave="header.activeSubmenu = -1">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th ng-repeat="group in submenu.itemGroups" ng-bind="group.title"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in header.menuByRow[$index]">
+                                <td ng-repeat="cell in row"><a ui-sref="{{ cell.state ? cell.state : false }}" ng-bind="cell.text"></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </div>
+    <div ng-if="!isAuthenticated();">
+        <h1>KSG</h1>
     </div>
 </div>

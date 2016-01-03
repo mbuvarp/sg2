@@ -1,0 +1,4 @@
+<div id="date-slider" ng-controller="DateSliderController as dsc">
+    <h2 id="slider-date" ng-bind="dsc.datePretty"></h2>
+    <input type="range" value="0" min="0" max="30" step="0" ng-model="dsc.delta" ng-change="dsc.updateDate()" ng-mouseup="dsc.changeDate()">
+</div>

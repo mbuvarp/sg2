@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('app', 
+angular.module('sg2', 
     [
         'ui.router'
     ]

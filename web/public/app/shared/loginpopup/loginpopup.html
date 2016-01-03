@@ -1,0 +1,10 @@
+<div id="login-popup-wrapper" ng-if="!isAuthenticated()" ng-controller="LoginController as login">
+    <div class="msg" ng-if="login.msg401">
+        Du må være logget inn for å se denne siden.
+    </div>
+    <div class="msg" ng-if="login.msg419">
+        Du har blitt logget ut på grunn av tidsavbrudd. Vennligst logg inn igjen.
+    </div>
+    <iframe src="sink.html" name="sink" style="display:none"></iframe>
+    <loginform></loginform>
+</div>

@@ -10,49 +10,69 @@
   src: url("/assets/style/fonts/Montserrat/Montserrat-Bold.otf");
   font-family: "Montserrat Bold";
 }
-header {
+@font-face {
+  src: url("/assets/style/fonts/Quicksand/Quicksand-Light.otf");
+  font-family: "Quicksand Light";
+}
+@font-face {
+  src: url("/assets/style/fonts/Quicksand/Quicksand-Regular.otf");
+  font-family: "Quicksand Regular";
+}
+@font-face {
+  src: url("/assets/style/fonts/Quicksand/Quicksand-Bold.otf");
+  font-family: "Quicksand Bold";
+}
+header.internal {
   width: 100%;
   height: 7em;
   background-color: #3E1255;
   position: relative;
   background: repeating-linear-gradient(225deg, #3E1255, #3E1255 100px, #693585 100px, #693585 200px);
+  box-shadow: inset 0 -7px 9px rgba(0, 0, 0, 0.4);
 }
-header div#logo {
+header.internal div#logo {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: default;
   box-sizing: border-box;
   width: 100%;
   height: 5em;
   text-align: center;
   padding-top: 0.6em;
 }
-header div#logo a {
+header.internal div#logo a {
   text-decoration: none;
   color: #E8D0F2;
   font-family: "Montserrat Bold";
   font-size: 3.2em;
 }
-header div#menu {
-  height: 2em;
+header.internal div#menu-container {
+  text-align: center;
 }
-header div#menu ul#strip {
+header.internal div#menu-container div#menu {
+  display: inline-block;
+  height: 2em;
+  text-align: left;
+}
+header.internal div#menu-container div#menu ul#strip {
   height: 100%;
   list-style-type: none;
   text-align: center;
   margin: 0;
   padding: 0;
 }
-header div#menu ul#strip li {
+header.internal div#menu-container div#menu ul#strip li {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: default;
   height: 100%;
   display: inline-block;
   color: white;
@@ -62,41 +82,77 @@ header div#menu ul#strip li {
   color: #E8D0F2;
   line-height: 2em;
 }
-header div#menu ul#strip li:hover,
-header div#menu ul#strip li.active {
+header.internal div#menu-container div#menu ul#strip li:hover,
+header.internal div#menu-container div#menu ul#strip li.active {
+  border: 1px solid #3E1255;
+  border-width: 1px 1px 0 1px;
   background-color: #E8D0F2;
   color: #3E1255;
 }
-header div#menu div.dropdown {
-  display: none;
-  width: 600px;
-  margin: 0 auto  ;
+header.internal div#menu-container div#menu div.dropdown {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
   background-color: #E8D0F2;
   color: #3E1255;
   border: 1px solid #3E1255;
-  border-width: 0 1px 1px 1px;
 }
-header div#menu div.dropdown table {
+header.internal div#menu-container div#menu div.dropdown table {
   width: 100%;
   padding: 12px 24px;
   border-spacing: 0;
   border-collapse: separate;
 }
-header div#menu div.dropdown table thead tr th {
+header.internal div#menu-container div#menu div.dropdown table thead tr th {
   padding: 0;
   text-align: left;
 }
-header div#menu div.dropdown table tbody tr td {
+header.internal div#menu-container div#menu div.dropdown table tbody tr td {
   padding: 0;
 }
-header div#menu div.dropdown table tbody tr td a {
+header.internal div#menu-container div#menu div.dropdown table tbody tr td a {
   text-decoration: none;
   color: inherit;
 }
-header div#menu div.dropdown table tbody tr td a:hover {
+header.internal div#menu-container div#menu div.dropdown table tbody tr td a:hover {
   color: #693585;
 }
-footer {
+header.external {
+  width: 100%;
+  height: 22em;
+  line-height: 20em;
+  background: repeating-linear-gradient(225deg, #3E1255, #3E1255 100px, #693585 100px, #693585 200px);
+  box-shadow: inset 0 -7px 9px rgba(0, 0, 0, 0.4);
+}
+header.external h1 {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: #E8D0F2;
+  font-size: 20em;
+  opacity: 0.5;
+  text-align: center;
+}
+div#container {
+  min-height: 100%;
+  position: relative;
+}
+div#container main {
+  padding-bottom: 14em;
+}
+div#container footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+footer.internal {
   display: none;
   width: 100%;
   height: 82px;
@@ -104,130 +160,129 @@ footer {
   background-color: #3E1255;
   background-image: linear-gradient(#3E1255, #693585);
 }
-div#view-login div#login-wrapper {
-  width: 440px;
-  margin: 180px auto 0;
-  padding: 42px;
-  border-radius: 8px;
-  box-shadow: 0px 9px 19px -4px rgba(0, 0, 0, 0.75);
-  background: #3e1255;
-  background: -moz-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
-  background: -webkit-gradient(left bottom, right top, color-stop(0%, #3e1255), color-stop(4%, #3e1255), color-stop(38%, #9f68bd), color-stop(39%, #733f8f), color-stop(40%, #693585), color-stop(100%, #3e1255));
-  background: -webkit-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
-  background: -o-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
-  background: -ms-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
-  background: linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3e1255', endColorstr='#3e1255', GradientType=1);
-}
-div#view-login div#login-wrapper div.msg {
+footer.external {
   width: 100%;
-  height: 2em;
-  line-height: 2em;
-  margin-bottom: 2em;
-  border: 2px solid #3E1255;
-  background-color: #E8D0F2;
-  border-radius: 3px;
-  font-family: "Montserrat Light";
-  color: crimson;
-  text-align: center;
-  background: #a07cb3;
-  background: -moz-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
-  background: -webkit-gradient(left bottom, right top, color-stop(0%, #a07cb3), color-stop(100%, #e6c9f2));
-  background: -webkit-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
-  background: -o-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
-  background: -ms-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
-  background: linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a07cb3', endColorstr='#e6c9f2', GradientType=1);
+  height: 14em;
+  line-height: 14em;
+  background: repeating-linear-gradient(225deg, #3E1255, #3E1255 100px, #693585 100px, #693585 200px);
+  box-shadow: inset 0 7px 9px rgba(0, 0, 0, 0.4);
 }
-div#view-login div#login-wrapper form {
-  width: 100%;
-}
-div#view-login div#login-wrapper form table {
-  width: 100%;
-  border-spacing: 8px;
-  border-collapse: separate;
-}
-div#view-login div#login-wrapper form table tr td {
-  width: 65%;
-}
-div#view-login div#login-wrapper form table tr td label.text-label {
-  display: inline-block;
-  width: 100%;
-  font-size: 16pt;
-  font-family: "Montserrat Hairline";
-  text-transform: uppercase;
-  color: #ddd;
-}
-div#view-login div#login-wrapper form table tr td input[type=text],
-div#view-login div#login-wrapper form table tr td input[type=password] {
-  display: inline-block;
-  width: 100%;
-  padding: 2px;
-  box-sizing: border-box;
-  border: 1px solid #1d0629;
-  border-radius: 4px;
-  font-size: 16pt;
-  font-family: "Montserrat Hairline";
-  color: #e6c9f2;
-  outline: none;
-  -webkit-box-shadow: 0px 1px 1px 0px #e6c9f2;
-  -moz-box-shadow: 0px 1px 1px 0px #e6c9f2;
-  box-shadow: 0px 1px 1px 0px #e6c9f2;
-  background: #693585;
-  background: -moz-linear-gradient(top, #693585 0%, #864d9e 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, #693585), color-stop(100%, #864d9e));
-  background: -webkit-linear-gradient(top, #693585 0%, #864d9e 100%);
-  background: -o-linear-gradient(top, #693585 0%, #864d9e 100%);
-  background: -ms-linear-gradient(top, #693585 0%, #864d9e 100%);
-  background: linear-gradient(to bottom, #693585 0%, #864d9e 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#693585', endColorstr='#864d9e', GradientType=0);
-}
-div#view-login div#login-wrapper form table tr td label:not(.text-label) {
+footer.external span {
   display: block;
-  font-size: 14pt;
-  font-family: "Montserrat Hairline";
-  text-transform: uppercase;
-  color: #ddd;
-}
-div#view-login div#login-wrapper form table tr td input[type=checkbox] {
-  width: 18px;
-  height: 18px;
-  margin: 0 6px 0 0;
-  padding: 0;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
-  *overflow: hidden;
-  background: #f7edf7;
-  background: -moz-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
-  background: -webkit-gradient(left top, right bottom, color-stop(0%, #f7edf7), color-stop(100%, #f2dcf2));
-  background: -webkit-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
-  background: -o-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
-  background: -ms-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
-  background: linear-gradient(135deg, #f7edf7 0%, #f2dcf2 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7edf7', endColorstr='#f2dcf2', GradientType=1);
-}
-div#view-login div#login-wrapper form table tr td input[type=submit] {
   width: 100%;
-  height: 42px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16pt;
+  text-align: center;
+  color: #F4EDF7;
+  font-size: 4em;
+}
+div#view-home {
+  background-color: #F4EDF7;
+}
+div#view-home div#external {
+  width: 40%;
+  margin: 0 auto;
+  padding: 3em 0;
+  clear: both;
+  overflow: hidden;
+}
+div#view-home div#external section#content {
+  box-sizing: border-box;
+  width: 70%;
+  float: left;
+  padding-right: 3em;
+}
+div#view-home div#external section#content article h2 {
+  margin: 0;
+  padding: 0;
+}
+div#view-home div#external section#content article p {
+  font-size: 0.9em;
+}
+div#view-home div#external section#menu {
+  width: 30%;
+  float: right;
+}
+div#view-home div#external section#menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: right;
+}
+div#view-home div#external section#menu ul li {
+  margin-top: 2em;
+  color: #693585;
   font-family: "Montserrat Bold";
   text-transform: uppercase;
-  color: white;
-  cursor: pointer;
-  background: #a90329;
-  background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, #a90329), color-stop(44%, #8f0222), color-stop(100%, #6d0019));
-  background: -webkit-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  background: o-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  background: -ms-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  background: linear-gradient(to bottom, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a90329', endColorstr='#6d0019', GradientType=0);
 }
-div#view-login div#login-wrapper form table tr td:first-child {
-  width: 35%;
+div#view-home div#external section#menu ul li a {
+  color: inherit;
+  text-decoration: none;
+}
+div#view-home div#external section#menu ul li a:hover {
+  color: #AD77C9;
+}
+div#view-home div#external section#menu ul li:first-child {
+  margin-top: 0em;
+}
+div#view-login {
+  padding: 3em 0;
+  background-color: #F4EDF7;
+}
+div#view-login form {
+  width: 30%;
+  margin: 0 auto;
+}
+div#view-login form table {
+  width: 100%;
+  border-spacing: 0;
+}
+div#view-login form table tr td {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+div#view-login form table tr td input {
+  width: 100%;
+}
+div#view-login form table tr td input[type="text"],
+div#view-login form table tr td input[type="password"],
+div#view-login form table tr td input[type="submit"] {
+  box-sizing: border-box;
+  color: #333;
+  height: 2.5em;
+  padding: 0 0.6em;
+  background-color: #fafafa;
+  border: 1px solid #adadad;
+  box-shadow: 0 0 2px 1px #bcbcbc;
+  font-family: "Montserrat Light";
+  outline: none;
+}
+div#view-login form table tr td input[type="submit"]:hover {
+  background-color: #d3d3d3;
+}
+div#view-login form table tr td input[type="checkbox"] {
+  display: none;
+}
+div#view-login form table tr td label.remember-label {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+div#view-login form table tr td label.remember-label i {
+  margin-right: 3px;
+}
+div#view-login form table tr td label.remember-label i.unselect {
+  margin-right: 5px;
+}
+div#view-login form table tr td:first-child {
+  width: 30%;
+  padding-right: 1.5em;
+  text-align: right;
+}
+div#view-login form table tr td:last-child {
+  width: 70%;
 }
 div#view-vaktsys {
   width: 100%;
@@ -240,18 +295,19 @@ div#view-vaktsys div#shift-display section#left {
   width: 25%;
   background-color: #E8D0F2;
 }
-div#view-vaktsys div#shift-display section#left ul {
+div#view-vaktsys div#shift-display section#left workplacelist ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-div#view-vaktsys div#shift-display section#left ul li {
+div#view-vaktsys div#shift-display section#left workplacelist ul li {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: default;
   box-sizing: border-box;
   height: 4.5em;
   line-height: 4.5em;
@@ -260,30 +316,30 @@ div#view-vaktsys div#shift-display section#left ul li {
   cursor: pointer;
   border-bottom: 1px solid white;
 }
-div#view-vaktsys div#shift-display section#left ul li span {
+div#view-vaktsys div#shift-display section#left workplacelist ul li span {
   display: inline-block;
   height: 100%;
   font-family: "Montserrat Light";
   font-size: 1.4em;
   color: #3E1255;
 }
-div#view-vaktsys div#shift-display section#left ul li span:not(.open):before {
+div#view-vaktsys div#shift-display section#left workplacelist ul li span:not(.open):before {
   content: "[Ingen vakter]\A";
   font-size: 0.5em;
   margin-right: 0.6em;
   color: lightcoral;
 }
-div#view-vaktsys div#shift-display section#left ul li:last-child {
+div#view-vaktsys div#shift-display section#left workplacelist ul li:last-child {
   border-bottom: none;
 }
-div#view-vaktsys div#shift-display section#left ul li:hover:not(.blank):not(.active) {
+div#view-vaktsys div#shift-display section#left workplacelist ul li:hover:not(.blank):not(.active) {
   background-color: thistle;
 }
-div#view-vaktsys div#shift-display section#left ul li.active {
+div#view-vaktsys div#shift-display section#left workplacelist ul li.active {
   background-color: #F4EDF7;
   cursor: default;
 }
-div#view-vaktsys div#shift-display section#left ul li.blank {
+div#view-vaktsys div#shift-display section#left workplacelist ul li.blank {
   cursor: auto;
 }
 div#view-vaktsys div#shift-display section#right {
@@ -387,7 +443,6 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
   padding: 0;
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person {
-  height: 6em;
   background-color: #F4EDF7;
   border: 1px solid white;
   border-width: 0 0 1px 1px;
@@ -395,7 +450,12 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card {
   width: 100%;
+  max-height: 6em;
   overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card.managing {
+  max-height: 8em;
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top {
   width: 100%;
@@ -422,16 +482,6 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
   float: left;
   height: 100%;
   padding-left: 0.3em;
-  /*div.time.start {
-                input {
-                    border-width: 1px 1px 0 1px;
-                }
-            }
-            div.time.end {
-                input {
-                    border-width: 1px 1px 1px 1px;
-                }
-            }*/
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.name-role {
   box-sizing: border-box;
@@ -471,15 +521,6 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time {
   font-size: 0.8em;
-  /*input {
-                    box-sizing: border-box;
-                    padding: 0 2px;
-                    width: 6em;
-                    height: 1.2em;
-                    border: 1px solid #ccc;
-                    font-family: "Montserrat Light";
-                    outline: none;
-                }*/
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.info div.time span.bold {
   font-weight: bold;
@@ -490,11 +531,18 @@ div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li
   height: 100%;
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.manage i {
+  opacity: 1;
+  pointer-events: auto;
   cursor: pointer;
   font-size: 1.5em;
   line-height: 2.25em;
   margin-left: 0.5em;
   color: #333;
+  transition: opacity 0.1s ease;
+}
+div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.manage i.managing {
+  opacity: 0;
+  pointer-events: none;
 }
 div#view-vaktsys div#shift-display section#right div#shift-list ul.shift-list li.shift ul.person-list li.person div.person-card div.top div.manage div.edit {
   width: 100%;
@@ -570,6 +618,131 @@ div#view-404 h1 {
 }
 div#view-404 p {
   font-size: 16pt;
+}
+loginpopup div#login-popup-wrapper {
+  width: 440px;
+  margin: 180px auto 0;
+  padding: 42px;
+  border-radius: 8px;
+  box-shadow: 0px 9px 19px -4px rgba(0, 0, 0, 0.75);
+  background: #3e1255;
+  background: -moz-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, #3e1255), color-stop(4%, #3e1255), color-stop(38%, #9f68bd), color-stop(39%, #733f8f), color-stop(40%, #693585), color-stop(100%, #3e1255));
+  background: -webkit-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
+  background: -o-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
+  background: -ms-linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
+  background: linear-gradient(78deg, #3e1255 0%, #3e1255 4%, #9f68bd 38%, #733f8f 39%, #693585 40%, #3e1255 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3e1255', endColorstr='#3e1255', GradientType=1);
+}
+loginpopup div#login-popup-wrapper div.msg {
+  width: 100%;
+  height: 2em;
+  line-height: 2em;
+  margin-bottom: 2em;
+  border: 2px solid #3E1255;
+  background-color: #E8D0F2;
+  border-radius: 3px;
+  font-family: "Montserrat Light";
+  color: crimson;
+  text-align: center;
+  background: #a07cb3;
+  background: -moz-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, #a07cb3), color-stop(100%, #e6c9f2));
+  background: -webkit-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
+  background: -o-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
+  background: -ms-linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
+  background: linear-gradient(225deg, #a07cb3 0%, #e6c9f2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a07cb3', endColorstr='#e6c9f2', GradientType=1);
+}
+loginpopup div#login-popup-wrapper form {
+  width: 100%;
+}
+loginpopup div#login-popup-wrapper form table {
+  width: 100%;
+  border-spacing: 8px;
+  border-collapse: separate;
+}
+loginpopup div#login-popup-wrapper form table tr td {
+  width: 65%;
+}
+loginpopup div#login-popup-wrapper form table tr td label.text-label {
+  display: inline-block;
+  width: 100%;
+  font-size: 16pt;
+  font-family: "Montserrat Hairline";
+  text-transform: uppercase;
+  color: #ddd;
+}
+loginpopup div#login-popup-wrapper form table tr td input[type=text],
+loginpopup div#login-popup-wrapper form table tr td input[type=password] {
+  display: inline-block;
+  width: 100%;
+  padding: 2px;
+  box-sizing: border-box;
+  border: 1px solid #1d0629;
+  border-radius: 4px;
+  font-size: 16pt;
+  font-family: "Montserrat Hairline";
+  color: #e6c9f2;
+  outline: none;
+  -webkit-box-shadow: 0px 1px 1px 0px #e6c9f2;
+  -moz-box-shadow: 0px 1px 1px 0px #e6c9f2;
+  box-shadow: 0px 1px 1px 0px #e6c9f2;
+  background: #693585;
+  background: -moz-linear-gradient(top, #693585 0%, #864d9e 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #693585), color-stop(100%, #864d9e));
+  background: -webkit-linear-gradient(top, #693585 0%, #864d9e 100%);
+  background: -o-linear-gradient(top, #693585 0%, #864d9e 100%);
+  background: -ms-linear-gradient(top, #693585 0%, #864d9e 100%);
+  background: linear-gradient(to bottom, #693585 0%, #864d9e 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#693585', endColorstr='#864d9e', GradientType=0);
+}
+loginpopup div#login-popup-wrapper form table tr td label:not(.text-label) {
+  display: block;
+  font-size: 14pt;
+  font-family: "Montserrat Hairline";
+  text-transform: uppercase;
+  color: #ddd;
+}
+loginpopup div#login-popup-wrapper form table tr td input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  margin: 0 6px 0 0;
+  padding: 0;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  *overflow: hidden;
+  background: #f7edf7;
+  background: -moz-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #f7edf7), color-stop(100%, #f2dcf2));
+  background: -webkit-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
+  background: -o-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
+  background: -ms-linear-gradient(-45deg, #f7edf7 0%, #f2dcf2 100%);
+  background: linear-gradient(135deg, #f7edf7 0%, #f2dcf2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7edf7', endColorstr='#f2dcf2', GradientType=1);
+}
+loginpopup div#login-popup-wrapper form table tr td input[type=submit] {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16pt;
+  font-family: "Montserrat Bold";
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  background: #a90329;
+  background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #a90329), color-stop(44%, #8f0222), color-stop(100%, #6d0019));
+  background: -webkit-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  background: o-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  background: -ms-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  background: linear-gradient(to bottom, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a90329', endColorstr='#6d0019', GradientType=0);
+}
+loginpopup div#login-popup-wrapper form table tr td:first-child {
+  width: 35%;
 }
 datetimepicker {
   display: inline-block;
@@ -721,7 +894,142 @@ datetimepicker div.dtp-large div.dtp-bottom table tbody tr td.dtp-grayed {
   color: #828282;
   cursor: pointer;
 }
+userlist div.wrapper div.small input {
+  box-sizing: border-box;
+  padding: 0 2px;
+  width: 10em;
+  height: 1.5em;
+  font-family: "Montserrat Light";
+  border: 1px solid #ccc;
+  box-shadow: 0 0 2px 0 #aaa;
+  outline: none;
+}
+userlist div.wrapper div.large {
+  position: absolute;
+  width: 24em;
+  margin-top: 0.4em;
+  z-index: 100;
+  box-sizing: border-box;
+  padding: 1em;
+  background-color: #E8D0F2;
+  box-shadow: 0 0 3px 2px #aaa;
+}
+userlist div.wrapper div.large ul.affiliations {
+  box-sizing: border-box;
+  width: 35%;
+  float: left;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+userlist div.wrapper div.large ul.affiliations li {
+  box-sizing: border-box;
+  height: 1.5em;
+  margin: 0;
+  padding: 0 1em;
+  line-height: 1.4em;
+  border: 1px solid #F4EDF7;
+  border-width: 0 1px 1px 0;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+userlist div.wrapper div.large ul.affiliations li.active {
+  background-color: #F4EDF7;
+}
+userlist div.wrapper div.large ul.affiliations li:last-child {
+  border-bottom: none;
+}
+userlist div.wrapper div.large ul.affiliations li:hover {
+  background-color: #F4EDF7;
+}
+userlist div.wrapper div.large div.right {
+  width: 65%;
+  float: right;
+  background-color: #F4EDF7;
+  overflow-y: auto;
+}
+userlist div.wrapper div.large div.right table {
+  border-spacing: 0;
+  white-space: nowrap;
+}
+userlist div.wrapper div.large div.right table tr {
+  width: 100%;
+}
+userlist div.wrapper div.large div.right table tr td {
+  padding: 0 1em;
+  font-size: 0.8em;
+}
+msgbox div.wrapper {
+  position: relative;
+}
+msgbox div.wrapper div.disabler {
+  position: fixed;
+  z-index: 8990;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+msgbox div.wrapper div.box {
+  position: fixed;
+  width: 24em;
+  z-index: 9000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 16px 2px #444;
+  border: 1px solid #1d0629;
+}
+msgbox div.wrapper div.box div.titlebar {
+  height: 1.6em;
+  line-height: 1.5em;
+  background-color: #693585;
+  color: #F4EDF7;
+}
+msgbox div.wrapper div.box div.titlebar span {
+  font-weight: bold;
+  padding-left: 0.3em;
+}
+msgbox div.wrapper div.box div.titlebar i {
+  float: right;
+  line-height: 1.5em;
+  padding-right: 0.3em;
+  cursor: pointer;
+}
+msgbox div.wrapper div.box div.titlebar i:hover {
+  color: #AD77C9;
+}
+msgbox div.wrapper div.box div.content {
+  padding: 0.2em 0.8em;
+  background-color: #9964B5;
+  color: #F4EDF7;
+}
+msgbox div.wrapper div.box div.buttons {
+  padding: 0 0.2em 0.2em 0.2em;
+  text-align: right;
+  background-color: #9964B5;
+}
+msgbox div.wrapper div.box div.buttons button {
+  width: 6em;
+  height: 1.5em;
+  line-height: 1.5em;
+  margin-right: 0.2em;
+  color: #F4EDF7;
+  border: none;
+  background-color: #693585;
+  cursor: pointer;
+}
+msgbox div.wrapper div.box div.buttons button:last-child {
+  margin-right: 0;
+}
+msgbox div.wrapper div.box div.buttons button:hover {
+  background-color: #AD77C9;
+}
+html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: "Montserrat Light";
@@ -746,4 +1054,5 @@ body::-webkit-scrollbar-thumb {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: default;
 }

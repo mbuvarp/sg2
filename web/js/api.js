@@ -105,6 +105,30 @@ function getRoles(req, res) {
         }
     );
 }
+function getAffiliations(req, res) {
+    db.getAffiliations()
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    );
+}
+function getUserAffiliations(req, res) {
+    db.getUserAffiliations()
+    .then(
+        function(data) {
+            res.status(200).json(data);
+        },
+        function(err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    );
+}
 
 // UPDATE
 function updateUserShift(req, res, user_id, user_shift_id, role_id, start, finish) {
@@ -202,6 +226,18 @@ exports.run = function(app) {
         function(req, res) {
             console.log("GET %s", req.path);
             getRoles(req, res);
+        }
+    )
+    .get('/api/affiliations',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            getAffiliations(req, res);
+        }
+    )
+    .get('/api/useraffiliations',
+        function(req, res) {
+            console.log("GET %s", req.path);
+            getUserAffiliations(req, res);
         }
     )
 

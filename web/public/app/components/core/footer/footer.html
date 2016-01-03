@@ -1,1 +1,8 @@
-<div></div>
+<div>
+    <div ng-if="isAuthenticated();">
+        <span>LOGGET INN</span>
+    </div>
+    <div ng-if="!isAuthenticated();">
+        <span>IKKE LOGGET INN</span>
+    </div>
+</div>

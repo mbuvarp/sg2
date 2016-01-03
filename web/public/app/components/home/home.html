@@ -1,11 +1,29 @@
-<div id="view-front">
+<div id="view-home">
 
-    <div id="not-logged-in" ng-if="!isAuthenticated()">
-        <h1>Velkommen til SGNett 2.0!</h1>
-        <a ui-sref="login">Intern</a>
+    <div id="external" ng-if="!isAuthenticated()">
+        <section id="content">
+            <article>
+                <h2>Om KSG</h2>
+                <p>Vi i Kafe- og Serveringsgjengen driver alle barene og kaféene på Samfundet: Bodegaen, Strossa, Rundhallen, Klubben, Nord, Syd, Selskapssiden, Daglighallen, Edgar og Lyche.</p>
+
+                <p>Vi er omtrent 180 aktive og er stolte av et veldig bra sosialt miljø. Bindingstiden er på 3 semestre og du jobber gjennomsnittlig én gang i uka. Det forutsettes også at du er villig til å bruke tid på det sosiale som skjer i gjengen.</p>
+
+                <p>Hvis du vil vite mer om hvordan det er å jobbe i Kafe- og Serveringsgjengen er det bare å høre med noen av de hyggelige folkene som står i barene når du er på huset.</p>
+            </article>
+        </section>
+        <section id="menu">
+            <ul>
+                <li><a ui-sref="omksg">Om KSG</a></li>
+                <li><a ui-sref="interngjengene">Interngjengene</a></li>
+                <li><a ui-sref="apningstider">Åpningstider</a></li>
+                <li><a ui-sref="kontakt">Kontakt</a></li>
+                <li><a ui-sref="login">Intern</a></li>
+            </ul>
+        </section>
+
     </div>
 
-    <div id="logged-in" ng-if="isAuthenticated()">
+    <div id="internal" ng-if="isAuthenticated()">
         <h1>Du er logget inn.</h1>
     </div>
 

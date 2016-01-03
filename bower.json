@@ -16,5 +16,8 @@
     "libs",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular-animate": "~1.4.8"
+  }
 }

@@ -1,0 +1,9 @@
+<ul ng-controller="vaktsys.WorkplaceListController as wlc">
+    <li class="blank"></li>
+    <li ng-repeat="workplace in wlc.workplaces.names"
+        class="{{ workplace.active ? 'active' : '' }}"
+        ng-click="wlc.changeCurrentWorkplace(workplace.name)"
+        id="workplace-{{ workplace.name }}">
+        <span ng-bind="workplace.name" class="{{ workplace.open ? 'open' : '' }}"></span>
+    </li>
+</ul>
